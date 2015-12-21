@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SurvivalCG">
+    <output-path>$PROJECT_DIR$/out/artifacts/SurvivalCG</output-path>
+    <root id="archive" name="SurvivalCG.jar">
+      <element id="module-output" name="SurvivalCG" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+      <element id="extracted-dir" path="C:/Biblioteka/HikariCP-2.4.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Biblioteka/slf4j-api-1.7.13.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

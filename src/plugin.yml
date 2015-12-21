@@ -1,0 +1,15 @@
+name: SurvivalCG
+version: 0.1
+main: pl.grzegorz2047.survivalcg.SurvivalCG
+commands:
+    ranking:
+        description: Informacje nt. rankingu
+        aliases: [rank, kille, zabojstwa, kd, points]
+    druzyna:
+        description: Pozwala tworzyc arene
+        aliases: [team, gildia, watacha, g]
+    komendy:
+        description: Podaje informacje o komendach
+        aliases: [help, pomoc, commands]
+    drop:
+        description: Podaje informacje o dropie

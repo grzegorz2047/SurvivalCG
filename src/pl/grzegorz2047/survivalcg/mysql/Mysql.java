@@ -23,7 +23,7 @@ public class Mysql {
     //Uzywaj hikari
 
     public Mysql(String host, int port, String user, String password, String db, String table, String groupsTable) {
-        this.host =host;
+        this.host = host;
         this.port = port;
         this.user = user;
         this.password = password;
@@ -57,15 +57,15 @@ public class Mysql {
             connection = hikari.getConnection();
             statement = connection.prepareStatement("SELECT username, points FROM " + table + " ORDER by points DESC LIMIT 10");
             ResultSet set = statement.executeQuery();
-            while(set.next()) {
+            while (set.next()) {
                 rank.addPoints(set.getString("username"), set.getInt("points"));
             }
 
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("GET Ranking: " + "Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -81,25 +81,26 @@ public class Mysql {
             }
         }
     }
-    public boolean existsGroup( String tag) {
+
+    public boolean existsGroup(String tag) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = hikari.getConnection();
 
-            statement = connection.prepareStatement("SELECT * FROM " + groupstable + " WHERE tag='"+tag+"'");
+            statement = connection.prepareStatement("SELECT * FROM " + groupstable + " WHERE tag='" + tag + "'");
             ResultSet set = statement.executeQuery();
             boolean exists = false;
             if (set.first() && set.isLast()) {
-               exists = true;
+                exists = true;
             }
             statement.close();
             return exists;
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("GET Ranking: " + "Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -116,22 +117,23 @@ public class Mysql {
         }
         return false;
     }
+
     public void getGroup(Group group) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = hikari.getConnection();
 
-            statement = connection.prepareStatement("SELECT * FROM " + groupstable + " WHERE tag='"+group.getGroupname()+"'");
+            statement = connection.prepareStatement("SELECT * FROM " + groupstable + " WHERE tag='" + group.getGroupname() + "'");
             ResultSet set = statement.executeQuery();
             if (set.first() && set.isLast()) {
                 group.setLeader(set.getString("leader"));
-                group.setHome(new Location(Bukkit.getWorld(set.getString("world")),set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
-            }else{
-                System.out.print("Nie znaleziono gildii "+group.getGroupname()+" w tabeli!");
+                group.setHome(new Location(Bukkit.getWorld(set.getString("world")), set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
+            } else {
+                System.out.print("Nie znaleziono gildii " + group.getGroupname() + " w tabeli!");
             }
             statement.close();
-            statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE guild='"+group.getGroupname()+"'");
+            statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE guild='" + group.getGroupname() + "'");
             set = statement.executeQuery();
             while (set.next()) {
                 group.getMembers().add(set.getString("username"));
@@ -140,8 +142,8 @@ public class Mysql {
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("GET Group: " + "Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Player: "  + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -157,6 +159,7 @@ public class Mysql {
             }
         }
     }
+
     public void insertGroup(Group group) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -194,6 +197,7 @@ public class Mysql {
         }
 
     }
+
     public void getPlayer(SurvUser user) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -231,25 +235,26 @@ public class Mysql {
             } catch (SQLException ex) {
             }
         }
-        if(insert){
+        if (insert) {
             insertPlayer(user);
         }
 
     }
+
     public void insertPlayer(SurvUser user) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = hikari.getConnection();
-                statement = connection.prepareStatement("INSERT INTO " + table + "("
-                        + "username, points, kills, deaths, guild) VALUES (?, ?, ?, ?, ?)");
-                statement.setString(1, user.getUsername());
-                statement.setInt(2, 0);
-                statement.setInt(3, 0);
-                statement.setInt(4, 0);
-                statement.setString(5, "");
-                statement.executeUpdate();
+            statement = connection.prepareStatement("INSERT INTO " + table + "("
+                    + "username, points, kills, deaths, guild) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, user.getUsername());
+            statement.setInt(2, 0);
+            statement.setInt(3, 0);
+            statement.setInt(4, 0);
+            statement.setString(5, "");
+            statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("INSERT Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());
 
@@ -271,13 +276,14 @@ public class Mysql {
         }
 
     }
+
     public void updateGroup(Group group) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("UPDATE " + groupstable + " SET leader='"+group.getLeader()+"', world='"+group.getHome().getWorld().getName()+"', posx='"+group.getHome().getX()+"', posy='"+group.getHome().getY()+"', posz='"+group.getHome().getZ()+" WHERE tag='"+group.getGroupname()+"'");
+            statement = connection.prepareStatement("UPDATE " + groupstable + " SET leader='" + group.getLeader() + "', world='" + group.getHome().getWorld().getName() + "', posx='" + group.getHome().getX() + "', posy='" + group.getHome().getY() + "', posz='" + group.getHome().getZ() + " WHERE tag='" + group.getGroupname() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Group: " + group.getGroupname() + "Error #1 MySQL ->" + ex.getSQLState());
@@ -299,13 +305,14 @@ public class Mysql {
             }
         }
     }
+
     public void deleteGroup(Group group) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("DELETE FROM " + groupstable + "  WHERE tag='"+group.getGroupname()+"'");
+            statement = connection.prepareStatement("DELETE FROM " + groupstable + "  WHERE tag='" + group.getGroupname() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("DELETE Group: " + group.getGroupname() + "Error #1 MySQL ->" + ex.getSQLState());
@@ -327,13 +334,14 @@ public class Mysql {
             }
         }
     }
+
     public void updatePlayer(SurvUser user) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("UPDATE " + table + " SET points='"+user.getPoints()+"', kills='"+user.getKills()+"', deaths='"+user.getDeaths()+"', guild='"+user.getGroup()+"' WHERE username='"+user.getUsername()+"'");
+            statement = connection.prepareStatement("UPDATE " + table + " SET points='" + user.getPoints() + "', kills='" + user.getKills() + "', deaths='" + user.getDeaths() + "', guild='" + user.getGroup() + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());
@@ -356,13 +364,14 @@ public class Mysql {
         }
 
     }
+
     public void updateGuildPlayer(SurvUser user) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("UPDATE " + table + " SET guild='"+user.getGroup()+"' WHERE username='"+user.getUsername()+"'");
+            statement = connection.prepareStatement("UPDATE " + table + " SET guild='" + user.getGroup() + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());

@@ -51,7 +51,7 @@ public class SurvivalCG extends JavaPlugin {
         String password = this.getConfig().getString("mysql.password");
         mysql = new Mysql(host, port, user, password, db, table, groupsTable);
         util = new NameTagUtil(true);
-        groups = new GroupsManager();
+        groups = new GroupsManager(this);
         players = new PlayerManager();
         ranking = new RankingManager();
         mysql.getRanking(ranking);

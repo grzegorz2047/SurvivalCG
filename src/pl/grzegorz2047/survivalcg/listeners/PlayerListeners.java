@@ -164,11 +164,4 @@ public class PlayerListeners implements Listener {
             }
         }
     }
-
-    @EventHandler
-    void onEntityDamageEntity(EntityDamageByEntityEvent e){
-
-    }
-
-
 }

@@ -11,6 +11,7 @@ import org.bukkit.scoreboard.Team;
 import pl.grzegorz2047.api.util.NameTagUtil;
 import pl.grzegorz2047.survivalcg.commands.DruzynaCommands;
 import pl.grzegorz2047.survivalcg.listeners.PlayerChatListeners;
+import pl.grzegorz2047.survivalcg.listeners.PlayerDamagingOtherListeners;
 import pl.grzegorz2047.survivalcg.listeners.PlayerListeners;
 import pl.grzegorz2047.survivalcg.managers.GroupsManager;
 import pl.grzegorz2047.survivalcg.managers.PlayerManager;
@@ -59,6 +60,7 @@ public class SurvivalCG extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PlayerListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerChatListeners(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDamagingOtherListeners(this), this);
         Bukkit.getPluginCommand("ranking").setExecutor(this);
         Bukkit.getPluginCommand("komendy").setExecutor(this);
         Bukkit.getPluginCommand("druzyna").setExecutor(new DruzynaCommands(this));

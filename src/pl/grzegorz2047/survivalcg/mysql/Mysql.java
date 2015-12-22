@@ -17,23 +17,24 @@ import java.sql.SQLException;
  */
 public class Mysql {
     private String host, user, password, db, table;
-    private String groupstable = "Groups";
+    private String groupstable;
     private Integer port;
     private HikariDataSource hikari;
     //Uzywaj hikari
 
-    public Mysql() {
-        connectDB();
+    public Mysql(String host, int port, String user, String password, String db, String table, String groupsTable) {
+        this.host =host;
+        this.port = port;
+        this.user = user;
+        this.password = password;
+        this.db = db;
+        this.table = table;
+        this.groupstable = groupsTable;
+        connectToDB();
     }
 
 
-    private void connectDB() {
-        host = "s_mysql.craftgames.pl";
-        port = 3306;
-        db = "SurvivalCG";
-        user = "survival";
-        table = "Ranking";
-        password = "2CEw2sWNa9pzSBE9";
+    private void connectToDB() {
 
         hikari = new HikariDataSource();
         hikari.setMaximumPoolSize(3);
@@ -49,14 +50,9 @@ public class Mysql {
 
     }
 
-    public void close(){
-        hikari.close();
-    }
-
     public void getRanking(RankingManager rank) {
         Connection connection = null;
         PreparedStatement statement = null;
-        boolean insert = false;
         try {
             connection = hikari.getConnection();
             statement = connection.prepareStatement("SELECT username, points FROM " + table + " ORDER by points DESC LIMIT 10");
@@ -88,7 +84,6 @@ public class Mysql {
     public boolean existsGroup( String tag) {
         Connection connection = null;
         PreparedStatement statement = null;
-        boolean insert = false;
         try {
             connection = hikari.getConnection();
 
@@ -124,7 +119,6 @@ public class Mysql {
     public void getGroup(Group group) {
         Connection connection = null;
         PreparedStatement statement = null;
-        boolean insert = false;
         try {
             connection = hikari.getConnection();
 
@@ -339,10 +333,6 @@ public class Mysql {
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE username = ?");
-            statement.setString(1, user.getUsername());
-            ResultSet set = statement.executeQuery();
-            statement.close();
             statement = connection.prepareStatement("UPDATE " + table + " SET points='"+user.getPoints()+"', kills='"+user.getKills()+"', deaths='"+user.getDeaths()+"', guild='"+user.getGroup()+"' WHERE username='"+user.getUsername()+"'");
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -372,10 +362,6 @@ public class Mysql {
 
         try {
             connection = hikari.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE username = ?");
-            statement.setString(1, user.getUsername());
-            ResultSet set = statement.executeQuery();
-            statement.close();
             statement = connection.prepareStatement("UPDATE " + table + " SET guild='"+user.getGroup()+"' WHERE username='"+user.getUsername()+"'");
             statement.executeUpdate();
         } catch (SQLException ex) {

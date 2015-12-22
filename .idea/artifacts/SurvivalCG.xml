@@ -6,6 +6,7 @@
       <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
       <element id="extracted-dir" path="C:/Biblioteka/HikariCP-2.4.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/Biblioteka/slf4j-api-1.7.13.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/config.yml" />
     </root>
   </artifact>
 </component>

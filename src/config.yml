@@ -1,0 +1,8 @@
+mysql:
+    host: "localhost"
+    port: 3306
+    db: "SurvivalCG"
+    user: "survival"
+    table: "Ranking"
+    groupstable: "Groups"
+    password: ""

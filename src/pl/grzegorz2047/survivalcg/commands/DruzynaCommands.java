@@ -57,8 +57,8 @@ public class DruzynaCommands implements CommandExecutor {
                         p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Tylko liderzy druzyn moga zapraszac graczy!");
                         return true;
                     }
-                    if (g.getMembers().size() == 3) {
-                        p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Posiadasz maksymalna liczbe osob w druzynie (3)!");
+                    if (g.getMembers().size() == 8) {
+                        p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Posiadasz maksymalna liczbe osob w druzynie (8)!");
                         return true;
                     }
                     String friend = args[1];

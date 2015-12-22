@@ -34,7 +34,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                 Player attacked = (Player) event.getEntity();
                 Player attacker = (Player) event.getDamager();
                 SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
-                SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacked.getName());
+                SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
                 if(victimuser.getGroup().equalsIgnoreCase("") || attackeruser.getGroup().equalsIgnoreCase("")) {
                     return;
@@ -54,7 +54,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                     Player attacker = (Player) attackerEntity;
 
                     SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
-                    SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacked.getName());
+                    SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
                     if(victimuser.getGroup().equalsIgnoreCase("") || attackeruser.getGroup().equalsIgnoreCase("")) {
                         return;
@@ -75,7 +75,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                     Player attacker = (Player) attackerEntity;
 
                     SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
-                    SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacked.getName());
+                    SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
                     if(victimuser.getGroup().equalsIgnoreCase("") || attackeruser.getGroup().equalsIgnoreCase("")) {
                         return;

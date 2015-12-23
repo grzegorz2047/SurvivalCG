@@ -43,7 +43,7 @@ public class PlayerListeners implements Listener {
             e.getPlayer().getInventory().setItem(0, new ItemStack(Material.WOOD_SWORD));
             e.getPlayer().getInventory().setItem(1, new ItemStack(Material.COOKED_BEEF, 5));
         }
-
+        //Z pewnych powodów musiałem ręcznie dodawać uprawnienia graczom
         e.getPlayer().addAttachment(plugin, "randomtp.signs.use", true);
         e.getPlayer().addAttachment(plugin, "randomtp.tp", true);
         e.getPlayer().addAttachment(plugin, "essentials.tpa", true);
@@ -53,7 +53,6 @@ public class PlayerListeners implements Listener {
         e.getPlayer().addAttachment(plugin, "essentials.sethome", true);
         e.getPlayer().addAttachment(plugin, "essentials.delhome", true);
         e.getPlayer().addAttachment(plugin, "essentials.spawn", true);
-        e.getPlayer().addAttachment(plugin, "randomtp.guiuse.tiny", true);
         e.getPlayer().setScoreboard(plugin.getSc().getScoreboard());
         if (e.getPlayer().getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
             plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));

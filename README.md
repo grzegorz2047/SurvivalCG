@@ -16,6 +16,7 @@ Aby przetestować plugin wystarczy wejść na serwer: mc.craftgames.pl i znaleź
 
 Jakiekolwiek dotacje mile widziane :) (paypal): http://bit.ly/1IA5PaX
 
+PS. Plugin nie generuje tabelek w mysqlu, więc trzeba to zrobić ręcznie.
 --------------------------------------------------------------------------------
 It's minecraft plugin for bukkit, spigot and other forks of bukkit servers.
 Simple ranking system using scoreboards + teams etc. Plugin made for CraftGames.pl
@@ -28,3 +29,5 @@ To export you need extracted directory of HikariCP-2.4.3.jar and slf4j-api-1.7.1
 I was to lazy to play with Gradle so you need some patient with compiling :)
 
 Feel free to donate any amount of money :) (paypal): http://bit.ly/1IA5PaX
+
+PS. Plugin doesn't generate mysql tables in database so you have to create it on you own.

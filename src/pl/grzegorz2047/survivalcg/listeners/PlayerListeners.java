@@ -103,9 +103,8 @@ public class PlayerListeners implements Listener {
             }
 
         }
-        plugin.getPlayers().getUsers().remove(username);
 
-        
+
         Fight f = plugin.getAntiLogoutManager().getFightList().get(p.getName());
         if(f != null){
             p.damage(30);
@@ -118,6 +117,7 @@ public class PlayerListeners implements Listener {
                 }
             }
         }
+        plugin.getPlayers().getUsers().remove(username);
 
     }
 
@@ -137,6 +137,7 @@ public class PlayerListeners implements Listener {
         Player victim = e.getEntity();
         String victimname = victim.getName();
         SurvUser victimuser = plugin.getPlayers().getUsers().get(victimname);
+
         victimuser.setDeaths(victimuser.getDeaths() + 1);
         boolean canGivePoints = false;
         if (victim.getKiller() == null) {

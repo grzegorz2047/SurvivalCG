@@ -9,7 +9,7 @@ public class DeathManager {
 
     }
 
-    public void banPlayer(String username){
+    public void banPlayer(String username, int days){
 
     }
     public void unbanPlayer(String username){

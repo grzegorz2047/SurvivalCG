@@ -101,7 +101,7 @@ public class GroupsManager {
         }
         Group g = plugin.getGroups().getGroups().get(groupname);
         if (g == null) {
-            p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Taka gildia nie istnieje badz nie ma jej zadnych czlonkow!");
+            p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Taka grupa nie istnieje badz nie ma jej zadnych czlonkow!");
             return false;
         }
         if (!g.getWaiting().contains(p.getName())) {
@@ -113,6 +113,10 @@ public class GroupsManager {
         plugin.getSc().getTeam(g.getDisplaytag()).addEntry(p.getName());
         plugin.getMysql().getUserQuery().updatePlayer(user);
         g.getWaiting().remove(p.getName());
+        Player leader = Bukkit.getPlayer(g.getLeader());
+        if(leader != null){
+            leader.sendMessage(plugin.getPrefix()+"Gracz "+ChatColor.RED+user.getUsername()+ChatColor.GRAY+" pomyslnie dolaczyl do grupy!");
+        }
         return true;
     }
 

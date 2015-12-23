@@ -36,7 +36,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                 SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
                 SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
-                if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup())) {
+                if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup()) && !victimuser.getGroup().equals("")) {//jedno sprawdzenie powinno wystarczyc
                     attacker.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNie mozesz uderzyc gracza swojej gildii"));
                     event.setCancelled(true);
                     return;
@@ -77,7 +77,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                     SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
                     SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
-                    if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup())) {
+                    if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup()) && !victimuser.getGroup().equals("")) {//jedno sprawdzenie powinno wystarczyc
                         attacker.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNie mozesz uderzyc gracza swojej gildii"));
                         event.setCancelled(true);
                         return;
@@ -118,7 +118,7 @@ public class PlayerDamagingOtherListeners implements Listener {
                     SurvUser victimuser = plugin.getPlayers().getUsers().get(attacked.getName());
                     SurvUser attackeruser = plugin.getPlayers().getUsers().get(attacker.getName());
 
-                    if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup())) {
+                    if (victimuser.getGroup().equalsIgnoreCase(attackeruser.getGroup()) && !victimuser.getGroup().equals("")) {//jedno sprawdzenie powinno wystarczyc
                         attacker.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNie mozesz uderzyc gracza swojej gildii"));
                         event.setCancelled(true);
                         return;

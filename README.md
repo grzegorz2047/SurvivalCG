@@ -16,7 +16,7 @@ Aby przetestować plugin wystarczy wejść na serwer: mc.craftgames.pl i znaleź
 
 Jakiekolwiek dotacje mile widziane :) (paypal): http://bit.ly/1IA5PaX
 
-PS. Plugin nie generuje tabelek w mysqlu, więc trzeba to zrobić ręcznie.
+PS. Plugin nie generuje tabelek w mysqlu, więc trzeba to zrobić ręcznie: https://drive.google.com/drive/folders/0Bw1f3oHYdM2nYXdwUGlwLWtCR0U
 
 --------------------------------------------------------------------------------
 It's minecraft plugin for bukkit, spigot and other forks of bukkit servers.
@@ -31,4 +31,4 @@ I was to lazy to play with Gradle so you need some patient with compiling :)
 
 Feel free to donate any amount of money :) (paypal): http://bit.ly/1IA5PaX
 
-PS. Plugin doesn't generate mysql tables in database so you have to create it on you own.
+PS. Plugin doesn't generate mysql tables in database so you have to create it on you own: https://drive.google.com/drive/folders/0Bw1f3oHYdM2nYXdwUGlwLWtCR0U

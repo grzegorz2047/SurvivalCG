@@ -11,13 +11,11 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Team;
 import pl.grzegorz2047.api.util.NameTagUtil;
 import pl.grzegorz2047.survivalcg.commands.DruzynaCommands;
+import pl.grzegorz2047.survivalcg.commands.RandomTpCommand;
 import pl.grzegorz2047.survivalcg.listeners.PlayerChatListeners;
 import pl.grzegorz2047.survivalcg.listeners.PlayerDamagingOtherListeners;
 import pl.grzegorz2047.survivalcg.listeners.PlayerListeners;
-import pl.grzegorz2047.survivalcg.managers.GroupsManager;
-import pl.grzegorz2047.survivalcg.managers.PlayerManager;
-import pl.grzegorz2047.survivalcg.managers.RankingManager;
-import pl.grzegorz2047.survivalcg.managers.TeleportManager;
+import pl.grzegorz2047.survivalcg.managers.*;
 import pl.grzegorz2047.survivalcg.mysql.Mysql;
 import pl.grzegorz2047.survivalcg.user.SurvUser;
 import pl.grzegorz2047.tasks.GeneralTask;
@@ -33,6 +31,7 @@ public class SurvivalCG extends JavaPlugin {
     private RankingManager ranking;
     private Mysql mysql;
     private TeleportManager teleportManager;
+    private RandomTpManager randomTpManager;
     private GeneralTask general;
     BukkitTask generalBukkitTask;//? Jakos musze miec id taska
 
@@ -67,6 +66,7 @@ public class SurvivalCG extends JavaPlugin {
         ranking = new RankingManager();
         mysql.getRanking(ranking);
         teleportManager = new TeleportManager(this);
+        randomTpManager = new RandomTpManager(this);
         ranking.refreshScoreboard(util.getScoreboard());
         util.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
 
@@ -77,6 +77,7 @@ public class SurvivalCG extends JavaPlugin {
         Bukkit.getPluginCommand("komendy").setExecutor(this);
         Bukkit.getPluginCommand("druzyna").setExecutor(new DruzynaCommands(this));
         Bukkit.getPluginCommand("drop").setExecutor(this);
+        Bukkit.getPluginCommand("randomtp").setExecutor(new RandomTpCommand(this));
         general = new GeneralTask(this);
         generalBukkitTask = Bukkit.getScheduler().runTaskTimer(this, general, 0, 20);
     }
@@ -131,6 +132,7 @@ public class SurvivalCG extends JavaPlugin {
             p.sendMessage(prefix + ChatColor.GRAY + "/ranking - Informacje o graczu");
             p.sendMessage(prefix + ChatColor.GRAY + "/druzyna - Komendy zwiazane z druzyna");
             p.sendMessage(prefix + ChatColor.GRAY + "/drop - Informacje nt. dropu");
+            p.sendMessage(prefix + ChatColor.GRAY + "/randomtp - Teleportuje cie w losowe miejsce!");
         }
         if (cmd.getName().equalsIgnoreCase("drop")) {
             Player p = (Player) sender;
@@ -155,5 +157,9 @@ public class SurvivalCG extends JavaPlugin {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public RandomTpManager getRandomTpManager() {
+        return randomTpManager;
     }
 }

@@ -5,5 +5,5 @@ package pl.grzegorz2047.survivalcg.mysql;
  */
 public class RankingQuery {
 
-    
+
 }

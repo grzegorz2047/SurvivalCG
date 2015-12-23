@@ -13,3 +13,5 @@ commands:
         aliases: [help, pomoc, commands]
     drop:
         description: Podaje informacje o dropie
+    randomtp:
+        description: Wysyla gracza w losowe miejsce na mapie

@@ -31,6 +31,7 @@ public class DruzynaCommands implements CommandExecutor {
                 p.sendMessage(" ");
                 p.sendMessage(ChatColor.GRAY+"Lista dostepnych argumentow:");
                 p.sendMessage(ChatColor.GREEN+"/druzyna stworz <nazwa> "+ChatColor.GRAY+"- Tworzy nowa druzyne");
+                p.sendMessage(ChatColor.GREEN+"/druzyna zaloz <nazwa> "+ChatColor.GRAY+"- Tworzy nowa druzyne");
                 p.sendMessage(ChatColor.GREEN+"/druzyna usun "+ChatColor.GRAY+"- Usuwa druzyne");
                 p.sendMessage(ChatColor.GREEN+"/druzyna wyrzuc <nick> "+ChatColor.GRAY+"- Wyrzuca gracza z druzyny");
                 p.sendMessage(ChatColor.GREEN+"/druzyna zapros <nick> "+ChatColor.GRAY+"- Zaprasza gracza do druzyny");
@@ -39,7 +40,7 @@ public class DruzynaCommands implements CommandExecutor {
                 p.sendMessage(" ");
 
             } else if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("stworz")) {
+                if (args[0].equalsIgnoreCase("stworz") || args[0].equalsIgnoreCase("zaloz")) {
                     boolean created = plugin.getGroups().createGroup(p,args[1].toUpperCase());
                     if(created){
                         p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Twoja druzyna zostala stworzona!");

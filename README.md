@@ -17,6 +17,7 @@ Aby przetestować plugin wystarczy wejść na serwer: mc.craftgames.pl i znaleź
 Jakiekolwiek dotacje mile widziane :) (paypal): http://bit.ly/1IA5PaX
 
 PS. Plugin nie generuje tabelek w mysqlu, więc trzeba to zrobić ręcznie.
+
 --------------------------------------------------------------------------------
 It's minecraft plugin for bukkit, spigot and other forks of bukkit servers.
 Simple ranking system using scoreboards + teams etc. Plugin made for CraftGames.pl

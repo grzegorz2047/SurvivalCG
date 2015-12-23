@@ -21,5 +21,6 @@ public class GeneralTask implements Runnable {
     @Override
     public void run() {
         plugin.getTeleportManager().checkRequests();
+        plugin.getAntiLogoutManager().checkFights();
     }
 }

@@ -32,6 +32,8 @@ public class SurvivalCG extends JavaPlugin {
     private Mysql mysql;
     private TeleportManager teleportManager;
     private RandomTpManager randomTpManager;
+    private AntiLogoutManager antiLogoutManager;
+
     private GeneralTask general;
     BukkitTask generalBukkitTask;//? Jakos musze miec id taska
 
@@ -67,6 +69,7 @@ public class SurvivalCG extends JavaPlugin {
         mysql.getRankingQuery().getRanking(ranking);
         teleportManager = new TeleportManager(this);
         randomTpManager = new RandomTpManager(this);
+        antiLogoutManager = new AntiLogoutManager(this);
         ranking.refreshScoreboard(util.getScoreboard());
         util.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
 
@@ -161,5 +164,9 @@ public class SurvivalCG extends JavaPlugin {
 
     public RandomTpManager getRandomTpManager() {
         return randomTpManager;
+    }
+
+    public AntiLogoutManager getAntiLogoutManager() {
+        return antiLogoutManager;
     }
 }

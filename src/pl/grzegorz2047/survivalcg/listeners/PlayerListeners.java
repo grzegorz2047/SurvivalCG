@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
 import pl.grzegorz2047.survivalcg.group.Group;
+import pl.grzegorz2047.survivalcg.managers.Fight;
 import pl.grzegorz2047.survivalcg.user.SurvUser;
 import pl.grzegorz2047.survivalcg.SurvivalCG;
 
@@ -103,6 +104,20 @@ public class PlayerListeners implements Listener {
 
         }
         plugin.getPlayers().getUsers().remove(username);
+
+        
+        Fight f = plugin.getAntiLogoutManager().getFightList().get(p.getName());
+        if(f != null){
+            p.damage(30);
+            p.sendMessage(plugin.getPrefix()+"Wylogowales sie podczas walki! Straciles wszystkie przedmioty!");
+            if(!f.getAttacker().equals(p.getName())){
+                Player attacker = Bukkit.getPlayer(f.getAttacker());
+                if(attacker != null){
+                    attacker.sendMessage(plugin.getPrefix()+"Gracz "+ChatColor.RED+p.getName()+" wylogowal sie podczas walki!");
+
+                }
+            }
+        }
 
     }
 

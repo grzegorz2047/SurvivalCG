@@ -64,7 +64,7 @@ public class SurvivalCG extends JavaPlugin {
         groups = new GroupsManager(this);
         players = new PlayerManager();
         ranking = new RankingManager();
-        mysql.getRanking(ranking);
+        mysql.getRankingQuery().getRanking(ranking);
         teleportManager = new TeleportManager(this);
         randomTpManager = new RandomTpManager(this);
         ranking.refreshScoreboard(util.getScoreboard());

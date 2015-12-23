@@ -35,7 +35,7 @@ public class PlayerListeners implements Listener {
         Player p = e.getPlayer();
         String username = p.getName();
         SurvUser user = new SurvUser(username, false);
-        plugin.getMysql().getPlayer(user);
+        plugin.getMysql().getUserQuery().getPlayer(user);
         plugin.getPlayers().getUsers().put(username, user);
         e.setJoinMessage("");
 
@@ -65,7 +65,7 @@ public class PlayerListeners implements Listener {
             if (this.plugin.getGroups().getGroups().get(user.getGroup()) == null) {
                 group = new Group();
                 group.setTag(user.getGroup());
-                plugin.getMysql().getGroup(group);
+                plugin.getMysql().getGroupQuery().getGroup(group);
                 plugin.getGroups().getGroups().put(group.getGroupname(), group);
                 plugin.getSc().getTeam(group.getDisplaytag()).setPrefix(group.getDisplaytag());
                 plugin.getSc().getTeam(group.getDisplaytag()).setDisplayName(group.getDisplaytag());
@@ -126,7 +126,7 @@ public class PlayerListeners implements Listener {
         victimuser.setDeaths(victimuser.getDeaths() + 1);
         boolean canGivePoints = false;
         if (victim.getKiller() == null) {
-            plugin.getMysql().updatePlayer(victimuser);
+            plugin.getMysql().getUserQuery().updatePlayer(victimuser);
             return;
         }
         if (victimuser.getPoints() > 0) {
@@ -143,7 +143,7 @@ public class PlayerListeners implements Listener {
         } else {
             victim.sendMessage(plugin.getPrefix()+ChatColor.RED + "Wciaz jestes FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
         }
-        plugin.getMysql().updatePlayer(victimuser);
+        plugin.getMysql().getUserQuery().updatePlayer(victimuser);
         Player killer = e.getEntity().getKiller();
         if (killer != null) {
             String killername = killer.getName();
@@ -160,7 +160,7 @@ public class PlayerListeners implements Listener {
                     killuser.getPlayer().sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Otrzymales " + ChatColor.GOLD + "1" + ChatColor.GRAY + " punkt rankingowy za zabicie " + ChatColor.RED + victimname + ChatColor.GRAY + "!");
                     //killuser.getPlayer().sendMessage(ChatColor.GRAY + "Punkty sa przyznawane na razie TESTOWO i resetuja sie po wyjsciu z serwera!");
                 }
-                plugin.getMysql().updatePlayer(killuser);
+                plugin.getMysql().getUserQuery().updatePlayer(killuser);
 
             }
         }

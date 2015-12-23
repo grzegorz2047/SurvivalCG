@@ -44,7 +44,7 @@ public class GroupsManager {
             p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Nazwa druzyny posiada niewlasciwe znaki");
             return false;
         }
-        boolean exists = plugin.getMysql().existsGroup(tag);
+        boolean exists = plugin.getMysql().getGroupQuery().existsGroup(tag);
         if (exists) {
             p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Taka druzyna juz istnieje!");
             return false;
@@ -55,12 +55,12 @@ public class GroupsManager {
         }
         Group group = new Group(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         plugin.getGroups().getGroups().put(tag, group);
-        plugin.getMysql().insertGroup(group);
+        plugin.getMysql().getGroupQuery().insertGroup(group);
         plugin.getSc().getTeam(group.getDisplaytag()).setPrefix(group.getDisplaytag());
         plugin.getSc().getTeam(group.getDisplaytag()).setDisplayName(group.getDisplaytag());
         plugin.getSc().getTeam(group.getDisplaytag()).addEntry(p.getName());
         user.setGroup(group.getGroupname());
-        plugin.getMysql().updatePlayer(user);
+        plugin.getMysql().getUserQuery().updatePlayer(user);
         return true;
     }
 
@@ -80,15 +80,15 @@ public class GroupsManager {
             if (Bukkit.getPlayer(member) != null) {
                 SurvUser fuser = plugin.getPlayers().getUsers().get(member);
                 fuser.setGroup("");
-                plugin.getMysql().updatePlayer(fuser);
+                plugin.getMysql().getUserQuery().updatePlayer(fuser);
                 plugin.getSc().getTeam(g.getDisplaytag()).removeEntry(member);
             } else {
                 SurvUser fuser = new SurvUser(member, false);
-                plugin.getMysql().updateGuildPlayer(fuser);
+                plugin.getMysql().getUserQuery().updateGuildPlayer(fuser);
             }
         }
         plugin.getSc().getTeam(g.getDisplaytag()).unregister();
-        plugin.getMysql().deleteGroup(g);
+        plugin.getMysql().getGroupQuery().deleteGroup(g);
         plugin.getGroups().getGroups().remove(user.getGroup());
         return true;
     }
@@ -111,7 +111,7 @@ public class GroupsManager {
         g.getMembers().add(p.getName());
         user.setGroup(g.getGroupname());
         plugin.getSc().getTeam(g.getDisplaytag()).addEntry(p.getName());
-        plugin.getMysql().updatePlayer(user);
+        plugin.getMysql().getUserQuery().updatePlayer(user);
         g.getWaiting().remove(p.getName());
         return true;
     }
@@ -141,11 +141,11 @@ public class GroupsManager {
         if (fp != null) {
             SurvUser fuser = plugin.getPlayers().getUsers().get(fp.getName());
             fuser.setGroup("");
-            plugin.getMysql().updatePlayer(fuser);
+            plugin.getMysql().getUserQuery().updatePlayer(fuser);
             plugin.getSc().getTeam(g.getDisplaytag()).removeEntry(whoKick);
         } else {
             SurvUser fuser = new SurvUser(whoKick, false);//Jezeli nie ma gracza online to sztucznie stworz usera
-            plugin.getMysql().updateGuildPlayer(fuser);//Do poprawy, jakis enum i fajnie
+            plugin.getMysql().getUserQuery().updateGuildPlayer(fuser);//Do poprawy, jakis enum i fajnie
         }
 
         return true;
@@ -178,7 +178,7 @@ public class GroupsManager {
             plugin.getGroups().getGroups().remove(user.getGroup());
         }
         user.setGroup("");
-        plugin.getMysql().updatePlayer(user);
+        plugin.getMysql().getUserQuery().updatePlayer(user);
         return true;
     }
 

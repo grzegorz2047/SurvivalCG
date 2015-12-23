@@ -53,6 +53,7 @@ public class PlayerListeners implements Listener {
         e.getPlayer().addAttachment(plugin, "essentials.sethome", true);
         e.getPlayer().addAttachment(plugin, "essentials.delhome", true);
         e.getPlayer().addAttachment(plugin, "essentials.spawn", true);
+        e.getPlayer().addAttachment(plugin, "randomtp.guiuse.tiny", true);
         e.getPlayer().setScoreboard(plugin.getSc().getScoreboard());
         if (e.getPlayer().getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
             plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
@@ -132,7 +133,7 @@ public class PlayerListeners implements Listener {
             victimuser.setPoints(victimuser.getPoints() - 1);
             if (victimuser.getPoints() == 0) {
                 victim.sendMessage(plugin.getPrefix()+ChatColor.RED + "Stales sie FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
-                Bukkit.broadcastMessage(plugin.getPrefix()+ChatColor.GOLD + victim.getName() + " stal sie FreeKillem! Nie ma juz punktow rankingowych!");
+                Bukkit.broadcastMessage(plugin.getPrefix()+ChatColor.RED + victim.getName() +ChatColor.GRAY +" stal sie FreeKillem! Nie ma juz punktow rankingowych!");
             }else{
                 victim.sendMessage(plugin.getPrefix()+"Straciles 1 punkt rankingowy za smierc przez gracza!");
 

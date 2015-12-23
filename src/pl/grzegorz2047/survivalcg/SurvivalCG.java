@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Team;
 import pl.grzegorz2047.api.util.NameTagUtil;
@@ -16,8 +17,10 @@ import pl.grzegorz2047.survivalcg.listeners.PlayerListeners;
 import pl.grzegorz2047.survivalcg.managers.GroupsManager;
 import pl.grzegorz2047.survivalcg.managers.PlayerManager;
 import pl.grzegorz2047.survivalcg.managers.RankingManager;
+import pl.grzegorz2047.survivalcg.managers.TeleportManager;
 import pl.grzegorz2047.survivalcg.mysql.Mysql;
 import pl.grzegorz2047.survivalcg.user.SurvUser;
+import pl.grzegorz2047.tasks.GeneralTask;
 
 /**
  * Created by grzeg on 19.12.2015.
@@ -29,6 +32,10 @@ public class SurvivalCG extends JavaPlugin {
     private PlayerManager players;
     private RankingManager ranking;
     private Mysql mysql;
+    private TeleportManager teleportManager;
+    private GeneralTask general;
+    BukkitTask generalBukkitTask;//? Jakos musze miec id taska
+
     private String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "SCG" + ChatColor.GRAY + "] ";
 
     public GroupsManager getGroups() {
@@ -37,6 +44,10 @@ public class SurvivalCG extends JavaPlugin {
 
     public PlayerManager getPlayers() {
         return players;
+    }
+
+    public TeleportManager getTeleportManager() {
+        return teleportManager;
     }
 
     @Override
@@ -55,6 +66,7 @@ public class SurvivalCG extends JavaPlugin {
         players = new PlayerManager();
         ranking = new RankingManager();
         mysql.getRanking(ranking);
+        teleportManager = new TeleportManager(this);
         ranking.refreshScoreboard(util.getScoreboard());
         util.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
 
@@ -65,10 +77,14 @@ public class SurvivalCG extends JavaPlugin {
         Bukkit.getPluginCommand("komendy").setExecutor(this);
         Bukkit.getPluginCommand("druzyna").setExecutor(new DruzynaCommands(this));
         Bukkit.getPluginCommand("drop").setExecutor(this);
+        general = new GeneralTask(this);
+        generalBukkitTask = Bukkit.getScheduler().runTaskTimer(this, general, 0, 20);
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getScheduler().cancelTask(generalBukkitTask.getTaskId());
+        generalBukkitTask.cancel();
         util = null;
         groups = null;
         players = null;

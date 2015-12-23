@@ -119,7 +119,7 @@ public class DruzynaCommands implements CommandExecutor {
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("dom")) {
-                    plugin.getGroups().teleportHome(p);
+                    plugin.getGroups().requestTeleportHome(p);
                 } else {
                     p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Cos zle wpisales! Wpisz /druzyna po wiecej info");
                 }

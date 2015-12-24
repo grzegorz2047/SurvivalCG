@@ -8,10 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
@@ -193,5 +190,9 @@ public class PlayerListeners implements Listener {
             e.getPlayer().setFlying(!e.getPlayer().isFlying());
             e.getPlayer().sendMessage(plugin.getPrefix() + "Latanie jest ustawione na " + e.getPlayer().isFlying());
         }
+    }
+    void onTeleport(PlayerTeleportEvent e){
+        Player p = e.getPlayer();
+        p.sendMessage(plugin.getPrefix()+ChatColor.DARK_RED+"UWAZAJ DO KOGO SIE TELEPORTUJESZ, STOSUJ ZASADE OGRANICZONEGO ZAUFANIA!");
     }
 }

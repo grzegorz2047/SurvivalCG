@@ -8,7 +8,7 @@ import pl.grzegorz2047.api.user.User;
 public class SurvUser extends User {
 
 
-    private int points = 1;
+    private int points = 1000;//Start points
     private String group = "";
 
     public SurvUser(String username, boolean spectator) {

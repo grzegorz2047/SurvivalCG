@@ -6,3 +6,5 @@ mysql:
     table: "Ranking"
     groupstable: "Groups"
     password: ""
+permissions:
+    vip-permission: "lobby.svip"

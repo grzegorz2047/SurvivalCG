@@ -17,3 +17,5 @@ commands:
         description: Wysyla gracza w losowe miejsce na mapie
     admin:
         description: admin command
+    vip:
+        description: vip info

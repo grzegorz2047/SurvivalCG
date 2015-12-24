@@ -8,10 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Team;
 import pl.grzegorz2047.api.util.NameTagUtil;
+import pl.grzegorz2047.survivalcg.commands.AdminCommand;
 import pl.grzegorz2047.survivalcg.commands.DruzynaCommands;
 import pl.grzegorz2047.survivalcg.commands.RandomTpCommand;
+import pl.grzegorz2047.survivalcg.commands.VIPCommand;
 import pl.grzegorz2047.survivalcg.listeners.PlayerChatListeners;
 import pl.grzegorz2047.survivalcg.listeners.PlayerDamagingOtherListeners;
 import pl.grzegorz2047.survivalcg.listeners.PlayerListeners;
@@ -34,6 +35,7 @@ public class SurvivalCG extends JavaPlugin {
     private RandomTpManager randomTpManager;
     private AntiLogoutManager antiLogoutManager;
     private ScoreboardManager scoreboardManager;
+    private PermissionsManager permissionsManager;
 
     private GeneralTask general;
     BukkitTask generalBukkitTask;//? Jakos musze miec id taska
@@ -73,6 +75,7 @@ public class SurvivalCG extends JavaPlugin {
         randomTpManager = new RandomTpManager(this);
         antiLogoutManager = new AntiLogoutManager(this);
         scoreboardManager = new ScoreboardManager(this);
+        permissionsManager = new PermissionsManager(this.getConfig().getString("permissions.vip-permission"));
 
         ranking.refreshScoreboard(util.getScoreboard());
         util.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
@@ -86,6 +89,8 @@ public class SurvivalCG extends JavaPlugin {
         Bukkit.getPluginCommand("druzyna").setExecutor(new DruzynaCommands(this));
         Bukkit.getPluginCommand("drop").setExecutor(this);
         Bukkit.getPluginCommand("randomtp").setExecutor(new RandomTpCommand(this));
+        Bukkit.getPluginCommand("admin").setExecutor(new AdminCommand(this));
+        Bukkit.getPluginCommand("vip").setExecutor(new VIPCommand(this));
         general = new GeneralTask(this);
         generalBukkitTask = Bukkit.getScheduler().runTaskTimer(this, general, 0, 20);
     }

@@ -64,15 +64,15 @@ public class GroupsManager {
         return true;
     }
 
-    public boolean deleteGroup(Player p) {
+    public boolean deleteGroup(Player p, boolean force) {
         SurvUser user = plugin.getPlayers().getUsers().get(p.getName());
 
-        if (user.getGroup().equalsIgnoreCase("")) {
+        if (user.getGroup().equalsIgnoreCase("") && !force) {
             p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Nie jestes w zadnej druzynie!");
             return false;
         }
         Group g = plugin.getGroups().getGroups().get(user.getGroup());
-        if (!g.getLeader().equalsIgnoreCase(p.getName())) {
+        if (!g.getLeader().equalsIgnoreCase(p.getName()) && !force) {
             p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Nie jestes liderem tej druzyny");
             return false;
         }
@@ -88,7 +88,7 @@ public class GroupsManager {
             }
         }
         plugin.getSc().getTeam(g.getDisplaytag()).unregister();
-        plugin.getMysql().getGroupQuery().deleteGroup(g);
+        plugin.getMysql().getGroupQuery().deleteGroup(g.getGroupname());
         plugin.getGroups().getGroups().remove(user.getGroup());
         return true;
     }

@@ -165,19 +165,19 @@ public class GroupQuery extends Query {
         }
     }
 
-    public void deleteGroup(Group group) {
+    public void deleteGroup(String name) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("DELETE FROM " + mysql.getGroupstable() + "  WHERE tag='" + group.getGroupname() + "'");
+            statement = connection.prepareStatement("DELETE FROM " + mysql.getGroupstable() + "  WHERE tag='" + name + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("DELETE Group: " + group.getGroupname() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("DELETE Group: " + name + "Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Group: " + group.getGroupname() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Group: " + group.getGroupname() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Group: " + name + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Group: " + name + "Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {

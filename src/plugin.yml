@@ -15,3 +15,5 @@ commands:
         description: Podaje informacje o dropie
     randomtp:
         description: Wysyla gracza w losowe miejsce na mapie
+    admin:
+        description: admin command

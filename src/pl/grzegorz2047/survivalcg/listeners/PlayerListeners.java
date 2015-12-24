@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -41,8 +42,18 @@ public class PlayerListeners implements Listener {
         e.setJoinMessage("");
 
         if (!e.getPlayer().hasPlayedBefore()) {
-            e.getPlayer().getInventory().setItem(0, new ItemStack(Material.WOOD_SWORD));
-            e.getPlayer().getInventory().setItem(1, new ItemStack(Material.COOKED_BEEF, 5));
+            if (e.getPlayer().hasPermission("lobby.svip")) {
+                e.getPlayer().getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
+                e.getPlayer().getInventory().setItem(1, new ItemStack(Material.STONE_AXE));
+                e.getPlayer().getInventory().setItem(2, new ItemStack(Material.STONE_PICKAXE));
+                e.getPlayer().getInventory().setItem(3, new ItemStack(Material.COOKED_BEEF, 6));
+            } else {
+                e.getPlayer().getInventory().setItem(0, new ItemStack(Material.WOOD_SWORD));
+                e.getPlayer().getInventory().setItem(1, new ItemStack(Material.WOOD_AXE));
+                e.getPlayer().getInventory().setItem(2, new ItemStack(Material.WOOD_PICKAXE));
+                e.getPlayer().getInventory().setItem(3, new ItemStack(Material.COOKED_BEEF, 2));
+
+            }
         }
         //Z pewnych powodów musiałem ręcznie dodawać uprawnienia graczom
         e.getPlayer().addAttachment(plugin, "randomtp.signs.use", true);
@@ -54,10 +65,7 @@ public class PlayerListeners implements Listener {
         e.getPlayer().addAttachment(plugin, "essentials.sethome", true);
         e.getPlayer().addAttachment(plugin, "essentials.delhome", true);
         e.getPlayer().addAttachment(plugin, "essentials.spawn", true);
-        e.getPlayer().setScoreboard(plugin.getSc().getScoreboard());
-        if (e.getPlayer().getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
-            plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
-        }
+        plugin.getScoreboardManager().prepareJoinScoreboard(e.getPlayer());
 
 
         if (!user.getGroup().equals("")) {
@@ -79,18 +87,13 @@ public class PlayerListeners implements Listener {
     @EventHandler
     void onPlayerQuit(PlayerQuitEvent e) {
         e.setQuitMessage("");
-        if (e.getPlayer().getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
-            plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size() - 1));
-        }
         Player p = e.getPlayer();
+        plugin.getScoreboardManager().refreshTitle(p.getScoreboard(), Bukkit.getOnlinePlayers().size()-1);
         String username = p.getName();
         SurvUser u = plugin.getPlayers().getUsers().get(username);
         if (!u.getGroup().equals("")) {
             Group group = plugin.getGroups().getGroups().get(u.getGroup());
-            plugin.getSc().
-                    getTeam(group.
-                            getDisplaytag()).
-                    removeEntry(username);
+            plugin.getScoreboardManager().clearPlayerGuildTag(group, p);
             boolean isSomebody = false;
             for (String member : group.getMembers()) {
                 if (Bukkit.getPlayer(member) != null) {
@@ -98,7 +101,7 @@ public class PlayerListeners implements Listener {
                 }
             }
             if (!isSomebody) {
-                plugin.getSc().getTeam(group.getDisplaytag()).unregister();
+                plugin.getScoreboardManager().unregisterGuildTag(group);
                 plugin.getGroups().getGroups().remove(u.getGroup());
             }
 
@@ -106,13 +109,13 @@ public class PlayerListeners implements Listener {
 
 
         Fight f = plugin.getAntiLogoutManager().getFightList().get(p.getName());
-        if(f != null){
+        if (f != null) {
             p.damage(30);
-            p.sendMessage(plugin.getPrefix()+"Wylogowales sie podczas walki! Straciles wszystkie przedmioty!");
-            if(!f.getAttacker().equals(p.getName())){
+            p.sendMessage(plugin.getPrefix() + "Wylogowales sie podczas walki! Straciles wszystkie przedmioty!");
+            if (!f.getAttacker().equals(p.getName())) {
                 Player attacker = Bukkit.getPlayer(f.getAttacker());
-                if(attacker != null){
-                    attacker.sendMessage(plugin.getPrefix()+"Gracz "+ChatColor.RED+p.getName()+" wylogowal sie podczas walki!");
+                if (attacker != null) {
+                    attacker.sendMessage(plugin.getPrefix() + "Gracz " + ChatColor.RED + p.getName() + " wylogowal sie podczas walki!");
 
                 }
             }
@@ -125,9 +128,14 @@ public class PlayerListeners implements Listener {
     void onPlayerRespawn(PlayerRespawnEvent e) {
         if (e.getPlayer().hasPermission("lobby.svip")) {
             e.getPlayer().getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
-            e.getPlayer().getInventory().setItem(1, new ItemStack(Material.COOKED_BEEF, 6));
+            e.getPlayer().getInventory().setItem(1, new ItemStack(Material.STONE_AXE));
+            e.getPlayer().getInventory().setItem(2, new ItemStack(Material.STONE_PICKAXE));
+            e.getPlayer().getInventory().setItem(3, new ItemStack(Material.COOKED_BEEF, 6));
         } else {
-            e.getPlayer().getInventory().setItem(1, new ItemStack(Material.COOKED_BEEF, 2));
+            e.getPlayer().getInventory().setItem(0, new ItemStack(Material.WOOD_SWORD));
+            e.getPlayer().getInventory().setItem(1, new ItemStack(Material.WOOD_AXE));
+            e.getPlayer().getInventory().setItem(2, new ItemStack(Material.WOOD_PICKAXE));
+            e.getPlayer().getInventory().setItem(3, new ItemStack(Material.COOKED_BEEF, 2));
 
         }
     }
@@ -137,7 +145,7 @@ public class PlayerListeners implements Listener {
         Player victim = e.getEntity();
         String victimname = victim.getName();
         SurvUser victimuser = plugin.getPlayers().getUsers().get(victimname);
-
+        int points = 20;
         victimuser.setDeaths(victimuser.getDeaths() + 1);
         boolean canGivePoints = false;
         if (victim.getKiller() == null) {
@@ -145,18 +153,18 @@ public class PlayerListeners implements Listener {
             return;
         }
         if (victimuser.getPoints() > 0) {
-            victimuser.setPoints(victimuser.getPoints() - 1);
+            victimuser.setPoints(victimuser.getPoints() - points);
             if (victimuser.getPoints() == 0) {
-                victim.sendMessage(plugin.getPrefix()+ChatColor.RED + "Stales sie FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
-                Bukkit.broadcastMessage(plugin.getPrefix()+ChatColor.RED + victim.getName() +ChatColor.GRAY +" stal sie FreeKillem! Nie ma juz punktow rankingowych!");
-            }else{
-                victim.sendMessage(plugin.getPrefix()+"Straciles 1 punkt rankingowy za smierc przez gracza!");
+                victim.sendMessage(plugin.getPrefix() + ChatColor.RED + "Stales sie FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
+                Bukkit.broadcastMessage(plugin.getPrefix() + ChatColor.RED + victim.getName() + ChatColor.GRAY + " stal sie FreeKillem! Nie ma juz punktow rankingowych!");
+            } else {
+                victim.sendMessage(plugin.getPrefix() + "Straciles 1 punkt rankingowy za smierc przez gracza!");
 
             }
             plugin.getRanking().checkPoints(victimname, victimuser);
             canGivePoints = true;
         } else {
-            victim.sendMessage(plugin.getPrefix()+ChatColor.RED + "Wciaz jestes FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
+            victim.sendMessage(plugin.getPrefix() + ChatColor.RED + "Wciaz jestes FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
         }
         plugin.getMysql().getUserQuery().updatePlayer(victimuser);
         Player killer = e.getEntity().getKiller();
@@ -165,19 +173,25 @@ public class PlayerListeners implements Listener {
             Score kills = plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(killername);
             SurvUser killuser = plugin.getPlayers().getUsers().get(killername);
             if (killuser != null) {
-                if (plugin.getSc().getTeam(plugin.getSc().getFreeTag()).hasEntry(killername)) {
-                    plugin.getSc().getTeam(plugin.getSc().getFreeTag()).removeEntry(killername);
-                }
-                killuser.setKills(killuser.getKills() + 1);
+                killuser.setKills(killuser.getKills() + points);
                 if (canGivePoints) {
-                    killuser.setPoints(killuser.getPoints() + 1);
+                    killuser.setPoints(killuser.getPoints() + points);
                     plugin.getRanking().checkPoints(killername, killuser);
-                    killuser.getPlayer().sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Otrzymales " + ChatColor.GOLD + "1" + ChatColor.GRAY + " punkt rankingowy za zabicie " + ChatColor.RED + victimname + ChatColor.GRAY + "!");
-                    //killuser.getPlayer().sendMessage(ChatColor.GRAY + "Punkty sa przyznawane na razie TESTOWO i resetuja sie po wyjsciu z serwera!");
+                    killuser.getPlayer().sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Otrzymales " + ChatColor.GOLD + points + ChatColor.GRAY + " punkt rankingowy za zabicie " + ChatColor.RED + victimname + ChatColor.GRAY + "!");
+                    Bukkit.broadcastMessage(plugin.getPrefix()+"["+ChatColor.GOLD+killuser.getGroup()+ChatColor.GRAY+"]"+" Gracz "+ChatColor.RED+killername+" "+""+" zabil gracza "+"["+ChatColor.GOLD+victimuser.getGroup()+ChatColor.GRAY+"]"+victimname+"!");
                 }
                 plugin.getMysql().getUserQuery().updatePlayer(killuser);
 
             }
+        }
+    }
+
+    @EventHandler
+    void onGameModeChange(PlayerGameModeChangeEvent e) {//Takie tam zabezpieczenie przed naduzywaniem rang moderatorskich
+        if (!e.getPlayer().isOp()) {
+            e.setCancelled(true);
+            e.getPlayer().setFlying(!e.getPlayer().isFlying());
+            e.getPlayer().sendMessage(plugin.getPrefix() + "Latanie jest ustawione na " + e.getPlayer().isFlying());
         }
     }
 }

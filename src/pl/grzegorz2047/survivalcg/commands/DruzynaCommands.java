@@ -90,6 +90,7 @@ public class DruzynaCommands implements CommandExecutor {
                     String groupname = args[1].toUpperCase();
                     boolean accepted = plugin.getGroups().addToGroup(p, groupname);
                     p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Pomyslnie dolaczyles do druzyny " + groupname);
+                    Bukkit.broadcastMessage(plugin.getPrefix()+"Gracz "+ChatColor.RED+" dolaczyl do druzyny "+ChatColor.RED+groupname+ChatColor.GRAY+"!");
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("odrzuc")) {
@@ -106,7 +107,7 @@ public class DruzynaCommands implements CommandExecutor {
                 p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Cos zle wpisales! Wpisz /druzyna po wiecej info");
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("usun")) {
-                    boolean deleted = plugin.getGroups().deleteGroup(p);
+                    boolean deleted = plugin.getGroups().deleteGroup(p, false);
                     if(deleted){
                         p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Pomyslnie usunales druzyne!");
                     }

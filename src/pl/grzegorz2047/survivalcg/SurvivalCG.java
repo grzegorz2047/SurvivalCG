@@ -33,6 +33,7 @@ public class SurvivalCG extends JavaPlugin {
     private TeleportManager teleportManager;
     private RandomTpManager randomTpManager;
     private AntiLogoutManager antiLogoutManager;
+    private ScoreboardManager scoreboardManager;
 
     private GeneralTask general;
     BukkitTask generalBukkitTask;//? Jakos musze miec id taska
@@ -67,15 +68,19 @@ public class SurvivalCG extends JavaPlugin {
         players = new PlayerManager();
         ranking = new RankingManager();
         mysql.getRankingQuery().getRanking(ranking);
+
         teleportManager = new TeleportManager(this);
         randomTpManager = new RandomTpManager(this);
         antiLogoutManager = new AntiLogoutManager(this);
+        scoreboardManager = new ScoreboardManager(this);
+
         ranking.refreshScoreboard(util.getScoreboard());
         util.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(ChatColor.GOLD + "Ranking CG" + ChatColor.GRAY + ", Online: " + ChatColor.GREEN + "" + (Bukkit.getOnlinePlayers().size()));
 
         Bukkit.getPluginManager().registerEvents(new PlayerListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerChatListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDamagingOtherListeners(this), this);
+
         Bukkit.getPluginCommand("ranking").setExecutor(this);
         Bukkit.getPluginCommand("komendy").setExecutor(this);
         Bukkit.getPluginCommand("druzyna").setExecutor(new DruzynaCommands(this));
@@ -94,6 +99,7 @@ public class SurvivalCG extends JavaPlugin {
         players = null;
         ranking = null;
         mysql = null;
+        scoreboardManager = null;
     }
 
     @Override
@@ -168,5 +174,9 @@ public class SurvivalCG extends JavaPlugin {
 
     public AntiLogoutManager getAntiLogoutManager() {
         return antiLogoutManager;
+    }
+
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 }

@@ -151,12 +151,10 @@ public class PlayerListeners implements Listener {
         }
         if (victimuser.getPoints() > 0) {
             victimuser.setPoints(victimuser.getPoints() - points);
-            if (victimuser.getPoints() == 0) {
-                victim.sendMessage(plugin.getPrefix() + ChatColor.RED + "Stales sie FreeKillem!" + ChatColor.GRAY + " Bez eq nic nie zdzialasz!");
-                Bukkit.broadcastMessage(plugin.getPrefix() + ChatColor.RED + victim.getName() + ChatColor.GRAY + " stal sie FreeKillem! Nie ma juz punktow rankingowych!");
+            if (victimuser.getPoints() != 0) {
+                victim.sendMessage(plugin.getPrefix() + "Straciles "+points+" punktow rankingowych za smierc przez gracza!");
             } else {
-                victim.sendMessage(plugin.getPrefix() + "Straciles 1 punkt rankingowy za smierc przez gracza!");
-
+                //victim.sendMessage(plugin.getPrefix() + "Straciles "+points+" punktow rankingowych za smierc przez gracza!");
             }
             plugin.getRanking().checkPoints(victimname, victimuser);
             canGivePoints = true;
@@ -170,7 +168,7 @@ public class PlayerListeners implements Listener {
             Score kills = plugin.getSc().getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(killername);
             SurvUser killuser = plugin.getPlayers().getUsers().get(killername);
             if (killuser != null) {
-                killuser.setKills(killuser.getKills() + points);
+                killuser.setKills(killuser.getKills() + 1);
                 if (canGivePoints) {
                     killuser.setPoints(killuser.getPoints() + points);
                     plugin.getRanking().checkPoints(killername, killuser);

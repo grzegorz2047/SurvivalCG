@@ -1,5 +1,6 @@
 package pl.grzegorz2047.api.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -42,7 +43,7 @@ public class BaseWithAliasCommand extends BaseCommand {
                     argument.execute(sender, args);
                     return true;
                 } else {
-                    sender.sendMessage("ten argument nie istnieje!");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7ten argument nie istnieje!"));
                     return true;
                 }
             }

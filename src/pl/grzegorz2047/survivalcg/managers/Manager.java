@@ -16,6 +16,7 @@ public class Manager {
     private AntiLogoutManager antiLogoutManager;
     private UserManager userManager;
     private SettingsManager settingsManager;
+    private CommandsManager commandsManager;
 
     public Manager(SCG scg) {
         this.plugin = scg;
@@ -30,7 +31,10 @@ public class Manager {
         return teleportManager;
     }
 
-    public void disposeManager(){
+    /**
+     * Run this to make cleanup. For example when someone tries to use /reload
+     */
+    public void disposeManager() {
         this.mysqlManager.dispose();
         this.taskManager.dispose();
     }
@@ -63,16 +67,21 @@ public class Manager {
         return settingsManager;
     }
 
-    public void initiateManagers(){
+    /**
+     * Run this outside class constructor due to accessing manager class until
+     * being properly initialised
+     */
+    public void initiateManagers() {
         this.settingsManager = new SettingsManager(plugin);
         this.settingsManager.loadSettings();
-        msgManager = new MsgManager(plugin);
+        this.msgManager = new MsgManager(plugin);
         this.guildManager = new GuildManager(plugin);
         this.cuboidManager = new CuboidManager();
         this.teleportManager = new TeleportManager(plugin);
         this.antiLogoutManager = new AntiLogoutManager(plugin);
         this.userManager = new UserManager(plugin);
         this.taskManager = new TaskManager(plugin);
+        this.commandsManager = new CommandsManager(plugin);
 
         String host = this.settingsManager.getSqlhost();
         int port = this.settingsManager.getSqlport();

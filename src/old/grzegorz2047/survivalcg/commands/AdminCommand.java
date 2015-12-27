@@ -33,13 +33,13 @@ public class AdminCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("removegroup")) {
                 if (args.length == 2) {
                     String groupname = args[1];
-                    Guild g = plugin.getGroups().getGroups().get(groupname.toUpperCase());
+                    Guild g = plugin.getManager().getGuildManager().getGuilds().get(groupname.toUpperCase());
                     if (g != null) {
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             if (g.getMembers().contains(p.getName())) {
-                                boolean answer = plugin.getGroups().deleteGroup(p, true);
+                                boolean answer = plugin.getManager().getGuildManager().deleteGroup(p, true);
                                 if (answer) {
-                                    op.sendMessage(plugin.getPrefix() + "Pomyslnie usunales druzyne " + ChatColor.RED + g.getGroupname() + "!");
+                                    op.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddisbandsuccess").replace("{TAG}",g.getGuildName()));
                                     return true;
                                 }
                             }
@@ -50,7 +50,7 @@ public class AdminCommand implements CommandExecutor {
                 }
             }
         }else{
-            op.sendMessage(plugin.getPrefix()+"Nie masz dostepu do tej komendy!");
+            op.sendMessage(plugin.getManager().getMsgManager().getMsg("nopermission"));
         }
         return true;
     }

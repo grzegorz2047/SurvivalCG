@@ -64,9 +64,7 @@ public class GuildManager {
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
         plugin.getManager().getMysqlManager().getGroupQuery().insertGroup(guild);
-        plugin.getSc().getTeam(guild.getDisplaytag()).setPrefix(guild.getDisplaytag());
-        plugin.getSc().getTeam(guild.getDisplaytag()).setDisplayName(guild.getDisplaytag());
-        plugin.getSc().getTeam(guild.getDisplaytag()).addEntry(p.getName());
+        // #TODO COS Z SCOREBOARDEM
         user.setGuild(guild);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
         return true;
@@ -89,13 +87,13 @@ public class GuildManager {
                 User fuser = plugin.getManager().getUserManager().getUsers().get(member);
                 fuser.setGuild(null);
                 plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
-                plugin.getSc().getTeam(g.getDisplaytag()).removeEntry(member);
+                // #TODO COS Z SCOREBOARDEM
             } else {
                 User fuser = new User(member);
                 plugin.getManager().getMysqlManager().getUserQuery().updateGuildPlayer(fuser);
             }
         }
-        plugin.getSc().getTeam(g.getDisplaytag()).unregister();
+        // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getGroupQuery().deleteGroup(g.getGuildName());
         plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildName());
         return true;
@@ -104,21 +102,21 @@ public class GuildManager {
     public boolean addToGroup(Player p, String guildname) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         if (user.getGuild() != null) {
-            p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Musisz opusic obecna grupe zanim dolaczysz do innej!");
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("first-leave-guild"));
             return false;
         }
         Guild g = plugin.getManager().getGuildManager().getGuilds().get(guildname);
         if (g == null) {
-            p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Taka grupa nie istnieje badz nie ma jej zadnych czlonkow!");
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             return false;
         }
         if (!g.getWaiting().contains(p.getName())) {
-            p.sendMessage(plugin.getPrefix() + ChatColor.GRAY + "Twoje zaproszenie nie istnieje!");
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotoninvitedlist"));
             return false;
         }
         g.getMembers().add(p.getName());
         user.setGuild(g);
-        plugin.getSc().getTeam(g.getDisplaytag()).addEntry(p.getName());
+        // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
         g.getWaiting().remove(p.getName());
         Player leader = Bukkit.getPlayer(g.getLeader());
@@ -155,7 +153,7 @@ public class GuildManager {
             User fuser = plugin.getManager().getUserManager().getUsers().get(fp.getName());
             fuser.setGuild(null);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
-            plugin.getSc().getTeam(g.getDisplaytag()).removeEntry(whoKick);
+            // #TODO COS Z SCOREBOARDEM
         } else {
             User fuser = new User(whoKick);//Jezeli nie ma gracza online to sztucznie stworz usera
             plugin.getManager().getMysqlManager().getUserQuery().updateGuildPlayer(fuser);//Do poprawy, jakis enum i fajnie
@@ -176,10 +174,8 @@ public class GuildManager {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("kickleader"));
             return false;
         }
-        plugin.getSc().
-                getTeam(g.
-                        getDisplaytag()).
-                removeEntry(user.getUsername());
+        // #TODO COS Z SCOREBOARDEM
+
         boolean isSomebody = false;
         for (String member : g.getMembers()) {
             if (Bukkit.getPlayer(member) != null) {
@@ -187,7 +183,7 @@ public class GuildManager {
             }
         }
         if (!isSomebody) {
-            plugin.getSc().getTeam(g.getDisplaytag()).unregister();
+            // #TODO COS Z SCOREBOARDEM
             plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildName());
         }
         user.setGuild(null);

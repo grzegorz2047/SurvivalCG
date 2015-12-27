@@ -2,6 +2,7 @@
 package pl.grzegorz2047.api.command;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,12 +29,12 @@ public class BaseCommand implements CommandExecutor {
                     this.commands.get(subCommand).execute(sender, args);
                     return true;
                 } else {
-                    sender.sendMessage("ten argument nie istnieje!");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7ten argument nie istnieje!"));
                     return true;
                 }
             }
         }else{
-            sender.sendMessage("Niepoprawna ilosc argumentow!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7Niepoprawna ilosc argumentow!"));
             return true;
         }
 

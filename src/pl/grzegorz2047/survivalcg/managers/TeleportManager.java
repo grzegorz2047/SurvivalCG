@@ -1,9 +1,9 @@
 package pl.grzegorz2047.survivalcg.managers;
 
+import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import pl.grzegorz2047.survivalcg.SurvivalCG;
-import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
+import pl.grzegorz2047.survivalcg.SCG;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class TeleportManager {
 
-    private final SurvivalCG plugin;
+    private final SCG plugin;
     private List<TeleportRequest> requests = new ArrayList<TeleportRequest>();
 
-    public TeleportManager(SurvivalCG plugin) {
+    public TeleportManager(SCG plugin) {
         this.plugin = plugin;
     }
 
@@ -31,9 +31,9 @@ public class TeleportManager {
                     //System.out.print("Odleglosc: "+requester.getLocation().distance(r.getSource()));
                     if(requester.getLocation().distance(r.getSource())<1){
                         requester.teleport(r.getDestination());
-                        requester.sendMessage(plugin.getPrefix()+"Zostales pomyslnie przeteleportowany!");
+                        requester.sendMessage(plugin.getManager().getMsgManager().getMsg("teleportsuccess"));
                     }else{
-                        requester.sendMessage(plugin.getPrefix()+"Teleportacja zostala odrzucona z powodu poruszenia sie!");
+                        requester.sendMessage(plugin.getManager().getMsgManager().getMsg("tpcan"));
                     }
 
                 }

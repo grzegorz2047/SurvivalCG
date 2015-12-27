@@ -3,7 +3,7 @@ package pl.grzegorz2047.survivalcg.managers;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-import pl.grzegorz2047.survivalcg.user.SurvUser;
+import pl.grzegorz2047.api.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class RankingManager { //Jakas baza danych by sie przydala :)
     private HashMap<String, Integer> rank = new HashMap<String, Integer>();
 
 
-    public void checkPoints(String username, SurvUser user) {
+    public void checkPoints(String username, User user) {
         if (rank.get(username) != null) {
             rank.put(username, user.getPoints());
             refreshScoreboard(user.getPlayer().getScoreboard());

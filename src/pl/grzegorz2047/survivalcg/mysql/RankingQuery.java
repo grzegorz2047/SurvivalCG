@@ -1,7 +1,7 @@
 package pl.grzegorz2047.survivalcg.mysql;
 
 import org.bukkit.Bukkit;
-import pl.grzegorz2047.survivalcg.SurvivalCG;
+import pl.grzegorz2047.survivalcg.managers.MysqlManager;
 import pl.grzegorz2047.survivalcg.managers.RankingManager;
 
 import java.sql.Connection;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class RankingQuery extends Query{
 
 
-    public RankingQuery(Mysql mysql) {
+    public RankingQuery(MysqlManager mysql) {
         super(mysql);
     }
 

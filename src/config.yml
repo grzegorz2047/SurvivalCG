@@ -1,10 +1,55 @@
+lang: pl
 mysql:
-    host: "localhost"
-    port: 3306
-    db: "SurvivalCG"
-    user: "survival"
-    table: "Ranking"
-    groupstable: "Groups"
-    password: ""
+  host: "localhost"
+  port: 3306
+  db: "SurvivalCG"
+  user: "survival"
+  rankingtable: "Ranking"
+  guildtable: "Groups"
+  password: ""
 permissions:
-    vip-permission: "lobby.svip"
+  vip-permission: "lobby.svip"
+stats:
+  points: 10
+protection:
+  spawn-radius: 80
+guild:
+  team-pvp: false
+  home-command: true
+  max-clan-tag: 6  
+  min-clan-tag: 3
+  block-on-tnt: true
+  block-tnt-time: 120
+chat:
+  guild-prefix: true
+  prefix: '&7[&aHC&7]&7 '
+blocked-guild-names:
+  - "KUPA"
+  - "ADMIN"
+#MAT:DUR:DATA:AMOUNT
+req-items:
+  - "DIAMOND:64"
+  - "OBSIDIAN:32"
+  - "WOOL:1:2:1"
+cuboids:
+  enabled: true
+  radius: 20
+  entry-protection: false
+  damageCuboidItems:
+    - DIAMOND_PICKAXE
+  entry-notify: true
+  entry-sound: true
+  entry-sound-type: "WOLF_BARK"
+teleport:
+  cooldown: 10
+hardcore:
+  enabled: true
+  bantime: "15m"
+  kickmsg: "Bedziesz mogl wejsc na serwer {TIME} Jako VIP mozesz wejsc bez czekania! Sklep: http://craftgames.pl/sklep"
+  lightnings: false
+start-items:
+  - STONE_PICKAXE:1
+  - COOCKED_BEEF:64
+  - ENDER_CHEST:1
+blocked-worlds:
+  - "world_nether"

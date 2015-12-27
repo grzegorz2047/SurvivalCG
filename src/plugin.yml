@@ -1,6 +1,7 @@
 name: SurvivalCG
 version: 0.1
 main: pl.grzegorz2047.survivalcg.SurvivalCG
+description: Succesor of OpenGuild for CraftGames.pl
 commands:
     ranking:
         description: Informacje nt. rankingu

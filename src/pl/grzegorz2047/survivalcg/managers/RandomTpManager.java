@@ -1,11 +1,11 @@
 package pl.grzegorz2047.survivalcg.managers;
 
+import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import pl.grzegorz2047.survivalcg.SurvivalCG;
-import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
+import pl.grzegorz2047.survivalcg.SCG;
 
 import java.util.Random;
 
@@ -14,14 +14,14 @@ import java.util.Random;
  */
 public class RandomTpManager {
 
-    private final SurvivalCG plugin;
+    private final SCG plugin;
     private Random r = new Random();
 
-    public RandomTpManager(SurvivalCG plugin) {
+    public RandomTpManager(SCG plugin) {
         this.plugin = plugin;
     }
 
-    public void teleport(Player p, int radius, int baseDistance) {
+    public void teleport(Player p, int radius, int baseDistance, boolean force) {
         Material m;
         int x;
         int y;
@@ -40,9 +40,15 @@ public class RandomTpManager {
             //System.out.print("Mat"+m);
         }while(m.equals(Material.STATIONARY_LAVA) || m.equals(Material.STATIONARY_WATER));
         Location dest = new Location(p.getWorld(), x, y, z);
-        plugin.getTeleportManager().getRequests()
-                .add(new TeleportRequest(p.getName(),p.getLocation(),dest,System.currentTimeMillis(),5));
-        p.sendMessage(plugin.getPrefix()+"Nie ruszaj sie! Za 5 sekund zostaniesz przeteleportowany w losowe miejsce!");
+        if(force){
+            plugin.getManager().getTeleportManager().getRequests()
+                    .add(new TeleportRequest(p.getName(),p.getLocation(),dest,System.currentTimeMillis(),0));
+        }else{
+            plugin.getManager().getTeleportManager().getRequests()
+                    .add(new TeleportRequest(p.getName(),p.getLocation(),dest,System.currentTimeMillis(),5));
+        }
+
+        p.sendMessage(plugin.getManager().getMsgManager().getMsg("waitfortp"));
     }
 
 }

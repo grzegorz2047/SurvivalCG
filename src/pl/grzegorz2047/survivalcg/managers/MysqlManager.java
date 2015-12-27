@@ -3,7 +3,7 @@ package pl.grzegorz2047.survivalcg.managers;
 import com.zaxxer.hikari.HikariDataSource;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.mysql.DeathQuery;
-import pl.grzegorz2047.survivalcg.mysql.GroupQuery;
+import pl.grzegorz2047.survivalcg.mysql.GuildQuery;
 import pl.grzegorz2047.survivalcg.mysql.RankingQuery;
 import pl.grzegorz2047.survivalcg.mysql.UserQuery;
 
@@ -18,7 +18,7 @@ public class MysqlManager {
     private HikariDataSource hikari;
     //Uzywaj hikari
     DeathQuery deathQuery;
-    GroupQuery groupQuery;
+    GuildQuery guildQuery;
     RankingQuery rankingQuery;
     UserQuery userQuery;
 
@@ -37,7 +37,7 @@ public class MysqlManager {
 
     private void initiateQueries() {
         this.deathQuery = new DeathQuery(this);
-        this.groupQuery = new GroupQuery(this);
+        this.guildQuery = new GuildQuery(this);
         this.rankingQuery = new RankingQuery(this);
         this.userQuery = new UserQuery(this, plugin);
     }
@@ -76,7 +76,7 @@ public class MysqlManager {
         return table;
     }
 
-    public String getGroupstable() {
+    public String getGuildTable() {
         return groupstable;
     }
 
@@ -92,8 +92,8 @@ public class MysqlManager {
         return deathQuery;
     }
 
-    public GroupQuery getGroupQuery() {
-        return groupQuery;
+    public GuildQuery getGuildQuery() {
+        return guildQuery;
     }
 
     public RankingQuery getRankingQuery() {

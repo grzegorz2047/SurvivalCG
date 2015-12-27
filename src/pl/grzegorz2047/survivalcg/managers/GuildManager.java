@@ -1,7 +1,6 @@
 package pl.grzegorz2047.survivalcg.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import pl.grzegorz2047.api.user.User;
@@ -10,7 +9,6 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by grzeg on 26.12.2015.
@@ -63,7 +61,7 @@ public class GuildManager {
         }
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
-        plugin.getManager().getMysqlManager().getGroupQuery().insertGroup(guild);
+        plugin.getManager().getMysqlManager().getGuildQuery().insertGuild(guild);
         // #TODO COS Z SCOREBOARDEM
         user.setGuild(guild);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
@@ -94,7 +92,7 @@ public class GuildManager {
             }
         }
         // #TODO COS Z SCOREBOARDEM
-        plugin.getManager().getMysqlManager().getGroupQuery().deleteGroup(g.getGuildName());
+        plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
         plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildName());
         return true;
     }
@@ -208,6 +206,10 @@ public class GuildManager {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
                 return false;
         }
+    }
+
+    public HashMap<String, Guild> loadGuilds(){
+        return plugin.getManager().getMysqlManager().getGuildQuery().loadGuilds();
     }
 
 

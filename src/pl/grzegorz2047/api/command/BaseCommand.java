@@ -22,23 +22,19 @@ public class BaseCommand implements CommandExecutor {
     protected Map<String, Arg> commands = new HashMap<String, Arg>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (args.length != 0) {
-            if (cmd.getName().equalsIgnoreCase(baseCmd)) {
-                String subCommand = args[0].toLowerCase();//lower case to ensure that all command are correct key
-                if (commands.get(subCommand) != null) {
-                    this.commands.get(subCommand).execute(sender, args);
-                    return true;
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7ten argument nie istnieje!"));
-                    return true;
-                }
+        if (cmd.getName().equalsIgnoreCase(baseCmd)) {
+            String subCommand = "";
+            if (args.length != 0) {
+                subCommand = args[0].toLowerCase();//lower case to ensure that all command are correct key
             }
-        }else{
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7Niepoprawna ilosc argumentow!"));
-            return true;
+            if (commands.get(subCommand) != null) {
+                this.commands.get(subCommand).execute(sender, args);
+                return true;
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&7ten argument nie istnieje!"));
+                return true;
+            }
         }
-
-
         return true;
     }
 }

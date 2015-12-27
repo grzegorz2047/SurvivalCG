@@ -26,6 +26,7 @@ chat:
 blocked-guild-names:
   - "KUPA"
   - "ADMIN"
+  - "DUPA"
 #MAT:DUR:DATA:AMOUNT
 req-items:
   - "DIAMOND:64"

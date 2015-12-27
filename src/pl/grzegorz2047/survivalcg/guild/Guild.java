@@ -21,18 +21,18 @@ public class Guild {
 
 
     private String leader;
-    private Long createDate;
+    private long createTime;
 
     public Guild(String tag, String leader, Location home, long createtime) {
         this.tag = tag;
         this.leader = leader;
         this.home = home;
-        this.createDate = createtime;
+        this.createTime = createtime;
         this.members.add(leader);
     }
 
-    public Guild() {
-
+    public Guild(String tag) {
+        this.tag = tag;
     }
 
     public List<String> getWaiting() {
@@ -59,10 +59,6 @@ public class Guild {
         this.home = home;
     }
 
-    public Long getCreateDate() {
-        return createDate;
-    }
-
     public String getLeader() {
         return leader;
     }
@@ -79,4 +75,11 @@ public class Guild {
         return this.getGuildName().equals(guild.getGuildName());
     }
 
+    public void setCreateTime(long createTime) {
+        this.createTime  = createTime;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
 }

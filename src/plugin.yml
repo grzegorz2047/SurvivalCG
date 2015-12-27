@@ -1,5 +1,5 @@
 name: SurvivalCG
-version: 0.1
+version: 0.5
 main: pl.grzegorz2047.survivalcg.SurvivalCG
 description: Succesor of OpenGuild for CraftGames.pl
 commands:

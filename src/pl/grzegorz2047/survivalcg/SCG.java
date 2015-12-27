@@ -5,12 +5,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.grzegorz2047.survivalcg.commands.guild.GuildCommand;
+import pl.grzegorz2047.survivalcg.commands.vip.VIPCommand;
 import pl.grzegorz2047.survivalcg.listeners.*;
 import pl.grzegorz2047.survivalcg.managers.Manager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Created by grzegorz on 26.12.2015.
@@ -18,6 +17,9 @@ import java.io.IOException;
 public class SCG extends JavaPlugin {
 
     private Manager manager;
+
+    //TODO Daj gdzies ten random tp         plugin.getRandomTpManager().teleport(p,1500,500, false);
+
 
     @Override
     public void onEnable() {
@@ -44,6 +46,11 @@ public class SCG extends JavaPlugin {
         pm.registerEvents(new PlayerJoinListener(this), this);
         pm.registerEvents(new PlayerQuitListener(this), this);
         pm.registerEvents(new PlayerTeleportListener(this), this);
+    }
+
+    public void registerCommands() {
+        this.getCommand("guild").setExecutor(new GuildCommand("guild", new String[]{"g", "gildia", "guild", "druzyna", "team"}, this));
+        this.getCommand("vip").setExecutor(new VIPCommand("vip", new String[]{"vip", "extra", "support", "donator"}, this));
     }
 
 }

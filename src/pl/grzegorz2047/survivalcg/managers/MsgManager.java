@@ -54,7 +54,11 @@ public class MsgManager {
 
         return message;
     }
+    public static String noprefmsg(String msg) {
+        String message = ColoringUtil.colorText(msg);
 
+        return message;
+    }
     public static void debug(String msg) {
         if (MsgManager.debugging) {
             Bukkit.broadcastMessage(ColoringUtil.colorText(msg));

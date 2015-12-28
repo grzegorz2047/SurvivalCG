@@ -441,7 +441,7 @@ public class SettingsManager {
 
     private Long parseHcTime(FileConfiguration config) {
         long hcBantime;
-        String time = config.getString("hardcore-bans.ban-time");
+        String time = config.getString("hardcore.bantime");
         String length = time.substring(0, time.length() - 1);
         long result;
         try {

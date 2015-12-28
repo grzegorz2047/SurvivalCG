@@ -36,6 +36,7 @@ public class UserQuery extends Query {
                 user.setKills(set.getInt("kills"));
                 user.setDeaths(set.getInt("deaths"));
                 user.setGuild(plugin.getManager().getGuildManager().getGuilds().get(set.getString("guild")));//Return null if not exists
+
             } else {
                 insert = true;
             }
@@ -108,7 +109,12 @@ public class UserQuery extends Query {
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("UPDATE " + mysql.getTable() + " SET points='" + user.getPoints() + "', kills='" + user.getKills() + "', deaths='" + user.getDeaths() + "', guild='" + user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
+            statement = connection.prepareStatement("UPDATE " + mysql.getTable() + " SET points='" +
+                    user.getPoints() +
+                    "', kills='" +
+                    user.getKills() + "', deaths='" +
+                    user.getDeaths() + "', guild='" +
+                    user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());

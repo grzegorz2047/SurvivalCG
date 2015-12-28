@@ -6,7 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
+import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
+import pl.grzegorz2047.survivalcg.guild.Guild;
 
 /**
  * Created by grzegorz2047 on 27.12.2015.
@@ -20,42 +22,42 @@ public class InviteArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        SurvUser inviter = plugin.getPlayers().getUsers().get(p.getName());
-        if (inviter.getGroup().equalsIgnoreCase("")) {
-            p.sendMessage(plugin.getPrefix()+ ChatColor.GRAY + "Nie jestes w zadnej gildii!");
-            return true;
+        Player p = (Player) sender;
+        User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
+
+        if (user.getGuild() == null) {
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
+            return;
         }
-        Group g = plugin.getGroups().getGroups().get(inviter.getGroup());
+        Guild g = user.getGuild();
         if (!g.getLeader().equalsIgnoreCase(p.getName())) {
-            p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Tylko liderzy druzyn moga zapraszac graczy!");
-            return true;
-        }
-        if (g.getMembers().size() == 8) {
-            p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Posiadasz maksymalna liczbe osob w druzynie (8)!");
-            return true;
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotleader"));
+            return;
         }
         String friend = args[1];
         if (g.getWaiting().contains(friend)) {
-            p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Ten gracz zostal juz zaproszony!");
-            return true;
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("askforaccept"));
+            return;
         }
         Player fp = Bukkit.getPlayer(friend);
+        String prefix = plugin.getManager().getSettingsManager().getPrefix();
+
         if (fp != null) {
-            SurvUser fuser = plugin.getPlayers().getUsers().get(fp.getName());
-            if (!fuser.getGroup().equalsIgnoreCase("")) {
-                p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Ten osobnik jest juz w jakiejs druzynie!");
-                return true;
+            User fuser = plugin.getManager().getUserManager().getUsers().get(fp.getName());
+            if (fuser.getGuild() != null) {
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerhasguild"));
+                return ;
             } else {
                 g.getWaiting().add(friend);
-                fp.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getDisplaytag() + "!");
-                fp.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Aby zaakceptowac wpisz /druzyna akceptuj " + g.getGroupname());
-                fp.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Aby odmowic wpisz /druzyna odrzuc " + g.getGroupname());
-                p.sendMessage(plugin.getPrefix()+"Zaproszenie zostalo wyslane do gracza o nicku " + friend);
-                return true;
+                fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getDisplaytag() + "!");
+                fp.sendMessage(prefix + ChatColor.GRAY + "Aby zaakceptowac wpisz /g akceptuj " + g.getGuildName());
+                fp.sendMessage(prefix + ChatColor.GRAY + "Aby odmowic wpisz /dg odrzuc " + g.getGuildName());
+                p.sendMessage(prefix + "Zaproszenie zostalo wyslane do gracza o nicku " + friend);
+                return ;
             }
         } else {
-            p.sendMessage(plugin.getPrefix()+ChatColor.GRAY + "Ten gracz nie jest obecnie na serwerze!");
-            return true;
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("playeroffline"));
+            return ;
         }
     }
 }

@@ -14,21 +14,23 @@ import java.util.HashMap;
  * Created by grzeg on 26.12.2015.
  */
 public class GuildManager {
+    
     private final SCG plugin;
-
 
     private HashMap<String, Guild> guilds = new HashMap<String, Guild>();
 
     public GuildManager(SCG plugin) {
         this.plugin = plugin;
+        this.setGuilds(loadGuilds());
     }
 
     public HashMap<String, Guild> getGuilds() {
         return guilds;
     }
 
+    
 
-    public boolean createGroup(Player p, String tag) {
+    public boolean createGuild(Player p, String tag) {
         MsgManager msgManager = plugin.getManager().getMsgManager();
         SettingsManager settingsManager = plugin.getManager().getSettingsManager();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
@@ -42,7 +44,7 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("alreadyinguild"));
             return false;
         }
-        if (tag.length() < 3 || tag.length() > 6) {
+        if (tag.length() < settingsManager.getMinClanTag() || tag.length() > settingsManager.getMaxClanTag()) {
             p.sendMessage(msgManager.getMsg("toolongshorttag").replace("{MIN}",settingsManager.getMinClanTag()+"").replace("{MAX}", settingsManager.getMaxClanTag()+""));
             return false;
         }
@@ -83,8 +85,9 @@ public class GuildManager {
         for (String member : g.getMembers()) {
             if (Bukkit.getPlayer(member) != null) {
                 User fuser = plugin.getManager().getUserManager().getUsers().get(member);
-                fuser.setGuild(null);
+
                 plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
+                fuser.setGuild(null);
                 // #TODO COS Z SCOREBOARDEM
             } else {
                 User fuser = new User(member);
@@ -93,7 +96,7 @@ public class GuildManager {
         }
         // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
-        plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildName());
+        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
         return true;
     }
 
@@ -213,4 +216,7 @@ public class GuildManager {
     }
 
 
+    public void setGuilds(HashMap<String,Guild> guilds) {
+        this.guilds = guilds;
+    }
 }

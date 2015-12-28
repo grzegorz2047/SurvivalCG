@@ -20,6 +20,7 @@ public class Manager {
 
     public Manager(SCG scg) {
         this.plugin = scg;
+
     }
 
 
@@ -75,8 +76,6 @@ public class Manager {
         this.settingsManager = new SettingsManager(plugin);
         this.settingsManager.loadSettings();
         this.msgManager = new MsgManager(plugin);
-        this.guildManager = new GuildManager(plugin);
-        this.cuboidManager = new CuboidManager();
         this.teleportManager = new TeleportManager(plugin);
         this.antiLogoutManager = new AntiLogoutManager(plugin);
         this.userManager = new UserManager(plugin);
@@ -92,6 +91,10 @@ public class Manager {
         String guildTable = this.settingsManager.getSqlguildTable();
 
         this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, plugin);
+        this.guildManager = new GuildManager(plugin);
+
+        this.cuboidManager = new CuboidManager();
+
     }
 
 }

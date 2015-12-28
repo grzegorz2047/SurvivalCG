@@ -1,14 +1,14 @@
 name: SurvivalCG
 version: 0.5
-main: pl.grzegorz2047.survivalcg.SurvivalCG
+main: pl.grzegorz2047.survivalcg.SCG
 description: Succesor of OpenGuild for CraftGames.pl
 commands:
     ranking:
         description: Informacje nt. rankingu
         aliases: [rank, kille, zabojstwa, kd, points]
-    druzyna:
+    guild:
         description: Pozwala tworzyc arene
-        aliases: [team, gildia, watacha, g]
+        aliases: [team, gildia, watacha, g, druzyna]
     komendy:
         description: Podaje informacje o komendach
         aliases: [help, pomoc, commands]

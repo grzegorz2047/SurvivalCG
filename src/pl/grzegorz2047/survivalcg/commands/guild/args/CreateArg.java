@@ -2,6 +2,7 @@ package pl.grzegorz2047.survivalcg.commands.guild.args;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -18,9 +19,15 @@ public class CreateArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        boolean created = plugin.getGroups().createGroup(p,args[1].toUpperCase());
-        if(created){
-            p.sendMessage(plugin.getPrefix()+ ChatColor.GRAY + "Twoja druzyna zostala stworzona!");
+        Player p = (Player) sender;
+        if(args.length == 2){
+            boolean created = plugin.getManager().getGuildManager().createGuild(p,args[1].toUpperCase());
+            if(created){
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("broadcast-create").replace("{TAG}", args[1].toUpperCase()).replace("{PLAYER}",p.getName()));
+            }
+        }else{
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("wrongcmdargument"));
         }
+
     }
 }

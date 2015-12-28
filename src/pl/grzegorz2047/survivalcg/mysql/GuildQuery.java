@@ -205,10 +205,11 @@ public class GuildQuery extends Query {
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getGuildTable());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
+                System.out.println("Wczytuje "+set.getString("tag"));
                 Guild guild = new Guild(set.getString("tag"));
                 guild.setLeader(set.getString("leader"));
                 guild.setHome(new Location(Bukkit.getWorld(set.getString("world")), set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
-                guild.setCreateTime(set.getLong("createtime"));
+                guild.setCreateTime(set.getLong("createdate"));
                 guilds.put(guild.getGuildName(), guild);
             }
             statement.close();

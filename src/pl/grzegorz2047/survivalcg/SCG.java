@@ -27,6 +27,7 @@ public class SCG extends JavaPlugin {
         this.manager = new Manager(this);
         this.manager.initiateManagers();
         registerListeners();
+        registerCommands();
     }
 
     @Override

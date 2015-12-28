@@ -112,10 +112,11 @@ public class MsgManager {
             }
 
             c.save(file);
+            return  configInside;
         } catch(IOException | InvalidConfigurationException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
     private void loadMessages(FileConfiguration config) {
         messages = new HashMap<String, String>();

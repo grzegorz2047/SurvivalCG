@@ -30,6 +30,14 @@ public class PlayerDeathListener implements Listener {
         if (victim.getKiller() == null) {
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             return;
+        }else{
+            User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
+            if(!killeruser.getLastKilledPlayer().equals(victimname)){
+                killeruser.setLastKilledPlayer(victimname);
+            }else {
+
+            }
+
         }
 
     }

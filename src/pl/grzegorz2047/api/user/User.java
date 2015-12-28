@@ -12,10 +12,10 @@ public class User {
     protected String username;
     protected Long firstJoinTime;
 
-    protected int money, kills, deaths, wins = 0;//?
+    protected int money, kills, deaths, wins = 1000;//?
     private int points;
     private Guild guild; //Used as pointer to guild
-
+    private String lastKilledPlayer = "";
     private User() {
     }
 
@@ -84,5 +84,13 @@ public class User {
 
     public void setGuild(Guild g) {
         this.guild = g;
+    }
+
+    public String getLastKilledPlayer() {
+        return lastKilledPlayer;
+    }
+
+    public void setLastKilledPlayer(String lastKilledPlayer) {
+        this.lastKilledPlayer = lastKilledPlayer;
     }
 }

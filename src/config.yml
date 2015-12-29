@@ -4,8 +4,10 @@ mysql:
   port: 3306
   db: "SurvivalCG"
   user: "survival"
-  rankingtable: "Ranking"
-  guildtable: "Groups"
+  usertable: "users"
+  guildtable: "guilds"
+  bantable: "bans"
+  tableprefix: "scg_"
   password: ""
 permissions:
   vip-permission: "lobby.svip"
@@ -28,13 +30,18 @@ blocked-guild-names:
   - "ADMIN"
   - "DUPA"
 #MAT:DUR:DATA:AMOUNT
-req-items:
-  - "DIAMOND:64"
-  - "OBSIDIAN:32"
-  - "WOOL:1:2:1"
+required-items:
+  - "DIAMOND:0:0:64"
+  - "OBSIDIAN:0:0:32"
+  - "ENDERPEARL:0:0:16"
+  - "TNT:0:0:64"
+  - "GOLDEN_APPLE:0:0:64"
+  - "APPLE:0:0:64"
+  - "CANE:0:0:64"
+  - "BOOKSHELF:0:0:16"
 cuboids:
   enabled: true
-  radius: 20
+  radius: 50
   entry-protection: false
   damageCuboidItems:
     - DIAMOND_PICKAXE
@@ -45,8 +52,8 @@ teleport:
   cooldown: 10
 hardcore:
   enabled: true
-  bantime: "15m"
-  kickmsg: "Bedziesz mogl wejsc na serwer {TIME}. Jako VIP mozesz wejsc bez czekania! Sklep: http://craftgames.pl/sklep"
+  bantime: "2h"
+  kickmsg: "&7Bedziesz mogl wejsc na serwer &a{TIME}&7. Jako VIP mozesz wejsc bez czekania! Sklep: &ahttp://sklep.craftgames.pl/"
   lightnings: false
 start-items:
   - STONE_PICKAXE:1

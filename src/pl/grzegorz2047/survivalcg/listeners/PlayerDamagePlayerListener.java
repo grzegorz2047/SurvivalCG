@@ -38,6 +38,11 @@ public class PlayerDamagePlayerListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
+                if (checkIfAllies(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
+                    attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
+                    event.setCancelled(true);
+                    return;
+                }
                 int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
                 if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
                     attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
@@ -54,6 +59,11 @@ public class PlayerDamagePlayerListener implements Listener {
                 if (attackerEntity instanceof Player) {
                     Player attacker = (Player) attackerEntity;
                     if (checkIfGuildMembers(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
+                        attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
+                        event.setCancelled(true);
+                        return;
+                    }
+                    if (checkIfAllies(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
                         attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
                         event.setCancelled(true);
                         return;
@@ -80,6 +90,11 @@ public class PlayerDamagePlayerListener implements Listener {
                         event.setCancelled(true);
                         return;
                     }
+                    if (checkIfAllies(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
+                        attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
+                        event.setCancelled(true);
+                        return;
+                    }
                     int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
                     if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
                         attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
@@ -99,9 +114,17 @@ public class PlayerDamagePlayerListener implements Listener {
             return false;
         }else {
             return victimuser.getGuild().equals(attackeruser.getGuild());
-
         }
-        //jedno sprawdzenie powinno wystarczyc
+    }
+
+    public boolean checkIfAllies(Player attacker, Player attacked){
+        User victimuser = plugin.getManager().getUserManager().getUsers().get(attacked.getName());
+        User attackeruser = plugin.getManager().getUserManager().getUsers().get(attacker.getName());
+        if(victimuser.getGuild() == null || attackeruser.getGuild() == null){
+            return false;
+        }else {
+            return  attackeruser.getGuild().getAlly().contains(victimuser.getGuild().getGuildName());
+        }
     }
 
     public void checkFight(Player attacker, Player attacked){

@@ -31,6 +31,7 @@ public class HelpArg extends Arg {
             p.sendMessage(ChatColor.GREEN+"/g zapros <nick> "+ChatColor.GRAY+"- Zaprasza gracza do gildii");
             p.sendMessage(ChatColor.GREEN+"/g dom "+ChatColor.GRAY+"- Teleportuje na spawn gildii");
             p.sendMessage(ChatColor.GREEN+"/g opusc "+ChatColor.GRAY+"- Opuszczasz obecna gildie");
+            p.sendMessage(ChatColor.GREEN+"/g przedmioty "+ChatColor.GRAY+"- Pokazuje wymagane przedmioty na gildie");
             p.sendMessage(" ");
 
         }

@@ -17,6 +17,7 @@ public class Manager {
     private UserManager userManager;
     private SettingsManager settingsManager;
     private CommandsManager commandsManager;
+    private DeathManager deathManager;
 
     public Manager(SCG scg) {
         this.plugin = scg;
@@ -90,11 +91,16 @@ public class Manager {
         String db = this.settingsManager.getSqldb();
         String rankingTable = this.settingsManager.getSqlrankingtable();
         String guildTable = this.settingsManager.getSqlguildTable();
-
-        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, plugin);
+        String banTable = this.settingsManager.getSQLBanTable();
+        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable,banTable, plugin);
         this.guildManager = new GuildManager(plugin);
+        this.deathManager = new DeathManager(plugin);
 
 
     }
 
+    public DeathManager getDeathManager() {
+        return deathManager;
+
+    }
 }

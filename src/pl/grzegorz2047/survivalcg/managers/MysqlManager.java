@@ -12,8 +12,8 @@ import pl.grzegorz2047.survivalcg.mysql.UserQuery;
  */
 public class MysqlManager {
     private final SCG plugin;
-    private String host, user, password, db, table;
-    private String groupstable;
+    private String host, user, password, db, usertable;
+    private String guildstable, bantable;
     private Integer port;
     private HikariDataSource hikari;
     //Uzywaj hikari
@@ -22,14 +22,17 @@ public class MysqlManager {
     RankingQuery rankingQuery;
     UserQuery userQuery;
 
-    public MysqlManager(String host, int port, String user, String password, String db, String table, String groupsTable, SCG plugin) {
+    public MysqlManager(String host, int port, String user, String password, String db, String usertable, String guildTable, String bantable, SCG plugin) {
+        SettingsManager settings = plugin.getManager().getSettingsManager();
+        String prefix = settings.getSqlprefix();
         this.host = host;
         this.port = port;
         this.user = user;
         this.password = password;
         this.db = db;
-        this.table = table;
-        this.groupstable = groupsTable;
+        this.usertable = prefix + usertable;
+        this.guildstable = prefix + guildTable;
+        this.bantable = prefix + bantable;
         this.plugin = plugin;
         connectToDB();
         initiateQueries();
@@ -72,12 +75,12 @@ public class MysqlManager {
         return db;
     }
 
-    public String getTable() {
-        return table;
+    public String getUsertable() {
+        return usertable;
     }
 
     public String getGuildTable() {
-        return groupstable;
+        return guildstable;
     }
 
     public Integer getPort() {
@@ -104,7 +107,15 @@ public class MysqlManager {
         return userQuery;
     }
 
-    public void dispose(){
+    public void dispose() {
         this.getHikari().close();
+    }
+
+    public String getBantable() {
+        return bantable;
+    }
+
+    public void setBantable(String bantable) {
+        this.bantable = bantable;
     }
 }

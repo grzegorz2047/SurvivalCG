@@ -13,4 +13,5 @@ public abstract class Query {
         this.mysql = mysql;
     }
 
+
 }

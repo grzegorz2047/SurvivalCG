@@ -38,10 +38,13 @@ public class BaseWithAliasCommand extends BaseCommand {
                     for (String alias : key) {
                         if (alias.equals(subCommand)) {
                             argument = commands.get(key);
+                            //System.out.print("Znalazlem klucz "+key.toString()+" arg "+argument.toString());
                             break;
                         }
                     }
                 }
+
+
                 if (argument != null) {
                     argument.execute(sender, args);
                     return true;

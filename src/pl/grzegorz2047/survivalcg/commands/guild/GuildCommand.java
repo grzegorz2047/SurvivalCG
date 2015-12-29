@@ -17,7 +17,9 @@ public class GuildCommand extends BaseWithAliasCommand {
         this.commands.put(new String[]{"odmow", "odrzuc", "deny", "decline"}, new DenyArg(plugin));
         this.commands.put(new String[]{"dom", "baza", "home", "base"}, new HomeArg(plugin));
         this.commands.put(new String[]{"opusc", "wyjdz", "leave", "out"}, new LeaveArg(plugin));
-        this.commands.put(new String[]{"pomoc", "help", "h", "?"}, new LeaveArg(plugin));
+        this.commands.put(new String[]{"", "help", "h", "?"}, new HelpArg(plugin));
         this.commands.put(new String[]{"zapros", "invite", "zapro", "dodaj", "add"}, new InviteArg(plugin));
+        this.commands.put(new String[]{"sojusz", "ally"}, new AllyArg(plugin));
+        this.commands.put(new String[]{"items", "przedmioty", "itemy", "ity"}, new ItemsArg(plugin));
     }
 }

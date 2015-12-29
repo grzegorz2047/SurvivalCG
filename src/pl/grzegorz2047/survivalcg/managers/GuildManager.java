@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import pl.grzegorz2047.api.user.User;
+import pl.grzegorz2047.api.util.MiscUtils;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
@@ -53,6 +54,8 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("illegaltag"));
             return false;
         }
+
+
         boolean exists = plugin.getManager().getGuildManager().getGuilds().get(tag) != null;
         if (exists) {
             p.sendMessage(msgManager.getMsg("guildexists"));
@@ -64,16 +67,23 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("spawn-too-close"));
             return false;
         }
-        for(Map.Entry<String, Cuboid> entry : plugin.getManager().getCuboidManager().getCuboids().entrySet()){
-            if(p.getLocation().distance(entry.getValue().getCenter()) <= (entry.getValue().getRadius() * 2) +3){
+        for (Map.Entry<String, Cuboid> entry : plugin.getManager().getCuboidManager().getCuboids().entrySet()) {
+            if (p.getLocation().distance(entry.getValue().getCenter()) <= (entry.getValue().getRadius() * 2) + 3) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("cuboidtoocloseothers").replace("{GUILD}", entry.getValue().getGuild().getGuildName()));
 
                 return false;
             }
         }
+
+        if (!MiscUtils.hasEnoughItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory())) {
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("notenoughitems"));
+            return false;
+        }
+        MiscUtils.removeRequiredItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory());
+
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
-        plugin.getManager().getCuboidManager().getCuboids().put(guild.getGuildName(),cuboid);
+        plugin.getManager().getCuboidManager().getCuboids().put(guild.getGuildName(), cuboid);
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
         plugin.getManager().getMysqlManager().getGuildQuery().insertGuild(guild);
         // #TODO COS Z SCOREBOARDEM
@@ -97,9 +107,9 @@ public class GuildManager {
         for (String member : g.getMembers()) {
             if (Bukkit.getPlayer(member) != null) {
                 User fuser = plugin.getManager().getUserManager().getUsers().get(member);
-
-                plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
                 fuser.setGuild(null);
+                plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
+
                 // #TODO COS Z SCOREBOARDEM
             } else {
                 User fuser = new User(member);

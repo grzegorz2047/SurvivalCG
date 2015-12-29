@@ -1,6 +1,7 @@
 package pl.grzegorz2047.survivalcg.commands.admin.args;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -18,6 +19,14 @@ public class HcUnbanArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        Player p = (Player) sender;
+        if(args.length >=2){
+            String playertoub = args[1];
+            if(sender.isOp() || sender.hasPermission("scg.hardocre.unban")){
+                plugin.getManager().getDeathManager().unbanPlayer(playertoub);
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerunbanned"));
+            }
+        }
 
     }
 

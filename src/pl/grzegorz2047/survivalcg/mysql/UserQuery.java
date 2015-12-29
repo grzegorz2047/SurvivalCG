@@ -29,7 +29,7 @@ public class UserQuery extends Query {
         boolean insert = false;
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("SELECT * FROM " + mysql.getTable() + " WHERE username = ?");
+            statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE username = ?");
             statement.setString(1, user.getUsername());
             ResultSet set = statement.executeQuery();
             if (set.first() && set.isLast()) {
@@ -73,7 +73,7 @@ public class UserQuery extends Query {
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("INSERT INTO " + mysql.getTable() + "("
+            statement = connection.prepareStatement("INSERT INTO " + mysql.getUsertable() + "("
                     + "username, points, kills, deaths, guild) VALUES (?, ?, ?, ?, ?)");
             statement.setString(1, user.getUsername());
             statement.setInt(2, 0);
@@ -115,12 +115,12 @@ public class UserQuery extends Query {
             if(g != null){
                 guildname = g.getGuildName();
             }
-            statement = connection.prepareStatement("UPDATE " + mysql.getTable() + " SET points='" +
+            statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET points='" +
                     user.getPoints() +
                     "', kills='" +
                     user.getKills() + "', deaths='" +
                     user.getDeaths() + "', guild='" +
-                    user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
+                    guildname + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());
@@ -150,7 +150,7 @@ public class UserQuery extends Query {
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("UPDATE " + mysql.getTable() + " SET guild='" + user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
+            statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET guild='" + user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());

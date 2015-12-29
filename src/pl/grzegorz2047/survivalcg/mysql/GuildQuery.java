@@ -77,7 +77,7 @@ public class GuildQuery extends Query {
                 System.out.print("Nie znaleziono gildii " + guild.getGuildName() + " w tabeli!");
             }
             statement.close();
-            statement = connection.prepareStatement("SELECT * FROM " + mysql.getTable() + " WHERE guild='" + guild.getGuildName() + "'");
+            statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE guild='" + guild.getGuildName() + "'");
             set = statement.executeQuery();
             while (set.next()) {
                 guild.getMembers().add(set.getString("username"));
@@ -226,7 +226,7 @@ public class GuildQuery extends Query {
             }
             statement.close();
             for (Map.Entry<String, Guild> entry : guilds.entrySet()) {
-                statement = connection.prepareStatement("SELECT * FROM " + mysql.getTable() + " WHERE guild='" + entry.getValue().getGuildName() + "'");
+                statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE guild='" + entry.getValue().getGuildName() + "'");
                 set = statement.executeQuery();
                 while (set.next()) {
                     entry.getValue().getMembers().add(set.getString("username"));

@@ -1,7 +1,10 @@
 package pl.grzegorz2047.survivalcg.commands.vip.args;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
+import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 
 /**
@@ -12,5 +15,14 @@ public class VIPArg extends Arg {
 
     public VIPArg(Plugin plugin) {
         this.plugin = (SCG) plugin;
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        Player p = (Player) sender;
+        p.sendMessage(ColoringUtil.colorText("Funkcje dla VIPa:"));
+        p.sendMessage(ColoringUtil.colorText("Brak bana przy smierci"));
+        p.sendMessage(ColoringUtil.colorText("Komenda /home"));
+        p.sendMessage(ColoringUtil.colorText(""));
     }
 }

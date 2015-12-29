@@ -31,7 +31,19 @@ public class CuboidManager {
                 boolean entered = entry.getValue().isinCuboid(p.getLocation());
                 if(entered){
                     if(user.getCurrentCuboid() == null){
-                        p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubpl").replace("{GUILD}",entry.getKey()));
+                        if(plugin.getManager().getSettingsManager().isCuboidEntryNotify()){
+                            /*
+                            for(Player member : Bukkit.getOnlinePlayers()){
+                                if(entry.getValue().getGuild().getMembers().contains(member)){
+                                    //Nie podoba mi sie xd Co tu moge zrobic?
+                                }
+                            }*/
+
+                        }
+                        if(plugin.getManager().getSettingsManager().isCuboidEntrySound()){
+                            p.playSound(p.getLocation(),plugin.getManager().getSettingsManager().getCuboidEntrySoundType(),1,1);
+                            p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubpl").replace("{GUILD}",entry.getKey()));
+                        }
                     }
                     user.setCurrentCuboid(entry.getValue());
                     inany = true;

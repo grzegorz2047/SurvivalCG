@@ -25,7 +25,7 @@ public class RankingQuery extends Query{
         PreparedStatement statement = null;
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("SELECT username, points FROM " + mysql.getTable() + " ORDER by points DESC LIMIT 10");
+            statement = connection.prepareStatement("SELECT username, points FROM " + mysql.getUsertable() + " ORDER by points DESC LIMIT 10");
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 rank.addPoints(set.getString("username"), set.getInt("points"));

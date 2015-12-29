@@ -57,6 +57,8 @@ public class SettingsManager {
     private int protectedSpawnRadius;
     private String prefix;
     private List<String> blockedWorlds = new ArrayList<String>();
+    private String sqlBanTable;
+    private String sqlprefix;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -149,7 +151,6 @@ public class SettingsManager {
     public void setEntryrotection(boolean entryrotection) {
         this.entryrotection = entryrotection;
     }
-
 
 
     public List<Material> getDamageCuboidItems() {
@@ -318,9 +319,11 @@ public class SettingsManager {
         this.sqlport = plugin.getConfig().getInt("mysql.port");
         this.sqldb = plugin.getConfig().getString("mysql.db");
         this.sqluser = plugin.getConfig().getString("mysql.user");
-        this.sqlrankingtable = plugin.getConfig().getString("mysql.rankingtable");
+        this.sqlrankingtable = plugin.getConfig().getString("mysql.usertable");
         this.sqlguildTable = plugin.getConfig().getString("mysql.guildtable");
         this.sqlpassword = plugin.getConfig().getString("mysql.password");
+        this.sqlBanTable = plugin.getConfig().getString("mysql.bantable");
+        this.sqlprefix = plugin.getConfig().getString("mysql.tableprefix");
         this.points = plugin.getConfig().getInt("stats.points");
         this.teampvp = plugin.getConfig().getBoolean("guild.team-pvp");
         this.homeCommand = plugin.getConfig().getBoolean("guild.home-command");
@@ -348,7 +351,7 @@ public class SettingsManager {
         this.hcKickMsg = plugin.getConfig().getString("hardcore.kickmsg");
         this.hcLightnings = plugin.getConfig().getBoolean("hardcore.lightnings");
         this.protectedSpawnRadius = plugin.getConfig().getInt("protection.spawn-radius");
-        this.prefix = plugin.getConfig().getString("chat.prefix").replace('&','§');
+        this.prefix = plugin.getConfig().getString("chat.prefix").replace('&', '§');
         this.blockedWorlds = plugin.getConfig().getStringList("blocked-worlds");
 
     }
@@ -356,7 +359,8 @@ public class SettingsManager {
     private List<ItemStack> requiredItems(FileConfiguration config) {
         List<String> reqItems = config.getStringList("required-items");
         List<ItemStack> itemstackList = new ArrayList<ItemStack>();
-        if (reqItems != null || !reqItems.isEmpty()) {
+        Bukkit.getLogger().warning("Ilosc przedmiotow do wczytania "+reqItems);
+        if (reqItems != null && !reqItems.isEmpty()) {
 
             if (reqItems.size() > 54) {
                 Bukkit.getLogger().warning("Too many specified items (required-items)! Maximum size is 54!");
@@ -414,7 +418,9 @@ public class SettingsManager {
             }
         } else {
             itemstackList = new ArrayList<ItemStack>();
+            Bukkit.getLogger().warning("Brak itemow do wczytania!");
         }
+        Bukkit.getLogger().warning("ilosc na wyjsciu: "+itemstackList.size());
         return itemstackList;
     }
 
@@ -468,5 +474,17 @@ public class SettingsManager {
 
     public List<String> getBlockedWorlds() {
         return blockedWorlds;
+    }
+
+    public String getSQLBanTable() {
+        return sqlBanTable;
+    }
+
+    public String getSqlprefix() {
+        return sqlprefix;
+    }
+
+    public void setSqlprefix(String sqlprefix) {
+        this.sqlprefix = sqlprefix;
     }
 }

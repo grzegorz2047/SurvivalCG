@@ -7,7 +7,7 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 /**
  * @author Grzegorz
  */
-public class Cuboid { //Potential ambiguous interpretation 
+public class Cuboid { //Potential ambiguous interpretation
 
     public Cuboid(Guild g, int radius) {
         this.radius = radius;

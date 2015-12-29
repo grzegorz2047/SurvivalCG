@@ -2,8 +2,10 @@ package pl.grzegorz2047.survivalcg.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.managers.MysqlManager;
+import pl.grzegorz2047.survivalcg.world.Cuboid;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,8 +18,11 @@ import java.util.Map;
  * Created by grzeg on 23.12.2015.
  */
 public class GuildQuery extends Query {
-    public GuildQuery(MysqlManager mysql) {
+    private final SCG plugin;
+
+    public GuildQuery(MysqlManager mysql, SCG plugin) {
         super(mysql);
+        this.plugin = plugin;
     }
 
 
@@ -205,21 +210,29 @@ public class GuildQuery extends Query {
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getGuildTable());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                System.out.println("Wczytuje "+set.getString("tag"));
+                System.out.println("Wczytuje " + set.getString("tag"));
                 Guild guild = new Guild(set.getString("tag"));
                 guild.setLeader(set.getString("leader"));
                 guild.setHome(new Location(Bukkit.getWorld(set.getString("world")), set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
                 guild.setCreateTime(set.getLong("createdate"));
                 guilds.put(guild.getGuildName(), guild);
+                Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
+                plugin.
+                        getManager().
+                        getCuboidManager().
+                        getCuboids().
+                        put(guild.getGuildName(),
+                                cuboid);
             }
             statement.close();
-            for (Map.Entry<String, Guild> entry : guilds.entrySet()){
+            for (Map.Entry<String, Guild> entry : guilds.entrySet()) {
                 statement = connection.prepareStatement("SELECT * FROM " + mysql.getTable() + " WHERE guild='" + entry.getValue().getGuildName() + "'");
                 set = statement.executeQuery();
                 while (set.next()) {
                     entry.getValue().getMembers().add(set.getString("username"));
                 }
             }
+
             statement.close();
 
         } catch (SQLException ex) {

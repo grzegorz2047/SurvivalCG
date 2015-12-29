@@ -4,6 +4,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.grzegorz2047.survivalcg.guild.Guild;
+import pl.grzegorz2047.survivalcg.world.Cuboid;
 
 import java.util.logging.Level;
 
@@ -16,6 +17,7 @@ public class User {
     private int points;
     private Guild guild; //Used as pointer to guild
     private String lastKilledPlayer = "";
+    private Cuboid currentCuboid;
     private User() {
     }
 
@@ -92,5 +94,13 @@ public class User {
 
     public void setLastKilledPlayer(String lastKilledPlayer) {
         this.lastKilledPlayer = lastKilledPlayer;
+    }
+
+    public Cuboid getCurrentCuboid() {
+        return currentCuboid;
+    }
+
+    public void setCurrentCuboid(Cuboid currentCuboid) {
+        this.currentCuboid = currentCuboid;
     }
 }

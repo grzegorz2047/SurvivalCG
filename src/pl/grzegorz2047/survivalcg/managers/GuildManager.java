@@ -7,6 +7,7 @@ import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
+import pl.grzegorz2047.survivalcg.world.Cuboid;
 
 import java.util.HashMap;
 
@@ -14,7 +15,7 @@ import java.util.HashMap;
  * Created by grzeg on 26.12.2015.
  */
 public class GuildManager {
-    
+
     private final SCG plugin;
 
     private HashMap<String, Guild> guilds = new HashMap<String, Guild>();
@@ -28,14 +29,13 @@ public class GuildManager {
         return guilds;
     }
 
-    
 
     public boolean createGuild(Player p, String tag) {
         MsgManager msgManager = plugin.getManager().getMsgManager();
         SettingsManager settingsManager = plugin.getManager().getSettingsManager();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
 
-        if(settingsManager.getBlockedWorlds().contains(p.getWorld().getName())){
+        if (settingsManager.getBlockedWorlds().contains(p.getWorld().getName())) {
             p.sendMessage(msgManager.getMsg("forbiddenworld"));
             return false;
         }
@@ -45,7 +45,7 @@ public class GuildManager {
             return false;
         }
         if (tag.length() < settingsManager.getMinClanTag() || tag.length() > settingsManager.getMaxClanTag()) {
-            p.sendMessage(msgManager.getMsg("toolongshorttag").replace("{MIN}",settingsManager.getMinClanTag()+"").replace("{MAX}", settingsManager.getMaxClanTag()+""));
+            p.sendMessage(msgManager.getMsg("toolongshorttag").replace("{MIN}", settingsManager.getMinClanTag() + "").replace("{MAX}", settingsManager.getMaxClanTag() + ""));
             return false;
         }
         if (!tag.matches("[0-9a-zA-Z]*")) {
@@ -57,11 +57,14 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("guildexists"));
             return false;
         }
+        System.out.println("dystans create gildia " + p.getLocation().distance(p.getWorld().getSpawnLocation()) + "  wymagane " + settingsManager.getProtectedSpawnRadius());
+
         if (p.getLocation().distance(p.getWorld().getSpawnLocation()) < settingsManager.getProtectedSpawnRadius()) {
             p.sendMessage(msgManager.getMsg("spawn-too-close"));
             return false;
         }
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
+        Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
         plugin.getManager().getMysqlManager().getGuildQuery().insertGuild(guild);
         // #TODO COS Z SCOREBOARDEM
@@ -96,6 +99,7 @@ public class GuildManager {
         }
         // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
+        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
         plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
         return true;
     }
@@ -121,8 +125,8 @@ public class GuildManager {
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
         g.getWaiting().remove(p.getName());
         Player leader = Bukkit.getPlayer(g.getLeader());
-        String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}",p.getName()).replace("{TAG}",g.getGuildName());
-        for(Player pl : Bukkit.getOnlinePlayers()){
+        String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}", p.getName()).replace("{TAG}", g.getGuildName());
+        for (Player pl : Bukkit.getOnlinePlayers()) {
             pl.sendMessage(msg);
         }
         return true;
@@ -140,7 +144,7 @@ public class GuildManager {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotleader"));
             return false;
         }
-        if (g.getLeader().equalsIgnoreCase(p.getName()) ) {
+        if (g.getLeader().equalsIgnoreCase(p.getName())) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("kickleader"));
             return false;
         }
@@ -171,7 +175,7 @@ public class GuildManager {
             return false;
         }
         Guild g = user.getGuild();
-        if (g.getLeader().equalsIgnoreCase(p.getName()) ) {
+        if (g.getLeader().equalsIgnoreCase(p.getName())) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("kickleader"));
             return false;
         }
@@ -203,20 +207,20 @@ public class GuildManager {
                 plugin.getManager().getTeleportManager().getRequests().
                         add(new TeleportRequest(user.getUsername(), loc, g.getHome(), System.currentTimeMillis(), plugin.getManager().getSettingsManager().getCooldownTpTime()));
             }
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("timetotp").replace("{TIME}",plugin.getManager().getSettingsManager().getCooldownTpTime()+""));
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("hometpdontmove").replace("{TIME}", plugin.getManager().getSettingsManager().getCooldownTpTime() + ""));
             return true;
         } else {
-                p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
-                return false;
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
+            return false;
         }
     }
 
-    public HashMap<String, Guild> loadGuilds(){
+    public HashMap<String, Guild> loadGuilds() {
         return plugin.getManager().getMysqlManager().getGuildQuery().loadGuilds();
     }
 
 
-    public void setGuilds(HashMap<String,Guild> guilds) {
+    public void setGuilds(HashMap<String, Guild> guilds) {
         this.guilds = guilds;
     }
 }

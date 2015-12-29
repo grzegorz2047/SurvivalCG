@@ -46,7 +46,7 @@ teleport:
 hardcore:
   enabled: true
   bantime: "15m"
-  kickmsg: "Bedziesz mogl wejsc na serwer {TIME} Jako VIP mozesz wejsc bez czekania! Sklep: http://craftgames.pl/sklep"
+  kickmsg: "Bedziesz mogl wejsc na serwer {TIME}. Jako VIP mozesz wejsc bez czekania! Sklep: http://craftgames.pl/sklep"
   lightnings: false
 start-items:
   - STONE_PICKAXE:1

@@ -31,7 +31,6 @@ public class SettingsManager {
     private List<ItemStack> reqItems = new ArrayList<ItemStack>();
     private int cuboidRadius;
     private boolean entryrotection;
-    private int teleportCooldown;
     private List<Material> damageCuboidItems = new ArrayList<Material>();
     private boolean guildChat;
     private boolean hcBans;
@@ -43,7 +42,7 @@ public class SettingsManager {
     private Sound cuboidEntrySoundType;
     private boolean cuboidEnabled;
     private boolean hcLightnings;
-    private short cooldownTpTime;
+    private int cooldownTpTime;
     private boolean blockBuildOnTntExplode;
     private int blockedBuildOnTntTime;
 
@@ -151,13 +150,7 @@ public class SettingsManager {
         this.entryrotection = entryrotection;
     }
 
-    public int getTeleportCooldown() {
-        return teleportCooldown;
-    }
 
-    public void setTeleportCooldown(int teleportCooldown) {
-        this.teleportCooldown = teleportCooldown;
-    }
 
     public List<Material> getDamageCuboidItems() {
         return damageCuboidItems;
@@ -247,7 +240,7 @@ public class SettingsManager {
         this.hcLightnings = hcLightnings;
     }
 
-    public short getCooldownTpTime() {
+    public int getCooldownTpTime() {
         return cooldownTpTime;
     }
 
@@ -349,7 +342,7 @@ public class SettingsManager {
             this.cuboidEntrySound = false;
             Bukkit.getLogger().warning("entry-sound-type contains incorrect sound type!");
         }
-        this.teleportCooldown = plugin.getConfig().getInt("teleport.cooldown");
+        this.cooldownTpTime = plugin.getConfig().getInt("teleport.cooldown");
         this.hcBans = plugin.getConfig().getBoolean("hardcore.enabled");
         this.hcBanTime = parseHcTime(plugin.getConfig());
         this.hcKickMsg = plugin.getConfig().getString("hardcore.kickmsg");

@@ -1,16 +1,24 @@
 package pl.grzegorz2047.survivalcg.world;
+
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
+import pl.grzegorz2047.survivalcg.guild.Guild;
 
 /**
- *
  * @author Grzegorz
  */
 public class Cuboid {
 
+    public Cuboid(Guild g, int radius) {
+        this.radius = radius;
+        this.center = g.getHome();
+        this.guild = g;
+    }
+
     private Location center;
     private int radius;
     private String owner;
+    private Guild guild;
 
     public Location getCenter() {
         return this.center;
@@ -49,4 +57,7 @@ public class Cuboid {
         return new Location(this.center.getWorld(), this.center.getBlockX() + this.radius, this.center.getWorld().getMaxHeight(), this.center.getBlockZ() + this.radius);
     }
 
+    public Guild getGuild() {
+        return guild;
+    }
 }

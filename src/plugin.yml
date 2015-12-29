@@ -20,3 +20,6 @@ commands:
         description: admin command
     vip:
         description: vip info
+        aliases: [vip, extra, support, donator]
+    worldspawn:
+        description: sets world spawn

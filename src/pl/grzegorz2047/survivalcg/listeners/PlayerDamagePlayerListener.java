@@ -95,9 +95,13 @@ public class PlayerDamagePlayerListener implements Listener {
     public boolean checkIfGuildMembers(Player attacker, Player attacked){
         User victimuser = plugin.getManager().getUserManager().getUsers().get(attacked.getName());
         User attackeruser = plugin.getManager().getUserManager().getUsers().get(attacker.getName());
+        if(victimuser.getGuild() == null || attackeruser.getGuild() == null){
+            return false;
+        }else {
+            return victimuser.getGuild().equals(attackeruser.getGuild());
 
+        }
         //jedno sprawdzenie powinno wystarczyc
-        return victimuser.getGuild().equals(attackeruser.getGuild());
     }
 
     public void checkFight(Player attacker, Player attacked){

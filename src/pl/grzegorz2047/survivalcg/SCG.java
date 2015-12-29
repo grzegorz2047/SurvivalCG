@@ -7,6 +7,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.grzegorz2047.survivalcg.commands.guild.GuildCommand;
 import pl.grzegorz2047.survivalcg.commands.vip.VIPCommand;
+import pl.grzegorz2047.survivalcg.commands.worldspawn.WorldSpawnCommand;
 import pl.grzegorz2047.survivalcg.listeners.*;
 import pl.grzegorz2047.survivalcg.managers.Manager;
 
@@ -47,11 +48,14 @@ public class SCG extends JavaPlugin {
         pm.registerEvents(new PlayerJoinListener(this), this);
         pm.registerEvents(new PlayerQuitListener(this), this);
         pm.registerEvents(new PlayerTeleportListener(this), this);
+        pm.registerEvents(new PlayerPlaceListener(this), this);
+        pm.registerEvents(new PlayerBlockBreakListener(this), this);
     }
 
     public void registerCommands() {
         this.getCommand("guild").setExecutor(new GuildCommand("guild", new String[]{"g", "gildia", "guild", "druzyna", "team"}, this));
         this.getCommand("vip").setExecutor(new VIPCommand("vip", new String[]{"vip", "extra", "support", "donator"}, this));
+        this.getCommand("worldspawn").setExecutor(new WorldSpawnCommand("worldspawn", new String[]{"worldspawn", "spawn"}, this));
     }
 
 }

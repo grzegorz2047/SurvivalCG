@@ -81,6 +81,7 @@ public class Manager {
         this.userManager = new UserManager(plugin);
         this.taskManager = new TaskManager(plugin);
         this.commandsManager = new CommandsManager(plugin);
+        this.cuboidManager = new CuboidManager(plugin);
 
         String host = this.settingsManager.getSqlhost();
         int port = this.settingsManager.getSqlport();
@@ -93,7 +94,6 @@ public class Manager {
         this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, plugin);
         this.guildManager = new GuildManager(plugin);
 
-        this.cuboidManager = new CuboidManager();
 
     }
 

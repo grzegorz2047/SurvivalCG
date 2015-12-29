@@ -3,6 +3,7 @@ package pl.grzegorz2047.survivalcg.mysql;
 import org.bukkit.Bukkit;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
+import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.managers.MysqlManager;
 
 import java.sql.Connection;
@@ -109,6 +110,11 @@ public class UserQuery extends Query {
 
         try {
             connection = mysql.getHikari().getConnection();
+            Guild g = user.getGuild();
+            String guildname = "";
+            if(g != null){
+                guildname = g.getGuildName();
+            }
             statement = connection.prepareStatement("UPDATE " + mysql.getTable() + " SET points='" +
                     user.getPoints() +
                     "', kills='" +

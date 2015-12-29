@@ -37,7 +37,7 @@ public class MysqlManager {
 
     private void initiateQueries() {
         this.deathQuery = new DeathQuery(this);
-        this.guildQuery = new GuildQuery(this);
+        this.guildQuery = new GuildQuery(this, plugin);
         this.rankingQuery = new RankingQuery(this);
         this.userQuery = new UserQuery(this, plugin);
     }

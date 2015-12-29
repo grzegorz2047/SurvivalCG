@@ -7,7 +7,7 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 /**
  * @author Grzegorz
  */
-public class Cuboid {
+public class Cuboid { //Potential ambiguous interpretation 
 
     public Cuboid(Guild g, int radius) {
         this.radius = radius;
@@ -30,7 +30,10 @@ public class Cuboid {
 
     public boolean isinCuboid(Location loc) {
         Vector v = loc.toVector();
-        return v.isInAABB(this.getMin().toVector(), this.getMax().toVector());
+        //return v.isInAABB(this.getMin().toVector(), this.getMax().toVector());
+        //Above is not good for radius type of "cuboid"
+        //square != rectangle so ball != cube
+        return loc.distance(center) <= radius;
     }
 
     public void setCenter(Location center) {

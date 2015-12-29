@@ -10,6 +10,7 @@ import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 import pl.grzegorz2047.survivalcg.world.Cuboid;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by grzeg on 26.12.2015.
@@ -63,8 +64,16 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("spawn-too-close"));
             return false;
         }
+        for(Map.Entry<String, Cuboid> entry : plugin.getManager().getCuboidManager().getCuboids().entrySet()){
+            if(p.getLocation().distance(entry.getValue().getCenter()) <= (entry.getValue().getRadius() * 2) +3){
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("cuboidtoocloseothers").replace("{GUILD}", entry.getValue().getGuild().getGuildName()));
+
+                return false;
+            }
+        }
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
+        plugin.getManager().getCuboidManager().getCuboids().put(guild.getGuildName(),cuboid);
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
         plugin.getManager().getMysqlManager().getGuildQuery().insertGuild(guild);
         // #TODO COS Z SCOREBOARDEM
@@ -98,8 +107,8 @@ public class GuildManager {
             }
         }
         // #TODO COS Z SCOREBOARDEM
-        plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
         plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
+        plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
         plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
         return true;
     }

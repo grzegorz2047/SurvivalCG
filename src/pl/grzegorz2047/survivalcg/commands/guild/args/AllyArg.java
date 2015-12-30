@@ -69,6 +69,8 @@ public class AllyArg extends Arg {
                     return;
                 }
             }
+            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
+            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("toacceptallymsg").replace("{GUILD}",requestingGuild.getGuildName()));
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
             plugin.getManager().getGuildManager().requestAlly(requestingGuild, guild);
         } else {

@@ -18,6 +18,7 @@ public class Manager {
     private SettingsManager settingsManager;
     private CommandsManager commandsManager;
     private DeathManager deathManager;
+    private RankingManager rankingManager;
 
     public Manager(SCG scg) {
         this.plugin = scg;
@@ -83,6 +84,7 @@ public class Manager {
         this.taskManager = new TaskManager(plugin);
         this.commandsManager = new CommandsManager(plugin);
         this.cuboidManager = new CuboidManager(plugin);
+        this.rankingManager = new RankingManager();
 
         String host = this.settingsManager.getSqlhost();
         int port = this.settingsManager.getSqlport();
@@ -94,6 +96,7 @@ public class Manager {
         String banTable = this.settingsManager.getSQLBanTable();
         String relationTable = this.settingsManager.getSQLRelationTable();
         this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable,banTable,relationTable, plugin);
+        this.mysqlManager.getRankingQuery().getRanking(rankingManager);
         this.guildManager = new GuildManager(plugin);
         this.deathManager = new DeathManager(plugin);
 
@@ -102,5 +105,9 @@ public class Manager {
     public DeathManager getDeathManager() {
         return deathManager;
 
+    }
+
+    public RankingManager getRankingManager() {
+        return rankingManager;
     }
 }

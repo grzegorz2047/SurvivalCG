@@ -20,7 +20,7 @@ public class SpawnArg extends Arg {
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
 
-        if (sender.hasPermission("scg.tp.spawn")) {
+        //if (sender.hasPermission("scg.tp.spawn")) { //Bukkit version will support this permissions probably xd
             TeleportRequest request = new TeleportRequest
                     (p.getName(),
                             p.getLocation(),
@@ -28,7 +28,9 @@ public class SpawnArg extends Arg {
                             System.currentTimeMillis(),
                             plugin.getManager().getSettingsManager().getCooldownTpTime());
             plugin.getManager().getTeleportManager().getRequests().add(request);
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("waitfortp").
+                    replace("{TIME}", plugin.getManager().getSettingsManager().getCooldownTpTime() + ""));
 
-        }
+        //}
     }
 }

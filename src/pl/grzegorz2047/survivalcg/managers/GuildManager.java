@@ -260,6 +260,14 @@ public class GuildManager {
     }
 
     public void requestAlly(Guild requester, Guild withWho) {
+
+        for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
+            if(r.getWho().equals(requester.getGuildName()) && r.getWithWho().equals(withWho.getGuildName())){
+                Player req = Bukkit.getPlayer(requester.getLeader());
+                req.sendMessage(plugin.getManager().getMsgManager().getMsg("allyrequestpendingalready"));
+                return;
+            }
+        }
         Relation r = new Relation(requester.getGuildName(), withWho.getGuildName(), Relation.Status.ALLY);
         this.pendingRelations.add(r);
         Player p = Bukkit.getPlayer(withWho.getLeader());
@@ -268,7 +276,6 @@ public class GuildManager {
 
     public void removeRelation(Guild requester, Guild withWho) {
         Player p = Bukkit.getPlayer(withWho.getLeader());
-        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildName()));
         plugin.getManager().getMysqlManager().getRelationQuery().removeRelation(requester.getGuildName(),withWho.getGuildName());
     }
 

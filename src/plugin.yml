@@ -23,3 +23,5 @@ commands:
         aliases: [vip, extra, support, donator]
     worldspawn:
         description: sets world spawn
+    spawn:
+        description: teleports to spawn

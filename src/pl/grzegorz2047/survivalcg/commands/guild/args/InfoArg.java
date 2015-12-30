@@ -27,9 +27,10 @@ public class InfoArg extends Arg {
             Guild g = plugin.getManager().getGuildManager().getGuilds().get(guild);
             if (g != null) {
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfotit").replace("{GUILD}", g.getGuildName()));
-                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
+                //sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoleader").replace("{LEADER}", g.getLeader()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfomemlist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getMembers(g)));
+                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoallylist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getAlly(g)));
             }else{
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             }
@@ -43,6 +44,14 @@ public class InfoArg extends Arg {
         StringBuilder builder = new StringBuilder();
         for (String member : g.getMembers()) {
             builder.append(member);
+            builder.append(", ");
+        }
+        return builder.toString();
+    }
+    public String getAlly(Guild g) {
+        StringBuilder builder = new StringBuilder();
+        for (String ally : g.getAlly()) {
+            builder.append(ally);
             builder.append(", ");
         }
         return builder.toString();

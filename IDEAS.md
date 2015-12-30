@@ -13,7 +13,9 @@ Statystyki gildi (łączna liczba zabić, śmierci, KDR)
 
 Sprawdzanie pozycji członków gildi (kordy + odległość od sprawdzającego)
 
-Dodanie opłaty za nowych członków gildi (w itemach + liczba wymaganych itemów zależna jest od ilości osób w gildi)
+Dodanie opłaty za nowych członków gildi (w itemach + liczba wymaganych itemów zależna jest od ilości osób w gildi) 10 * membercount
+
+tnt rozwala obsidian w godzinach od 8 do 23
 
 
 

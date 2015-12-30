@@ -29,7 +29,7 @@ public class PlayerDeathListener implements Listener {
         Player victim = e.getEntity();
         String victimname = victim.getName();
         User victimuser = plugin.getManager().getUserManager().getUsers().get(victimname);
-        int points = 10;
+        int points = plugin.getManager().getSettingsManager().getPoints();
         victimuser.setDeaths(victimuser.getDeaths() + 1);
         boolean canGivePoints = false;
         if (victim.getKiller() == null) {
@@ -39,9 +39,18 @@ public class PlayerDeathListener implements Listener {
             User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
             if(!killeruser.getLastKilledPlayer().equals(victimname)){
                 killeruser.setLastKilledPlayer(victimname);
+                if(victimuser.getPoints()> points){
+                    canGivePoints = true;
+                }
             }else {
-
+                canGivePoints = false;
             }
+            if(canGivePoints){
+                victimuser.setPoints(victimuser.getPoints()-points);
+                killeruser.setPoints(killeruser.getPoints()+points);
+            }
+            plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
+            plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
 
         }
         if(victim.hasPermission("scg.hardcore.bypass")) {

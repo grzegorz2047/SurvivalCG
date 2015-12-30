@@ -30,10 +30,10 @@ public class Cuboid { //Potential ambiguous interpretation
 
     public boolean isinCuboid(Location loc) {
         Vector v = loc.toVector();
-        //return v.isInAABB(this.getMin().toVector(), this.getMax().toVector());
+        return v.isInAABB(this.getMin().toVector(), this.getMax().toVector());//Old way needs to be here, because of y axis :/
         //Above is not good for radius type of "cuboid"
         //square != rectangle so ball != cube
-        return loc.distance(center) <= radius;
+        //return loc.distance(center) <= radius;
     }
 
     public void setCenter(Location center) {

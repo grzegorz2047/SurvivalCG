@@ -32,12 +32,16 @@ public class CuboidManager {
                 if(entered){
                     if(user.getCurrentCuboid() == null){
                         if(plugin.getManager().getSettingsManager().isCuboidEntryNotify()){
-                            /*
+
                             for(Player member : Bukkit.getOnlinePlayers()){
                                 if(entry.getValue().getGuild().getMembers().contains(member)){
-                                    //Nie podoba mi sie xd Co tu moge zrobic?
+                                    if(user.getGuild() != null){
+                                        p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmems").replace("{GUILD}",user.getGuild().getGuildName()).replace("{PLAYER}",user.getUsername()));
+                                    }else{
+                                        p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmemsnoguild").replace("{PLAYER}", user.getUsername()));
+                                    }
                                 }
-                            }*/
+                            }
 
                         }
                         if(plugin.getManager().getSettingsManager().isCuboidEntrySound()){

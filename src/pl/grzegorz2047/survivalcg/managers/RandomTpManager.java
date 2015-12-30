@@ -38,7 +38,7 @@ public class RandomTpManager {
             Block b = p.getWorld().getBlockAt(x,y-2,z);
             m = b.getType();
             //System.out.print("Mat"+m);
-        }while(m.equals(Material.STATIONARY_LAVA) || m.equals(Material.STATIONARY_WATER));
+        }while(m.equals(Material.STATIONARY_LAVA) || m.equals(Material.STATIONARY_WATER)  || plugin.getManager().getCuboidManager().getRegion(new Location(p.getWorld(), x, y, z)) != null);
         Location dest = new Location(p.getWorld(), x, y, z);
         if(force){
             plugin.getManager().getTeleportManager().getRequests()

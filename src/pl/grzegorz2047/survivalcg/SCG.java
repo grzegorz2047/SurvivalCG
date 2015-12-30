@@ -8,6 +8,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.grzegorz2047.survivalcg.commands.admin.AdminCommand;
 import pl.grzegorz2047.survivalcg.commands.drop.DropCommand;
 import pl.grzegorz2047.survivalcg.commands.guild.GuildCommand;
+import pl.grzegorz2047.survivalcg.commands.help.HelpCommand;
+import pl.grzegorz2047.survivalcg.commands.spawn.SpawnCommand;
 import pl.grzegorz2047.survivalcg.commands.vip.VIPCommand;
 import pl.grzegorz2047.survivalcg.commands.worldspawn.WorldSpawnCommand;
 import pl.grzegorz2047.survivalcg.listeners.*;
@@ -64,6 +66,8 @@ public class SCG extends JavaPlugin {
         this.getCommand("worldspawn").setExecutor(new WorldSpawnCommand("worldspawn", new String[]{"worldspawn", "spawn"}, this));
         this.getCommand("drop").setExecutor(new DropCommand("drop", this));
         this.getCommand("admin").setExecutor(new AdminCommand("admin", new String[]{"admin"}, this));
+        this.getCommand("spawn").setExecutor(new SpawnCommand("spawn", this));
+        this.getCommand("pomoc").setExecutor(new HelpCommand("pomoc", new String[]{"pomoc"}, this));
     }
 
 }

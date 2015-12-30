@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -37,6 +38,7 @@ public class PlayerDeathListener implements Listener {
             return;
         }else{
             User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
+            killeruser.setDeaths(killeruser.getDeaths()+1);
             if(!killeruser.getLastKilledPlayer().equals(victimname)){
                 killeruser.setLastKilledPlayer(victimname);
                 if(victimuser.getPoints()> points){
@@ -55,14 +57,11 @@ public class PlayerDeathListener implements Listener {
         }
         if(victim.hasPermission("scg.hardcore.bypass")) {
             return;
+        }else{
+            victimuser.setToBan(true);
         }
-        plugin.getManager().getDeathManager().banPlayer(victim.getName(), plugin.getManager().getSettingsManager().getHcBanTime());
-        long bantime = plugin.getManager().getSettingsManager().getHcBanTime() + System.currentTimeMillis();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        Date date = new Date(bantime);
-        String msg =  plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date));
 
-        victim.kickPlayer(ColoringUtil.colorText(msg));
+
     }
 
 

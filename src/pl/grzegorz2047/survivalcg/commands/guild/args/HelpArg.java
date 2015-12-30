@@ -24,7 +24,6 @@ public class HelpArg extends Arg {
             Player p = (Player) sender;
             p.sendMessage(" ");
             p.sendMessage(ChatColor.GRAY+"Lista dostepnych komend:");
-            p.sendMessage(ChatColor.GREEN+"/g stworz <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
             p.sendMessage(ChatColor.GREEN+"/g zaloz <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
             p.sendMessage(ChatColor.GREEN+"/g usun "+ChatColor.GRAY+"- Usuwa gildie");
             p.sendMessage(ChatColor.GREEN+"/g wyrzuc <nick> "+ChatColor.GRAY+"- Wyrzuca gracza z gildii");
@@ -34,6 +33,8 @@ public class HelpArg extends Arg {
             p.sendMessage(ChatColor.GREEN+"/g przedmioty "+ChatColor.GRAY+"- Pokazuje wymagane przedmioty na gildie");
             p.sendMessage(ChatColor.GREEN+"/g sojusz <NazwaGildii> "+ChatColor.GRAY+"- Dodaje sojusznika twojej gildii");
             p.sendMessage(ChatColor.GREEN+"/g wrog <NazwaGildii> "+ChatColor.GRAY+"- Rozwiazuje sojusz z gildia");
+            p.sendMessage(ChatColor.GREEN+"/g user "+ChatColor.GRAY+"- Pokazuje informacje o swoim koncie");
+            p.sendMessage(ChatColor.GREEN+"/g info <NazwaGildii> "+ChatColor.GRAY+"- Pokazuje informacje o danej gildii");
             p.sendMessage(" ");
 
         }

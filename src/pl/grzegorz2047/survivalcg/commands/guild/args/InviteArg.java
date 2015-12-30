@@ -22,7 +22,12 @@ public class InviteArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+
         Player p = (Player) sender;
+        if(args.length != 2){
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("wrongcmdargument"));
+            return;
+        }
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
 
         if (user.getGuild() == null) {
@@ -49,7 +54,7 @@ public class InviteArg extends Arg {
                 return ;
             } else {
                 g.getWaitingMembers().add(friend);
-                fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getDisplaytag() + "!");
+                fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getGuildName() + "!");
                 fp.sendMessage(prefix + ChatColor.GRAY + "Aby zaakceptowac wpisz /g akceptuj " + g.getGuildName());
                 fp.sendMessage(prefix + ChatColor.GRAY + "Aby odmowic wpisz /dg odrzuc " + g.getGuildName());
                 p.sendMessage(prefix + "Zaproszenie zostalo wyslane do gracza o nicku " + friend);

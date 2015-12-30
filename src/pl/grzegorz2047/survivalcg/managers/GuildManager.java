@@ -140,7 +140,37 @@ public class GuildManager {
 
         return true;
     }
+    public boolean deleteGuild(Guild g, boolean force) {
+        for (String member : g.getMembers()) {
+            if (Bukkit.getPlayer(member) != null) {
+                User fuser = plugin.getManager().getUserManager().getUsers().get(member);
+                fuser.setGuild(null);
+                plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(fuser);
 
+                // #TODO COS Z SCOREBOARDEM
+            } else {
+                User fuser = new User(member);
+                plugin.getManager().getMysqlManager().getUserQuery().updateGuildPlayer(fuser);
+            }
+        }
+        // #TODO COS Z SCOREBOARDEM
+        for(String ally : g.getAlly()){
+            Guild allied = plugin.getManager().getGuildManager().getGuilds().get(ally);
+            if(allied != null){
+                removeRelation(g, allied);
+                allied.getAlly().remove(g.getGuildName());
+            }
+
+        }
+        if(force){
+            Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("guildremovedbyadmin").replace("{GUILD}", g.getGuildName()));
+        }
+        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
+        plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
+        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
+
+        return true;
+    }
     public boolean addToGuild(Player p, String guildname) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         if (user.getGuild() != null) {

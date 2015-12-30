@@ -23,11 +23,12 @@ public class AllyArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Player p = (Player) sender;
+
         if (!(sender instanceof Player)) {
             sender.sendMessage(plugin.getManager().getMsgManager().getMsg("cmdonlyforplayer"));
             return;
         }
+        Player p = (Player) sender;
         if (args.length >= 2) {
             String guildToCheck = args[1].toUpperCase();
             Guild guild = plugin.getManager().getGuildManager().getGuilds().get(guildToCheck);
@@ -70,8 +71,7 @@ public class AllyArg extends Arg {
                 }
             }
             leader.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
-            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("toacceptallymsg").replace("{GUILD}",requestingGuild.getGuildName()));
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
+            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("toacceptallymsg").replace("{GUILD}", requestingGuild.getGuildName()));
             plugin.getManager().getGuildManager().requestAlly(requestingGuild, guild);
         } else {
             sender.sendMessage("/g ally <guild>");

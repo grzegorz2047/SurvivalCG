@@ -33,19 +33,29 @@ public class PlayerChatListener implements Listener {
         String points = "";
         if(g != null){
             tag = user.getGuild().getGuildName();
-            points = String.valueOf(user.getPoints());
         }
+        points = String.valueOf(user.getPoints());
 
         //System.out.println("Format: "+event.getFormat()+" message: "+message);
+        if(event.getFormat().contains("POINTS")){
+            if(points.equals("")){
+                event.setFormat(event.getFormat().replace("POINTS", points).substring(1));
+            }else{
+                event.setFormat(event.getFormat().replace("POINTS", points));
+            }
+        }
         if (event.getFormat().contains("GUILD_TAG")) {
 
             //event.setFormat("§7[§r" + tag + "§7]§r " + event.getFormat());
-            event.setFormat(event.getFormat().replace("GUILD_TAG", tag));
+            if(tag.equals("")){
+                event.setFormat(event.getFormat().replace("GUILD_TAG", tag).substring(2));
+            }else {
+                event.setFormat(event.getFormat().replace("GUILD_TAG", tag));
+
+            }
 
         }
-        if(event.getFormat().contains("POINTS")){
-            event.setFormat(event.getFormat().replace("POINTS", points));
-        }
+
     }
 
 }

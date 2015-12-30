@@ -30,7 +30,7 @@ public class InfoArg extends Arg {
                 //sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoleader").replace("{LEADER}", g.getLeader()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfomemlist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getMembers(g)));
-                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoallylist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getAlly(g)));
+                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoallylist").replace("{SIZE}", String.valueOf(getAlly(g).length())).replace("{MEMBERS}", getAlly(g)));
             }else{
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             }

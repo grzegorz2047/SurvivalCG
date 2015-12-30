@@ -9,9 +9,6 @@ commands:
     guild:
         description: Pozwala tworzyc arene
         aliases: [team, gildia, watacha, g, druzyna]
-    komendy:
-        description: Podaje informacje o komendach
-        aliases: [help, pomoc, commands]
     drop:
         description: Podaje informacje o dropie
     randomtp:
@@ -25,3 +22,6 @@ commands:
         description: sets world spawn
     spawn:
         description: teleports to spawn
+    pomoc:
+        description: Info nt. serwera
+        aliases: [help, pomoc, commands]

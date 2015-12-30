@@ -18,6 +18,7 @@ public class User {
     private Guild guild; //Used as pointer to guild
     private String lastKilledPlayer = "";
     private Cuboid currentCuboid;
+    private boolean toBan = false;
     private User() {
     }
 
@@ -102,5 +103,13 @@ public class User {
 
     public void setCurrentCuboid(Cuboid currentCuboid) {
         this.currentCuboid = currentCuboid;
+    }
+
+    public boolean isToBan() {
+        return toBan;
+    }
+
+    public void setToBan(boolean toBan) {
+        this.toBan = toBan;
     }
 }

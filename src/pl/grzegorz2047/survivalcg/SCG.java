@@ -5,6 +5,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcsg.double0negative.tabapi.TabAPI;
 import pl.grzegorz2047.survivalcg.commands.admin.AdminCommand;
 import pl.grzegorz2047.survivalcg.commands.drop.DropCommand;
 import pl.grzegorz2047.survivalcg.commands.guild.GuildCommand;
@@ -22,7 +23,7 @@ import pl.grzegorz2047.survivalcg.managers.Manager;
 public class SCG extends JavaPlugin {
 
     private Manager manager;
-
+    private TabAPI tabAPI;
     //TODO Daj gdzies ten random tp         plugin.getRandomTpManager().teleport(p,1500,500, false);
 
 
@@ -33,11 +34,14 @@ public class SCG extends JavaPlugin {
         this.manager.initiateManagers();
         registerListeners();
         registerCommands();
+        tabAPI = new TabAPI(this);
+        tabAPI.enable();
     }
 
     @Override
     public void onDisable() {
         manager.disposeManager();
+        tabAPI.disable();
     }
 
     public Manager getManager() {
@@ -58,6 +62,7 @@ public class SCG extends JavaPlugin {
         pm.registerEvents(new PlayerLoginListener(this), this);
         pm.registerEvents(new PlayerKickListener(this), this);
         pm.registerEvents(new PlayerBucketListeners(this), this);
+        pm.registerEvents(new TabListRefreshListener(this), this);
     }
 
     public void registerCommands() {
@@ -67,7 +72,7 @@ public class SCG extends JavaPlugin {
         this.getCommand("drop").setExecutor(new DropCommand("drop", this));
         this.getCommand("admin").setExecutor(new AdminCommand("admin", new String[]{"admin"}, this));
         this.getCommand("spawn").setExecutor(new SpawnCommand("spawn", this));
-        this.getCommand("pomoc").setExecutor(new HelpCommand("pomoc", new String[]{"pomoc"}, this));
+        this.getCommand("pomoc").setExecutor(new HelpCommand("pomoc", new String[]{"help", "pomoc", "commands"}, this));
     }
 
 }

@@ -21,6 +21,8 @@ public class VIPArg extends Arg {
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
         p.sendMessage(ColoringUtil.colorText("Funkcje dla VIPa:"));
-        p.sendMessage(ColoringUtil.colorText("Brak bana przy smierci"));p.sendMessage(ColoringUtil.colorText(""));
+        p.sendMessage(ColoringUtil.colorText("Brak bana przy smierci"));
+        p.sendMessage(ColoringUtil.colorText("komenda /repair"));
+        p.sendMessage(ColoringUtil.colorText("komenda /"));
     }
 }

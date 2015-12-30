@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import pl.grzegorz2047.api.permission.Permission;
 import pl.grzegorz2047.survivalcg.SCG;
 
 import java.io.File;
@@ -359,6 +360,7 @@ public class SettingsManager {
         this.blockedWorlds = plugin.getConfig().getStringList("blocked-worlds");
         this.startItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("start-items"));
         this.msgDropInfo = plugin.getConfig().getStringList("msg-drop-info");
+        Permission.PERMISSIONS_VIP = plugin.getConfig().getString("permissions.vip-permission");
     }
 
     private List<ItemStack> parseItems(FileConfiguration config, List<String> reqItems) {

@@ -147,10 +147,14 @@ public class UserQuery extends Query {
     public void updateGuildPlayer(User user) {
         Connection connection = null;
         PreparedStatement statement = null;
-
+        Guild g = user.getGuild();
+        String guildname = "";
+        if(g != null){
+            guildname = g.getGuildName();
+        }
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET guild='" + user.getGuild().getGuildName() + "' WHERE username='" + user.getUsername() + "'");
+            statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET guild='" + guildname + "' WHERE username='" + user.getUsername() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());

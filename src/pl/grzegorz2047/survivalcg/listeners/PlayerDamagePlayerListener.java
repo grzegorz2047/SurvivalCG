@@ -6,6 +6,7 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -24,6 +25,24 @@ public class PlayerDamagePlayerListener implements Listener {
 
 
     @EventHandler
+    void onDamage(EntityDamageEvent event){
+        if (event.isCancelled()) {
+            return;
+        }
+        if(!(event.getEntity() instanceof Player)){
+            return;
+        }
+        Player p = (Player) event.getEntity();
+        int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
+        if(p.getLocation().distance(p.getWorld().getSpawnLocation()) < protspawnrad){
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
+            event.setCancelled(true);
+            return;
+        }
+    }
+
+
+    @EventHandler
     void onEntityDamageEntity(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) {
             return;
@@ -32,6 +51,13 @@ public class PlayerDamagePlayerListener implements Listener {
             if (event.getEntity() instanceof Player) {
                 Player attacked = (Player) event.getEntity();
                 Player attacker = (Player) event.getDamager();
+
+                int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
+                if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
+                    attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
+                    event.setCancelled(true);
+                    return;
+                }
 
                 if (checkIfGuildMembers(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
                     attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
@@ -43,11 +69,7 @@ public class PlayerDamagePlayerListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-                int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
-                if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
-                    attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
-                    return;
-                }
+
                 checkFight(attacker, attacked);
 
             }
@@ -71,6 +93,7 @@ public class PlayerDamagePlayerListener implements Listener {
                     int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
                     if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
                         attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
+                        event.setCancelled(true);
                         return;
                     }
                     checkFight(attacker, attacked);
@@ -98,6 +121,7 @@ public class PlayerDamagePlayerListener implements Listener {
                     int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
                     if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) < protspawnrad){
                         attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
+                        event.setCancelled(true);
                         return;
                     }
                     checkFight(attacker, attacked);

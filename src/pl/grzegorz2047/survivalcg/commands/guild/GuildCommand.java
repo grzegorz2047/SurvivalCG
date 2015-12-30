@@ -23,5 +23,6 @@ public class GuildCommand extends BaseWithAliasCommand {
         this.commands.put(new String[]{"items", "przedmioty", "itemy", "ity"}, new ItemsArg(plugin));
         this.commands.put(new String[]{"info", "informacja"}, new InfoArg(plugin));
         this.commands.put(new String[]{"top", "topka"}, new TopArg(plugin));
+        this.commands.put(new String[]{"user", "uzytkownik"}, new UserArg(plugin));
     }
 }

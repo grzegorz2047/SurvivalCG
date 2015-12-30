@@ -36,6 +36,7 @@ public class Guild {
         this.createTime = createtime;
         guildScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.members.add(leader);
+        this.description = "";
     }
 
     public Guild(String tag) {

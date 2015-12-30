@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import pl.grzegorz2047.api.user.User;
+import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 
 import java.text.SimpleDateFormat;
@@ -50,7 +51,9 @@ public class PlayerDeathListener implements Listener {
         long bantime = plugin.getManager().getSettingsManager().getHcBanTime() + System.currentTimeMillis();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         Date date = new Date(bantime);
-        victim.kickPlayer(plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date)));
+        String msg =  plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date));
+
+        victim.kickPlayer(ColoringUtil.colorText(msg));
     }
 
 

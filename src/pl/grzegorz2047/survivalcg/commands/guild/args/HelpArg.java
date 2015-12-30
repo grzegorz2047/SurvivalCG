@@ -24,14 +24,16 @@ public class HelpArg extends Arg {
             Player p = (Player) sender;
             p.sendMessage(" ");
             p.sendMessage(ChatColor.GRAY+"Lista dostepnych komend:");
-            p.sendMessage(ChatColor.GREEN+"/g stworz <nazwa> "+ChatColor.GRAY+"- Tworzy nowa gildie");
-            p.sendMessage(ChatColor.GREEN+"/g zaloz <nazwa> "+ChatColor.GRAY+"- Tworzy nowa gildie");
+            p.sendMessage(ChatColor.GREEN+"/g stworz <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
+            p.sendMessage(ChatColor.GREEN+"/g zaloz <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
             p.sendMessage(ChatColor.GREEN+"/g usun "+ChatColor.GRAY+"- Usuwa gildie");
             p.sendMessage(ChatColor.GREEN+"/g wyrzuc <nick> "+ChatColor.GRAY+"- Wyrzuca gracza z gildii");
             p.sendMessage(ChatColor.GREEN+"/g zapros <nick> "+ChatColor.GRAY+"- Zaprasza gracza do gildii");
             p.sendMessage(ChatColor.GREEN+"/g dom "+ChatColor.GRAY+"- Teleportuje na spawn gildii");
             p.sendMessage(ChatColor.GREEN+"/g opusc "+ChatColor.GRAY+"- Opuszczasz obecna gildie");
             p.sendMessage(ChatColor.GREEN+"/g przedmioty "+ChatColor.GRAY+"- Pokazuje wymagane przedmioty na gildie");
+            p.sendMessage(ChatColor.GREEN+"/g sojusz <NazwaGildii> "+ChatColor.GRAY+"- Dodaje sojusznika twojej gildii");
+            p.sendMessage(ChatColor.GREEN+"/g wrog <NazwaGildii> "+ChatColor.GRAY+"- Rozwiazuje sojusz z gildia");
             p.sendMessage(" ");
 
         }

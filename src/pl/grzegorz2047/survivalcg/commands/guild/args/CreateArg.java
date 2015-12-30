@@ -1,5 +1,6 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class CreateArg extends Arg {
         if(args.length == 2){
             boolean created = plugin.getManager().getGuildManager().createGuild(p,args[1].toUpperCase());
             if(created){
-                p.sendMessage(plugin.getManager().getMsgManager().getMsg("broadcast-create").replace("{TAG}", args[1].toUpperCase()).replace("{PLAYER}",p.getName()));
+                Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-create").replace("{TAG}", args[1].toUpperCase()).replace("{PLAYER}", p.getName()));
             }
         }else{
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("wrongcmdargument"));

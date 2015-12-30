@@ -23,9 +23,6 @@ public class AcceptArg extends Arg {
         if(args.length == 2){
             String groupname = args[1].toUpperCase();
             boolean accepted = plugin.getManager().getGuildManager().addToGuild(p, groupname);
-            if(accepted){
-                Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{TAG}",groupname).replace("{PLAYER}", p.getName()));
-            }
         }else{
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("wrongcmdargument"));
         }

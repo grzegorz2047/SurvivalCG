@@ -2,3 +2,6 @@ survivalcg.setworldspawn
 scg.hardcore.bypass
 scg.hardocre.unban
 scg.create.bypass
+scg.cuboid.bypassplace
+scg.cuboid.bypassinteract
+scg.tp.spawn

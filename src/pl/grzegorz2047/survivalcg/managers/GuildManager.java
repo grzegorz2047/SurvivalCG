@@ -126,9 +126,18 @@ public class GuildManager {
             }
         }
         // #TODO COS Z SCOREBOARDEM
+        for(String ally : g.getAlly()){
+            Guild allied = plugin.getManager().getGuildManager().getGuilds().get(ally);
+            if(allied != null){
+                removeRelation(g, allied);
+                allied.getAlly().remove(g.getGuildName());
+            }
+
+        }
         plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
         plugin.getManager().getMysqlManager().getGuildQuery().deleteGroup(g.getGuildName());
         plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
+
         return true;
     }
 
@@ -152,7 +161,6 @@ public class GuildManager {
         // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
         g.getWaitingMembers().remove(p.getName());
-        Player leader = Bukkit.getPlayer(g.getLeader());
         String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}", p.getName()).replace("{TAG}", g.getGuildName());
         for (Player pl : Bukkit.getOnlinePlayers()) {
             pl.sendMessage(msg);
@@ -256,6 +264,12 @@ public class GuildManager {
         this.pendingRelations.add(r);
         Player p = Bukkit.getPlayer(withWho.getLeader());
         p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildName()));
+    }
+
+    public void removeRelation(Guild requester, Guild withWho) {
+        Player p = Bukkit.getPlayer(withWho.getLeader());
+        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildName()));
+        plugin.getManager().getMysqlManager().getRelationQuery().removeRelation(requester.getGuildName(),withWho.getGuildName());
     }
 
     public void checkPendingRelationList() {

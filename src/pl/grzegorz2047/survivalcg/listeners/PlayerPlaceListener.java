@@ -17,28 +17,33 @@ public class PlayerPlaceListener implements Listener {
 
     private final SCG plugin;
 
-    public PlayerPlaceListener(SCG plugin){
+    public PlayerPlaceListener(SCG plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    void onPlayerPlace(BlockPlaceEvent e){
+    void onPlayerPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         Guild guild = user.getGuild();
         Cuboid cuboid = user.getCurrentCuboid();
-        if(cuboid != null){
-            if(guild != null){
-                if(!user.getGuild().equals(cuboid.getGuild())){
+        if (cuboid != null) {
+            if (guild != null) {
+                if (!user.getGuild().equals(cuboid.getGuild())) {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                     e.setCancelled(true);
                 }
-            }else{
+            } else {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                 e.setCancelled(true);
             }
-            Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
+            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
 
+        } else {
+            if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawnplacecantbreak"));
+                e.setCancelled(true);
+            }
         }
     }
 

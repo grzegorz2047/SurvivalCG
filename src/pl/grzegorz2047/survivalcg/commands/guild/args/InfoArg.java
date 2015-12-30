@@ -15,31 +15,33 @@ public class InfoArg extends Arg {
 
     private final SCG plugin;
 
-    public InfoArg(Plugin plugin){
+    public InfoArg(Plugin plugin) {
         this.plugin = (SCG) plugin;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        if(args.length >=2){
+        if (args.length >= 2) {
             String guild = args[1];
             Guild g = plugin.getManager().getGuildManager().getGuilds().get(guild);
-            if(g != null){
+            if (g != null) {
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfotit").replace("{GUILD}", g.getGuildName()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoleader").replace("{LEADER}", g.getLeader()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfomemlist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getMembers(g)));
+            }else{
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             }
-        }else {
+        } else {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("ginfowrongargs"));
         }
 
     }
 
-    public String getMembers(Guild g){
+    public String getMembers(Guild g) {
         StringBuilder builder = new StringBuilder();
-        for(String member: g.getMembers()) {
+        for (String member : g.getMembers()) {
             builder.append(member);
             builder.append(", ");
         }

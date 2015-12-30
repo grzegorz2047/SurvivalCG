@@ -1,6 +1,5 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -20,7 +19,7 @@ public class LeaveArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        boolean left = plugin.getManager().getGuildManager().leaveGroup(p);
+        boolean left = plugin.getManager().getGuildManager().leaveGuild(p);
         if(left) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("leaveguildsuccess"));
         }

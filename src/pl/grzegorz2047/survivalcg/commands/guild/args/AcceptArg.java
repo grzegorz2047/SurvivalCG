@@ -1,7 +1,6 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -23,7 +22,7 @@ public class AcceptArg extends Arg {
         Player p = (Player) sender;
         if(args.length == 2){
             String groupname = args[1].toUpperCase();
-            boolean accepted = plugin.getManager().getGuildManager().addToGroup(p, groupname);
+            boolean accepted = plugin.getManager().getGuildManager().addToGuild(p, groupname);
             if(accepted){
                 Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{TAG}",groupname).replace("{PLAYER}", p.getName()));
             }

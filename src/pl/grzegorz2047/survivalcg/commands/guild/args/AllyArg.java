@@ -24,53 +24,54 @@ public class AllyArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(plugin.getManager().getMsgManager().getMsg("cmdonlyforplayer"));
             return;
         }
-        Player player = (Player) sender;
-        if(args.length>=2){
+        if (args.length >= 2) {
             String guildToCheck = args[1].toUpperCase();
             Guild guild = plugin.getManager().getGuildManager().getGuilds().get(guildToCheck);
-            if(guild == null) {
+            if (guild == null) {
                 sender.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
                 return;
             }
             User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
             Guild requestingGuild = user.getGuild();
-            if(requestingGuild == null) {
+            if (requestingGuild == null) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
                 return;
             }
-            if(!requestingGuild.getLeader().equals(p.getName())) {
+            if (!requestingGuild.getLeader().equals(p.getName())) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotleader"));
                 return;
             }
 
-
-            if(guild.equals(requestingGuild)){
+            if (guild.equals(requestingGuild)) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("allyyourselferror"));
                 return;
             }
             Player leader = Bukkit.getPlayer(guild.getLeader());
-            if(leader == null){
+            if (leader == null) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotonline"));
                 return;
             }
-            for(Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-                if(r.getWithWho().equals(requestingGuild.getGuildName())) {
+            for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
+                if (r.getWithWho().equals(requestingGuild.getGuildName())) {
 
+
+                    r.setExpired(true);
+                    plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
+                    guild.getAlly().add(requestingGuild.getGuildName());
+                    requestingGuild.getAlly().add(guild.getGuildName());
                     Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-ally")
                             .replace("{GUILD1}", guild.getGuildName())
                             .replace("{GUILD2}", requestingGuild.getGuildName()));
-                    r.setExpired(true);
-                    plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
                     return;
                 }
             }
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
             plugin.getManager().getGuildManager().requestAlly(requestingGuild, guild);
-        }else{
+        } else {
             sender.sendMessage("/g ally <guild>");
         }
     }

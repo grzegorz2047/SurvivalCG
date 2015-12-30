@@ -1,7 +1,6 @@
 
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -22,7 +21,7 @@ public class KickArg extends Arg {
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
         String whoKick = args[1];
-        boolean kicked = plugin.getManager().getGuildManager().removeFromGroup(p, whoKick);
+        boolean kicked = plugin.getManager().getGuildManager().removeFromGuild(p, whoKick);
         if(kicked){
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerkicksuccess"));
         }

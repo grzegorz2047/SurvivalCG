@@ -1,6 +1,5 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -21,7 +20,7 @@ public class DeleteArg extends Arg {
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
 
-        boolean deleted = plugin.getManager().getGuildManager().deleteGroup(p, false);
+        boolean deleted = plugin.getManager().getGuildManager().deleteGuild(p, false);
         if(deleted){
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddisbandsuccess"));
         }

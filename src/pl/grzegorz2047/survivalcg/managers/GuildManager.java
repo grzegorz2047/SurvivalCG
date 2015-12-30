@@ -101,7 +101,7 @@ public class GuildManager {
         return true;
     }
 
-    public boolean deleteGroup(Player p, boolean force) {
+    public boolean deleteGuild(Player p, boolean force) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
 
         if (user.getGuild() == null && !force) {
@@ -132,7 +132,7 @@ public class GuildManager {
         return true;
     }
 
-    public boolean addToGroup(Player p, String guildname) {
+    public boolean addToGuild(Player p, String guildname) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         if (user.getGuild() != null) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("first-leave-guild"));
@@ -160,7 +160,7 @@ public class GuildManager {
         return true;
     }
 
-    public boolean removeFromGroup(Player p, String whoKick) {
+    public boolean removeFromGuild(Player p, String whoKick) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
 
         if (user.getGuild() == null) {
@@ -195,7 +195,7 @@ public class GuildManager {
         return true;
     }
 
-    public boolean leaveGroup(Player p) {
+    public boolean leaveGuild(Player p) {
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
 
         if (user.getGuild() == null) {
@@ -246,7 +246,6 @@ public class GuildManager {
     public HashMap<String, Guild> loadGuilds() {
         return plugin.getManager().getMysqlManager().getGuildQuery().loadGuilds();
     }
-
 
     public void setGuilds(HashMap<String, Guild> guilds) {
         this.guilds = guilds;

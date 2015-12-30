@@ -232,8 +232,21 @@ public class GuildQuery extends Query {
                     entry.getValue().getMembers().add(set.getString("username"));
                 }
             }
-
             statement.close();
+            for (Map.Entry<String, Guild> entry : guilds.entrySet()) {
+                statement = connection.prepareStatement("SELECT * FROM " + mysql.getRelationTable() + " WHERE inviter='" + entry.getValue().getGuildName() + "' OR withwho='"+entry.getValue().getGuildName()+"'");
+                set = statement.executeQuery();
+                while (set.next()) {
+                    String inviter = set.getString("inviter");
+                    String withwho = set.getString("withwho");
+                    if(inviter.equals(entry.getKey())){
+                        entry.getValue().getAlly().add(withwho);
+                    }else {
+                        entry.getValue().getAlly().add(inviter);
+
+                    }
+                }
+            }
 
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("GET Guild: " + "Error #1 MySQL ->" + ex.getSQLState());

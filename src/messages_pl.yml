@@ -149,3 +149,4 @@ setworldspawn: '&7Pomyslnie ustawiles spawn swiata! Jezeli uzywasz pluginu typu 
 enemyguildblockplace: '&7Nie mozesz postawic/zniszczyc bloku na terenie innej gildii'
 cuboidtoocloseothers: '&7Twoj cuboid znajduje zbyt blisku cuboidu gildii {GUILD}'
 playerunbanned: '&7Gracz zostal odbanowany!'
+ginfowrongargs: '&7Poprawne uzycie: /g info <NazwaGuildii> '

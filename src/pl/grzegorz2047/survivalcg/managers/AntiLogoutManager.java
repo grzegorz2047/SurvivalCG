@@ -34,7 +34,7 @@ public class AntiLogoutManager {
             Player p = Bukkit.getPlayer(user);
             fightList.remove(user);
             if(p != null){
-                p.sendMessage(plugin.getManager().getMsgManager().getMsg("safelogout"));
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("safe-logout"));
             }
         }
     }

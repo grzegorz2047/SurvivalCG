@@ -59,6 +59,9 @@ public class SettingsManager {
     private List<String> blockedWorlds = new ArrayList<String>();
     private String sqlBanTable;
     private String sqlprefix;
+    private List<ItemStack> startItems = new ArrayList<ItemStack>();
+    private List<String> msgDropInfo;
+    private String sqlRelationTable;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -323,6 +326,7 @@ public class SettingsManager {
         this.sqlguildTable = plugin.getConfig().getString("mysql.guildtable");
         this.sqlpassword = plugin.getConfig().getString("mysql.password");
         this.sqlBanTable = plugin.getConfig().getString("mysql.bantable");
+        this.sqlRelationTable = plugin.getConfig().getString("mysql.relationtable");
         this.sqlprefix = plugin.getConfig().getString("mysql.tableprefix");
         this.points = plugin.getConfig().getInt("stats.points");
         this.teampvp = plugin.getConfig().getBoolean("guild.team-pvp");
@@ -333,7 +337,7 @@ public class SettingsManager {
         this.blockedBuildOnTntTime = plugin.getConfig().getInt("guild.block-tnt-time");
         this.guildChatPrefix = plugin.getConfig().getBoolean("chat.guild-prefix");
         this.swears = plugin.getConfig().getStringList("blocked-guild-names");
-        this.reqItems = requiredItems(plugin.getConfig());
+        this.reqItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("required-items"));
         this.cuboidEnabled = plugin.getConfig().getBoolean("cuboids.enabled");
         this.cuboidRadius = plugin.getConfig().getInt("cuboids.radius");
         this.entryrotection = plugin.getConfig().getBoolean("cuboids.entry-protection");
@@ -353,13 +357,13 @@ public class SettingsManager {
         this.protectedSpawnRadius = plugin.getConfig().getInt("protection.spawn-radius");
         this.prefix = plugin.getConfig().getString("chat.prefix").replace('&', '§');
         this.blockedWorlds = plugin.getConfig().getStringList("blocked-worlds");
-
+        this.startItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("start-items"));
+        this.msgDropInfo = plugin.getConfig().getStringList("msg-drop-info");
     }
 
-    private List<ItemStack> requiredItems(FileConfiguration config) {
-        List<String> reqItems = config.getStringList("required-items");
+    private List<ItemStack> parseItems(FileConfiguration config, List<String> reqItems) {
         List<ItemStack> itemstackList = new ArrayList<ItemStack>();
-        Bukkit.getLogger().warning("Ilosc przedmiotow do wczytania "+reqItems);
+        Bukkit.getLogger().warning("Ilosc przedmiotow do wczytania " + reqItems);
         if (reqItems != null && !reqItems.isEmpty()) {
 
             if (reqItems.size() > 54) {
@@ -420,7 +424,7 @@ public class SettingsManager {
             itemstackList = new ArrayList<ItemStack>();
             Bukkit.getLogger().warning("Brak itemow do wczytania!");
         }
-        Bukkit.getLogger().warning("ilosc na wyjsciu: "+itemstackList.size());
+        Bukkit.getLogger().warning("ilosc na wyjsciu: " + itemstackList.size());
         return itemstackList;
     }
 
@@ -486,5 +490,26 @@ public class SettingsManager {
 
     public void setSqlprefix(String sqlprefix) {
         this.sqlprefix = sqlprefix;
+    }
+
+    public List<ItemStack> getStartItems() {
+        return startItems;
+    }
+
+    public List<String> getMsgDropInfo() {
+        return msgDropInfo;
+    }
+
+    public void setMsgDropInfo(List<String> msgDropInfo) {
+        this.msgDropInfo = msgDropInfo;
+    }
+
+    public String getSQLRelationTable() {
+        return sqlRelationTable;
+
+    }
+
+    public void setSqlRelationTable(String sqlRelationTable) {
+        this.sqlRelationTable = sqlRelationTable;
     }
 }

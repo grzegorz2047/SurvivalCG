@@ -79,6 +79,16 @@ public class MsgManager {
         if (r != null) {
             return MsgManager.msg(r);
         }
+        System.out.println("Brak wiadomosci w "+msg);
+        return "Brak takiej wiadomosci!";
+
+    }
+    public String getNoPrefMsg(String msg) {
+        String r = this.messages.get(msg);
+        if (r != null) {
+            return MsgManager.noprefmsg(r);
+        }
+        System.out.println("Brak wiadomosci w "+msg);
         return "Brak takiej wiadomosci!";
 
     }

@@ -19,13 +19,15 @@ public class Guild {
     private String tag;
     private Location home;
     private List<String> members = new ArrayList<String>() ;
-    private List<String> waiting = new ArrayList<String >();
+    private List<String> waitingMembers = new ArrayList<String >();
     private List<String> ally = new ArrayList<String>();
 
     private Scoreboard guildScoreboard;
 
     private String leader;
     private long createTime;
+    private String description;
+
 
     public Guild(String tag, String leader, Location home, long createtime) {
         this.tag = tag;
@@ -40,8 +42,8 @@ public class Guild {
         this.tag = tag;
     }
 
-    public List<String> getWaiting() {
-        return waiting;
+    public List<String> getWaitingMembers() {
+        return waitingMembers;
     }
 
     public String getGuildName() {
@@ -102,5 +104,14 @@ public class Guild {
 
     public void setAlly(List<String> ally) {
         this.ally = ally;
+    }
+
+    public CharSequence  getDescription() {
+        return description;
+
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

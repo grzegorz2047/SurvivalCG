@@ -10,7 +10,9 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 import pl.grzegorz2047.survivalcg.world.Cuboid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,7 @@ public class GuildManager {
     private final SCG plugin;
 
     private HashMap<String, Guild> guilds = new HashMap<String, Guild>();
+    private List<Relation> pendingRelations = new ArrayList<Relation>();
 
     public GuildManager(SCG plugin) {
         this.plugin = plugin;
@@ -31,6 +34,9 @@ public class GuildManager {
         return guilds;
     }
 
+    public List<Relation> getPendingRelations() {
+        return pendingRelations;
+    }
 
     public boolean createGuild(Player p, String tag) {
         MsgManager msgManager = plugin.getManager().getMsgManager();
@@ -74,12 +80,15 @@ public class GuildManager {
                 return false;
             }
         }
+        if (!p.hasPermission("scg.create.bypass")) {
+            if (!MiscUtils.hasEnoughItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory())) {
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("notenoughitems"));
+                return false;
+            }
+            MiscUtils.removeRequiredItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory());
 
-        if (!MiscUtils.hasEnoughItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory())) {
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("notenoughitems"));
-            return false;
         }
-        MiscUtils.removeRequiredItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory());
+
 
         Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
         Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
@@ -134,7 +143,7 @@ public class GuildManager {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             return false;
         }
-        if (!g.getWaiting().contains(p.getName())) {
+        if (!g.getWaitingMembers().contains(p.getName())) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotoninvitedlist"));
             return false;
         }
@@ -142,7 +151,7 @@ public class GuildManager {
         user.setGuild(g);
         // #TODO COS Z SCOREBOARDEM
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
-        g.getWaiting().remove(p.getName());
+        g.getWaitingMembers().remove(p.getName());
         Player leader = Bukkit.getPlayer(g.getLeader());
         String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}", p.getName()).replace("{TAG}", g.getGuildName());
         for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -242,4 +251,24 @@ public class GuildManager {
     public void setGuilds(HashMap<String, Guild> guilds) {
         this.guilds = guilds;
     }
+
+    public void requestAlly(Guild requester, Guild withWho) {
+        Relation r = new Relation(requester.getGuildName(), withWho.getGuildName(), Relation.Status.ALLY);
+        this.pendingRelations.add(r);
+        Player p = Bukkit.getPlayer(withWho.getLeader());
+        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildName()));
+    }
+
+    public void checkPendingRelationList() {
+        for (int i = 0; i < this.pendingRelations.size(); i++) {
+            Relation r = this.pendingRelations.get(i);
+            if(r.isExpired()){
+                this.pendingRelations.remove(r);
+            }
+            if(System.currentTimeMillis() > r.getExpireDate()){
+                this.pendingRelations.remove(r);
+            }
+        }
+    }
+
 }

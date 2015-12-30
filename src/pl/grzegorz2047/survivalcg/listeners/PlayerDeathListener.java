@@ -24,6 +24,7 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     void onPlayerDeath(PlayerDeathEvent e) {
+        e.setDeathMessage("");
         Player victim = e.getEntity();
         String victimname = victim.getName();
         User victimuser = plugin.getManager().getUserManager().getUsers().get(victimname);
@@ -41,6 +42,9 @@ public class PlayerDeathListener implements Listener {
 
             }
 
+        }
+        if(victim.hasPermission("scg.hardcore.bypass")) {
+            return;
         }
         plugin.getManager().getDeathManager().banPlayer(victim.getName(), plugin.getManager().getSettingsManager().getHcBanTime());
         long bantime = plugin.getManager().getSettingsManager().getHcBanTime() + System.currentTimeMillis();

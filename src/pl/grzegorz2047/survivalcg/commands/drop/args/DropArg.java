@@ -20,13 +20,9 @@ public class DropArg extends Arg{
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        p.sendMessage(ColoringUtil.colorText("Drop na serwerze:"));
-        p.sendMessage(ColoringUtil.colorText("diamenty: %"));
-        p.sendMessage(ColoringUtil.colorText("zelazo: %"));
-        p.sendMessage(ColoringUtil.colorText("wegiel: %"));
-        p.sendMessage(ColoringUtil.colorText("zloto: %"));
-        p.sendMessage(ColoringUtil.colorText("redstone: %"));
-        p.sendMessage(ColoringUtil.colorText(": %"));
+        for(String msg : plugin.getManager().getSettingsManager().getMsgDropInfo()){
+            p.sendMessage(ColoringUtil.colorText(msg));
+        }
     }
 
 }

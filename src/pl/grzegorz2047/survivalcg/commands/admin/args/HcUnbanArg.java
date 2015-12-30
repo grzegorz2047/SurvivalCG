@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.survivalcg.SCG;
+import pl.grzegorz2047.survivalcg.managers.MsgManager;
 
 /**
  * Created by grzegorz2047 on 27.12.2015.
@@ -25,6 +26,8 @@ public class HcUnbanArg extends Arg {
             if(sender.isOp() || sender.hasPermission("scg.hardocre.unban")){
                 plugin.getManager().getDeathManager().unbanPlayer(playertoub);
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerunbanned"));
+            }else {
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("nopermission"));
             }
         }
 

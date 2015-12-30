@@ -92,10 +92,10 @@ public class Manager {
         String rankingTable = this.settingsManager.getSqlrankingtable();
         String guildTable = this.settingsManager.getSqlguildTable();
         String banTable = this.settingsManager.getSQLBanTable();
-        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable,banTable, plugin);
+        String relationTable = this.settingsManager.getSQLRelationTable();
+        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable,banTable,relationTable, plugin);
         this.guildManager = new GuildManager(plugin);
         this.deathManager = new DeathManager(plugin);
-
 
     }
 

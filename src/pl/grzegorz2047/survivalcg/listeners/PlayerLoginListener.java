@@ -25,18 +25,16 @@ public class PlayerLoginListener implements Listener {
     void onPlayerLogin(PlayerLoginEvent e) {
         Player p = e.getPlayer();
         DeathManager deathManager = plugin.getManager().getDeathManager();
-        long bantime = deathManager.getPlayer(p.getName());
         if(p.hasPermission("scg.hardcore.bypass")) {
             return;
         }
+        long bantime = deathManager.getPlayer(p.getName());
         if (bantime > System.currentTimeMillis()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             Date date = new Date(bantime);
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getManager().getSettingsManager().getHcKickMsg().replace("%TIME", dateFormat.format(date)));
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date)));
         }else {
-            if(bantime != -1){
-                deathManager.unbanPlayer(p.getName());
-            }
+            deathManager.unbanPlayer(p.getName());
         }
     }
 

@@ -35,7 +35,7 @@ public class InviteArg extends Arg {
             return;
         }
         String friend = args[1];
-        if (g.getWaiting().contains(friend)) {
+        if (g.getWaitingMembers().contains(friend)) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("askforaccept"));
             return;
         }
@@ -48,7 +48,7 @@ public class InviteArg extends Arg {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerhasguild"));
                 return ;
             } else {
-                g.getWaiting().add(friend);
+                g.getWaitingMembers().add(friend);
                 fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getDisplaytag() + "!");
                 fp.sendMessage(prefix + ChatColor.GRAY + "Aby zaakceptowac wpisz /g akceptuj " + g.getGuildName());
                 fp.sendMessage(prefix + ChatColor.GRAY + "Aby odmowic wpisz /dg odrzuc " + g.getGuildName());

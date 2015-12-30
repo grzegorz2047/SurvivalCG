@@ -2,10 +2,7 @@ package pl.grzegorz2047.survivalcg.managers;
 
 import com.zaxxer.hikari.HikariDataSource;
 import pl.grzegorz2047.survivalcg.SCG;
-import pl.grzegorz2047.survivalcg.mysql.DeathQuery;
-import pl.grzegorz2047.survivalcg.mysql.GuildQuery;
-import pl.grzegorz2047.survivalcg.mysql.RankingQuery;
-import pl.grzegorz2047.survivalcg.mysql.UserQuery;
+import pl.grzegorz2047.survivalcg.mysql.*;
 
 /**
  * Created by Grzegorz2047. 06.12.2015.
@@ -21,8 +18,10 @@ public class MysqlManager {
     GuildQuery guildQuery;
     RankingQuery rankingQuery;
     UserQuery userQuery;
+    private RelationQuery relationQuery;
+    private String relationTable;
 
-    public MysqlManager(String host, int port, String user, String password, String db, String usertable, String guildTable, String bantable, SCG plugin) {
+    public MysqlManager(String host, int port, String user, String password, String db, String usertable, String guildTable, String bantable, String relationTable, SCG plugin) {
         SettingsManager settings = plugin.getManager().getSettingsManager();
         String prefix = settings.getSqlprefix();
         this.host = host;
@@ -33,6 +32,7 @@ public class MysqlManager {
         this.usertable = prefix + usertable;
         this.guildstable = prefix + guildTable;
         this.bantable = prefix + bantable;
+        this.relationTable = prefix + relationTable;
         this.plugin = plugin;
         connectToDB();
         initiateQueries();
@@ -43,6 +43,7 @@ public class MysqlManager {
         this.guildQuery = new GuildQuery(this, plugin);
         this.rankingQuery = new RankingQuery(this);
         this.userQuery = new UserQuery(this, plugin);
+        this.relationQuery = new RelationQuery(this, plugin);
     }
 
     private void connectToDB() {
@@ -117,5 +118,18 @@ public class MysqlManager {
 
     public void setBantable(String bantable) {
         this.bantable = bantable;
+    }
+
+    public RelationQuery getRelationQuery() {
+        return relationQuery;
+
+    }
+
+    public String getRelationTable() {
+        return relationTable;
+    }
+
+    public void setRelationTable(String relationTable) {
+        this.relationTable = relationTable;
     }
 }

@@ -7,10 +7,11 @@ mysql:
   usertable: "users"
   guildtable: "guilds"
   bantable: "bans"
+  relationtable: "relations"
   tableprefix: "scg_"
   password: ""
 permissions:
-  vip-permission: "lobby.svip"
+    vip-permission: "lobby.svip"
 stats:
   points: 10
 protection:
@@ -18,7 +19,7 @@ protection:
 guild:
   team-pvp: false
   home-command: true
-  max-clan-tag: 6  
+  max-clan-tag: 6
   min-clan-tag: 3
   block-on-tnt: true
   block-tnt-time: 120
@@ -33,11 +34,11 @@ blocked-guild-names:
 required-items:
   - "DIAMOND:0:0:64"
   - "OBSIDIAN:0:0:32"
-  - "ENDERPEARL:0:0:16"
+  - "ENDER_PEARL:0:0:16"
   - "TNT:0:0:64"
   - "GOLDEN_APPLE:0:0:64"
   - "APPLE:0:0:64"
-  - "CANE:0:0:64"
+  - "SUGAR_CANE:0:0:64"
   - "BOOKSHELF:0:0:16"
 cuboids:
   enabled: true
@@ -53,11 +54,19 @@ teleport:
 hardcore:
   enabled: true
   bantime: "2h"
-  kickmsg: "&7Bedziesz mogl wejsc na serwer &a{TIME}&7. Jako VIP mozesz wejsc bez czekania! Sklep: &ahttp://sklep.craftgames.pl/"
+  kickmsg: "Bedziesz mogl wejsc na serwer {TIME} Jako VIP mozesz wejsc bez czekania! Sklep: http://craftgames.pl/sklep"
   lightnings: false
+#MAT:DUR:DATA:AMOUNT
 start-items:
-  - STONE_PICKAXE:1
-  - COOCKED_BEEF:64
-  - ENDER_CHEST:1
+  - STONE_PICKAXE:0:0:1
+  - COOKED_BEEF:0:0:64
+  - ENDER_CHEST:0:0:1
 blocked-worlds:
   - "world_nether"
+msg-drop-info:
+  - "zelazo: 0%"
+  - "zelazo: 0%"
+  - "zelazo: 0%"
+  - "zelazo: 0%"
+  - "zelazo: 0%"
+  - "zelazo: 0%"

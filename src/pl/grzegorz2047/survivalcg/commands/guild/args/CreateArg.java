@@ -21,7 +21,7 @@ public class CreateArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        if(args.length == 2){
+        if(args.length >= 2){
             boolean created = plugin.getManager().getGuildManager().createGuild(p,args[1].toUpperCase());
             if(created){
                 Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-create").replace("{TAG}", args[1].toUpperCase()).replace("{PLAYER}", p.getName()));

@@ -8,8 +8,7 @@ import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
-import pl.grzegorz2047.survivalcg.managers.MsgManager;
-import pl.grzegorz2047.survivalcg.managers.Relation;
+import pl.grzegorz2047.survivalcg.guild.relation.Relation;
 
 /**
  * Created by grzegorz2047 on 29.12.2015.
@@ -67,6 +66,7 @@ public class AllyArg extends Arg {
                     Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-ally")
                             .replace("{GUILD1}", guild.getGuildName())
                             .replace("{GUILD2}", requestingGuild.getGuildName()));
+                    plugin.getManager().getScoreboardTagsManager().setRelationTag(guild,requestingGuild);
                     return;
                 }
             }

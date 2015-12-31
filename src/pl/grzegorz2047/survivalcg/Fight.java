@@ -1,4 +1,4 @@
-package pl.grzegorz2047.survivalcg.managers;
+package pl.grzegorz2047.survivalcg;
 
 /**
  * Created by grzeg on 23.12.2015.

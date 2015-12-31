@@ -19,7 +19,7 @@ public class PlayerDeathListener implements Listener {
 
     private final SCG plugin;
 
-    public PlayerDeathListener(SCG plugin){
+    public PlayerDeathListener(SCG plugin) {
         this.plugin = plugin;
     }
 
@@ -36,28 +36,28 @@ public class PlayerDeathListener implements Listener {
         if (victim.getKiller() == null) {
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             return;
-        }else{
+        } else {
             User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
-            killeruser.setDeaths(killeruser.getDeaths()+1);
-            if(!killeruser.getLastKilledPlayer().equals(victimname)){
+            killeruser.setDeaths(killeruser.getDeaths() + 1);
+            if (!killeruser.getLastKilledPlayer().equals(victimname)) {
                 killeruser.setLastKilledPlayer(victimname);
-                if(victimuser.getPoints()> points){
+                if (victimuser.getPoints() > points) {
                     canGivePoints = true;
                 }
-            }else {
+            } else {
                 canGivePoints = false;
             }
-            if(canGivePoints){
-                victimuser.setPoints(victimuser.getPoints()-points);
-                killeruser.setPoints(killeruser.getPoints()+points);
+            if (canGivePoints) {
+                victimuser.setPoints(victimuser.getPoints() - points);
+                killeruser.setPoints(killeruser.getPoints() + points);
             }
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
-
+            plugin.getManager().getRankingManager().checkPoints(killeruser.getUsername(),killeruser);
         }
-        if(victim.hasPermission("scg.hardcore.bypass")) {
+        if (victim.hasPermission("scg.hardcore.bypass")) {
             return;
-        }else{
+        } else {
             victimuser.setToBan(true);
         }
 

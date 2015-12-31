@@ -46,9 +46,10 @@ public class RandomTpManager {
         }else{
             plugin.getManager().getTeleportManager().getRequests()
                     .add(new TeleportRequest(p.getName(),p.getLocation(),dest,System.currentTimeMillis(),5));
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("waitfortp").replace("{TIME}", 5+""));
+
         }
 
-        p.sendMessage(plugin.getManager().getMsgManager().getMsg("waitfortp"));
     }
 
 }

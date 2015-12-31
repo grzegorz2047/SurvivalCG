@@ -63,6 +63,8 @@ public class SettingsManager {
     private List<ItemStack> startItems = new ArrayList<ItemStack>();
     private List<String> msgDropInfo;
     private String sqlRelationTable;
+    private String allyTagColor;
+    private String enemyTagColor;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -361,6 +363,9 @@ public class SettingsManager {
         this.startItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("start-items"));
         this.msgDropInfo = plugin.getConfig().getStringList("msg-drop-info");
         Permission.PERMISSIONS_VIP = plugin.getConfig().getString("permissions.vip-permission");
+
+        this.allyTagColor = plugin.getConfig().getString("guild.ally-tag-color");
+        this.enemyTagColor = plugin.getConfig().getString("guild.enemy-tag-color");
     }
 
     private List<ItemStack> parseItems(FileConfiguration config, List<String> reqItems) {
@@ -513,5 +518,21 @@ public class SettingsManager {
 
     public void setSqlRelationTable(String sqlRelationTable) {
         this.sqlRelationTable = sqlRelationTable;
+    }
+
+    public String getAllyTagColor() {
+        return allyTagColor;
+    }
+
+    public void setAllyTagColor(String allyTagColor) {
+        this.allyTagColor = allyTagColor;
+    }
+
+    public String getEnemyTagColor() {
+        return enemyTagColor;
+    }
+
+    public void setEnemyTagColor(String enemyTagColor) {
+        this.enemyTagColor = enemyTagColor;
     }
 }

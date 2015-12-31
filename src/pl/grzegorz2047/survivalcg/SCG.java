@@ -62,7 +62,9 @@ public class SCG extends JavaPlugin {
         pm.registerEvents(new PlayerLoginListener(this), this);
         pm.registerEvents(new PlayerKickListener(this), this);
         pm.registerEvents(new PlayerBucketListeners(this), this);
-        pm.registerEvents(new TabListRefreshListener(this), this);
+        pm.registerEvents(new PlayerInteractListener(this), this);
+        pm.registerEvents(new PlayerEnchantsListener(this), this);
+        pm.registerEvents(new SignListener(this), this);
     }
 
     public void registerCommands() {

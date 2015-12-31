@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 import pl.grzegorz2047.survivalcg.managers.MysqlManager;
-import pl.grzegorz2047.survivalcg.managers.Relation;
+import pl.grzegorz2047.survivalcg.guild.relation.Relation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

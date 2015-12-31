@@ -3,6 +3,8 @@ package pl.grzegorz2047.survivalcg.guild;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
@@ -13,13 +15,10 @@ import java.util.List;
  */
 public class Guild {
 
-
-
-
     private String tag;
     private Location home;
-    private List<String> members = new ArrayList<String>() ;
-    private List<String> waitingMembers = new ArrayList<String >();
+    private List<String> members = new ArrayList<String>();
+    private List<String> waitingMembers = new ArrayList<String>();
     private List<String> ally = new ArrayList<String>();
 
     private Scoreboard guildScoreboard;
@@ -27,7 +26,6 @@ public class Guild {
     private String leader;
     private long createTime;
     private String description;
-
 
     public Guild(String tag, String leader, Location home, long createtime) {
         this.tag = tag;
@@ -37,10 +35,15 @@ public class Guild {
         guildScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.members.add(leader);
         this.description = "";
+        //Create sponge
+        Block sponge = home.getWorld().getBlockAt(home.getBlockX(), 50, home.getBlockZ());
+        sponge.setType(Material.SPONGE);
     }
 
     public Guild(String tag) {
         this.tag = tag;
+        guildScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+
     }
 
     public List<String> getWaitingMembers() {
@@ -72,19 +75,19 @@ public class Guild {
     }
 
     public String getDisplaytag() {
-        return ChatColor.GOLD+tag+ChatColor.GRAY+" ";
+        return ChatColor.GOLD + tag + ChatColor.GRAY + " ";
     }
 
     public void setTag(String tag) {
         this.tag = tag;
     }
 
-    public boolean equals(Guild guild){
+    public boolean equals(Guild guild) {
         return this.getGuildName().equals(guild.getGuildName());
     }
 
     public void setCreateTime(long createTime) {
-        this.createTime  = createTime;
+        this.createTime = createTime;
     }
 
     public long getCreateTime() {
@@ -107,7 +110,7 @@ public class Guild {
         this.ally = ally;
     }
 
-    public CharSequence  getDescription() {
+    public CharSequence getDescription() {
         return description;
 
     }

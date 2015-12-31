@@ -1,6 +1,9 @@
 package pl.grzegorz2047.survivalcg.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +26,27 @@ public class PlayerPlaceListener implements Listener {
 
     @EventHandler
     void onPlayerPlace(BlockPlaceEvent e) {
+        if (e.getBlock().getType().equals(Material.ENDER_STONE)){
+            e.getPlayer().sendMessage("Jeszcze nie aktywne!");
+            e.setCancelled(true);
+        }
+
+
+        Location loc = e.getBlock().getLocation();
+        Block b = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
+        if (e.getBlock().getType().equals(Material.STONE)) {
+            if (b.getType().equals(Material.SPONGE)) {
+                e.setCancelled(true);
+                return;
+            }
+        } else if (e.getBlock().getType().equals(Material.ENDER_STONE)) {
+            Block bup = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
+            if (b.getType().equals(Material.SPONGE)) {
+                e.setCancelled(true);
+                return;
+            }
+            bup.setType(Material.STONE);
+        }
         Player p = e.getPlayer();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         Guild guild = user.getGuild();

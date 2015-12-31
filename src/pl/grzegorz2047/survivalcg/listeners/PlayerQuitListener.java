@@ -1,12 +1,13 @@
 package pl.grzegorz2047.survivalcg.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.grzegorz2047.survivalcg.SCG;
-import pl.grzegorz2047.survivalcg.managers.Fight;
+import pl.grzegorz2047.survivalcg.Fight;
 
 /**
  * Created by grzeg on 26.12.2015.
@@ -32,12 +33,14 @@ public class PlayerQuitListener implements Listener {
                 Player attacker = Bukkit.getPlayer(f.getAttacker());
                 if (attacker != null) {
                     attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("playerlogoutduringfight").replace("{PLAYER}",p.getName()));
-
+                    attacker.damage(30);
                 }
             }
         }
 
         plugin.getManager().getUserManager().removeUser(p.getName());
+        plugin.getManager().getTabManager().removePlayer(p);
+
     }
 
 }

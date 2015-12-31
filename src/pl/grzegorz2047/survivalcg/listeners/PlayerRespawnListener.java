@@ -1,11 +1,13 @@
 package pl.grzegorz2047.survivalcg.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -41,6 +43,7 @@ public class PlayerRespawnListener implements Listener {
             String msg =  plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date));
             player.kickPlayer(ColoringUtil.colorText(msg));
         }
+        player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 64));
     }
 
 }

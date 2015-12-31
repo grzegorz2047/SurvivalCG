@@ -26,6 +26,18 @@ public class CuboidManager {
     public void checkPlayers() {
         for(Player p : Bukkit.getOnlinePlayers()){
             User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
+            int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
+            if(p.getLocation().distance(p.getWorld().getSpawnLocation()) < protspawnrad){
+                if(!user.isOnSpawn()){
+                    user.setOnSpawn(true);
+                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerenterspawnnotify"));
+                }
+            }else{
+                if(user.isOnSpawn()){
+                    user.setOnSpawn(false);
+                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerleavespawnnotify"));
+                }
+            }
             boolean inany = false;
             for(Map.Entry<String, Cuboid> entry : cuboids.entrySet()){
                 boolean entered = entry.getValue().isinCuboid(p.getLocation());

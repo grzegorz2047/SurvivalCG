@@ -19,6 +19,7 @@ public class User {
     private String lastKilledPlayer = "";
     private Cuboid currentCuboid;
     private boolean toBan = false;
+    private boolean onSpawn = false;
     private User() {
     }
 
@@ -111,5 +112,13 @@ public class User {
 
     public void setToBan(boolean toBan) {
         this.toBan = toBan;
+    }
+
+    public boolean isOnSpawn() {
+        return onSpawn;
+    }
+
+    public void setOnSpawn(boolean onSpawn) {
+        this.onSpawn = onSpawn;
     }
 }

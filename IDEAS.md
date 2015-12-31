@@ -1,13 +1,8 @@
 Home dla vipa
 
-banowanie czasowe dla graczy
-
-jeżeli last kill był tej samej osoby to nie dostaje sie punktow
 randomtp przy first join + info
 stoniarki?
 Oddzielić sideboard od below name oraz above name jezeli sie da
-
-Dodanie wojen / sojuszy między gildiami: np. /g sojusz , /g wojna
 
 Statystyki gildi (łączna liczba zabić, śmierci, KDR)
 
@@ -18,5 +13,10 @@ Dodanie opłaty za nowych członków gildi (w itemach + liczba wymaganych itemó
 tnt rozwala obsidian w godzinach od 8 do 23
 
 
+Gąbka - 3 życia max 5, jezeli wrog kliknie na gabke to
+sprawdzaj czy klikany blok i gracz sa w odleglosci wiekszej niz 7 kratek
+
+Zablokowac Strength  II enchant
+za spawnem z 50 kratek no build ale pvp
 
 

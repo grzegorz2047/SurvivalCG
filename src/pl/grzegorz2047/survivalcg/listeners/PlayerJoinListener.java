@@ -27,51 +27,35 @@ public class PlayerJoinListener implements Listener {
         e.setJoinMessage("");
         Player p = e.getPlayer();
         String username = p.getName();
-        User user = plugin.getManager().getUserManager().addUser(p.getName());
+        User user = plugin.getManager().getUserManager().addUser(username);
         if (!e.getPlayer().hasPlayedBefore()) {
             for (ItemStack item : plugin.getManager().getSettingsManager().getStartItems()) {
                 p.getInventory().addItem(item);
             }
             p.teleport(e.getPlayer().getWorld().getSpawnLocation());//Force to spawn World Spawn
         }
+        p.addAttachment(plugin, "essentials.essentials.kit", true);
+        p.addAttachment(plugin, "essentials.essentials.kits.gracz", true);
+        p.addAttachment(plugin, "essentials.essentials.tpa", true);
+        p.addAttachment(plugin, "essentials.essentials.tpa.accept", true);
+        p.addAttachment(plugin, "essentials.essentials.tpa.deny", true);
         if (p.hasPermission(Permission.PERMISSIONS_VIP)) {
             p.addAttachment(plugin, "essentials.repair", true);
+            p.addAttachment(plugin, "essentials.essentials.kits.vip", true);
         }
-
-        TabAPI.setPriority(plugin, p, 0);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-            public void run() {
-                updateTab(p);
+        /*Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+            public void run(){
             }
-        }, 3);
-
-
+        }, 3);*/
+        plugin.getManager().getTabManager().addPlayer(p);
+        if(user.getGuild() != null){
+            p.setScoreboard(user.getGuild().getGuildScoreboard());
+        }else {
+            p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        }
     }
 
-    public void playerJoin(Player p) { //add player to the game, set their priority here
-        TabAPI.setPriority(plugin, p, 2);
-        TabAPI.updatePlayer(p); //always good to update the player after priority change so that the plugin with priority gets displayed
-//other code
-    }
 
-    public void updateTab(Player p) { //update the tab for a player
-        TabAPI.setTabString(plugin, p, 0, 0, "players");
-        TabAPI.setTabString(plugin, p, 0, 1, "alive");
-        TabAPI.setTabString(plugin, p, 0, 2, "dead");
-
-        TabAPI.setTabString(plugin, p, 1, 0, "kills");
-        TabAPI.setTabString(plugin, p, 1, 1, "aaa");
-        TabAPI.setTabString(plugin, p, 2, 0, "deaths");
-        TabAPI.setTabString(plugin, p, 1, 1, "daw");
-
-        TabAPI.updatePlayer(p);
-
-    }
-
-    public void removePlayer(Player p) { //player died or left, return priority
-        TabAPI.setPriority(plugin, p, -2); //-2 means this plugin isn't using the tab anymore, dont show
-        TabAPI.updatePlayer(p); //always good to update the player after priority change so that the plugin with priority gets displayed
-    }
 //other code
 
 

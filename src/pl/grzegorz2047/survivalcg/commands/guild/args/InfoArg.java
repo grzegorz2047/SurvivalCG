@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
+import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 
@@ -26,11 +27,16 @@ public class InfoArg extends Arg {
             String guild = args[1];
             Guild g = plugin.getManager().getGuildManager().getGuilds().get(guild);
             if (g != null) {
+                sender.sendMessage(ColoringUtil.colorText("&7============="));
+                sender.sendMessage(ColoringUtil.colorText(" "));
+
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfotit").replace("{GUILD}", g.getGuildName()));
                 //sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoleader").replace("{LEADER}", g.getLeader()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfomemlist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getMembers(g)));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoallylist").replace("{SIZE}", String.valueOf(getAlly(g).length())).replace("{MEMBERS}", getAlly(g)));
+                sender.sendMessage(ColoringUtil.colorText(" "));
+
             }else{
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
             }

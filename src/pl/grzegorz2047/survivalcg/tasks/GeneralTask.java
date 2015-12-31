@@ -1,6 +1,7 @@
 package pl.grzegorz2047.survivalcg.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.managers.MsgManager;
@@ -25,9 +26,15 @@ public class GeneralTask implements Runnable {
 
         if(seconds % 30 == 0){
             seconds = 1;
-            Bukkit.broadcastMessage(ColoringUtil.colorText(MsgManager.getPrefix()+"Serwer w fazie &ctestowej&7! Oczekuj restartow serwera! Mapa bedzie usunieta po testach!!"));
+            //Bukkit.broadcastMessage(ColoringUtil.colorText(MsgManager.getPrefix()+"Serwer w fazie &ctestowej&7! Oczekuj restartow serwera! Mapa bedzie usunieta po testach!!"));
         }else{
             seconds++;
         }
+        if(seconds % 5 == 0){
+            for(Player p : Bukkit.getOnlinePlayers()){
+                plugin.getManager().getTabManager().updateTab(p);
+            }
+        }
+
     }
 }

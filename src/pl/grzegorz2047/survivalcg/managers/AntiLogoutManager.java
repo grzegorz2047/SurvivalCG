@@ -2,6 +2,7 @@ package pl.grzegorz2047.survivalcg.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import pl.grzegorz2047.survivalcg.Fight;
 import pl.grzegorz2047.survivalcg.SCG;
 
 import java.util.ArrayList;

@@ -279,7 +279,7 @@ public class TabAPI implements Listener {
         int b = 0;
         for (Player pl : Bukkit.getOnlinePlayers())
         {
-            setTabString(Bukkit.getPluginManager().getPlugin("TabAPI"), p, a, b, pl.getPlayerListName());
+            setTabString(Bukkit.getPluginManager().getPlugin("SurvivalCG"), p, a, b, pl.getPlayerListName());//Be aware of it!
             b++;
             if (b > TabAPI.getHorizSize(protocolManager.getProtocolVersion(pl)))
             {

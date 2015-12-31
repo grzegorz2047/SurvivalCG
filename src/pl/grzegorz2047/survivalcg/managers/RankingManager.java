@@ -56,4 +56,7 @@ public class RankingManager { //Jakas baza danych by sie przydala :)
     }
 
 
+    public HashMap<String, Integer> getRank() {
+        return rank;
+    }
 }

@@ -7,7 +7,7 @@ import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
-import pl.grzegorz2047.survivalcg.managers.Relation;
+import pl.grzegorz2047.survivalcg.guild.relation.Relation;
 
 /**
  * Created by grzegorz2047 on 30.12.2015.
@@ -60,11 +60,22 @@ public class EnemyArg extends Arg {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotonline"));
                     return;
                 }
+                for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
+                    if (r.getWithWho().equals(requestingGuild.getGuildName())) {
+
+                        r.setExpired(true);
+                        plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
+                        guild.getAlly().remove(requestingGuild.getGuildName());
+                        requestingGuild.getAlly().remove(guild.getGuildName());
+                        Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-enemy")
+                                .replace("{GUILD1}", requestingGuild.getGuildName())
+                                .replace("{GUILD2}", guild.getGuildName()));
+                        plugin.getManager().getScoreboardTagsManager().setRelationTag(guild,requestingGuild);
+                        return;
+                    }
+                }
                 plugin.getManager().getGuildManager().removeRelation(requestingGuild, guild);
-                plugin.getManager().getGuildManager().requestAlly(requestingGuild, guild);
-                Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-enemy")
-                        .replace("{GUILD1}", requestingGuild.getGuildName())
-                        .replace("{GUILD2}", guild.getGuildName()));
+                plugin.getManager().getGuildManager().requestEnemy(requestingGuild, guild);
             } else {
                 sender.sendMessage("/g ally <guild>");
             }

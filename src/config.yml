@@ -23,9 +23,11 @@ guild:
   min-clan-tag: 3
   block-on-tnt: true
   block-tnt-time: 120
+  ally-tag-color: "&2"
+  enemy-tag-color: "4"
 chat:
   guild-prefix: true
-  prefix: '&7[&aHC&7]&7 '
+  prefix: "&7[&aHC&7]&7 "
 blocked-guild-names:
   - "KUPA"
   - "ADMIN"

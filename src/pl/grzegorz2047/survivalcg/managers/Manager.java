@@ -19,10 +19,13 @@ public class Manager {
     private CommandsManager commandsManager;
     private DeathManager deathManager;
     private RankingManager rankingManager;
+    private TabManager tabManager;
+    private ScoreboardTagsManager scoreboardTagsManager;
+    private RecipeManager recipeManager;
+    private RandomTpManager randomTpManager;
 
     public Manager(SCG scg) {
         this.plugin = scg;
-
     }
 
 
@@ -85,6 +88,8 @@ public class Manager {
         this.commandsManager = new CommandsManager(plugin);
         this.cuboidManager = new CuboidManager(plugin);
         this.rankingManager = new RankingManager();
+        this.scoreboardTagsManager = new ScoreboardTagsManager(plugin);
+
 
         String host = this.settingsManager.getSqlhost();
         int port = this.settingsManager.getSqlport();
@@ -95,11 +100,14 @@ public class Manager {
         String guildTable = this.settingsManager.getSqlguildTable();
         String banTable = this.settingsManager.getSQLBanTable();
         String relationTable = this.settingsManager.getSQLRelationTable();
-        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable,banTable,relationTable, plugin);
+        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, banTable, relationTable, plugin);
         this.mysqlManager.getRankingQuery().getRanking(rankingManager);
         this.guildManager = new GuildManager(plugin);
         this.deathManager = new DeathManager(plugin);
-
+        this.tabManager = new TabManager(plugin);
+        this.guildManager.loadGuildTags();
+        this.recipeManager = new RecipeManager(plugin);
+        this.randomTpManager = new RandomTpManager(plugin);
     }
 
     public DeathManager getDeathManager() {
@@ -109,5 +117,37 @@ public class Manager {
 
     public RankingManager getRankingManager() {
         return rankingManager;
+    }
+
+    public TabManager getTabManager() {
+        return tabManager;
+    }
+
+    public void setTabManager(TabManager tabManager) {
+        this.tabManager = tabManager;
+    }
+
+    public ScoreboardTagsManager getScoreboardTagsManager() {
+        return scoreboardTagsManager;
+    }
+
+    public void setScoreboardTagsManager(ScoreboardTagsManager scoreboardTagsManager) {
+        this.scoreboardTagsManager = scoreboardTagsManager;
+    }
+
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
+    }
+
+    public void setRecipeManager(RecipeManager recipeManager) {
+        this.recipeManager = recipeManager;
+    }
+
+    public RandomTpManager getRandomTpManager() {
+        return randomTpManager;
+    }
+
+    public void setRandomTpManager(RandomTpManager randomTpManager) {
+        this.randomTpManager = randomTpManager;
     }
 }

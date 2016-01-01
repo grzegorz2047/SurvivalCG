@@ -1,5 +1,6 @@
 package pl.grzegorz2047.survivalcg.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,7 @@ public class PlayerDeathListener implements Listener {
             return;
         } else {
             User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
-            killeruser.setDeaths(killeruser.getDeaths() + 1);
+            killeruser.setKills(killeruser.getKills() + 1);
             if (!killeruser.getLastKilledPlayer().equals(victimname)) {
                 killeruser.setLastKilledPlayer(victimname);
                 if (victimuser.getPoints() > points) {
@@ -46,14 +47,22 @@ public class PlayerDeathListener implements Listener {
                 }
             } else {
                 canGivePoints = false;
+
             }
             if (canGivePoints) {
                 victimuser.setPoints(victimuser.getPoints() - points);
                 killeruser.setPoints(killeruser.getPoints() + points);
             }
+            Bukkit.broadcastMessage(plugin.getManager().getMsgManager().
+                    getMsg("killerkilledvictim").
+                    replace("{VICTIM}", victimname).
+                    replace("{KILLER}", killeruser.getUsername()).
+                    replace("{VICTIMLOSE}", points + "-").
+                    replace("{KILLEREARN}", points+"+"));
+
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
-            plugin.getManager().getRankingManager().checkPoints(killeruser.getUsername(),killeruser);
+            plugin.getManager().getRankingManager().checkPoints(killeruser.getUsername(), killeruser);
         }
         if (victim.hasPermission("scg.hardcore.bypass")) {
             return;

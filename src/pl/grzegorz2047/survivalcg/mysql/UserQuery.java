@@ -62,6 +62,9 @@ public class UserQuery extends Query {
             }
         }
         if (insert) {
+            user.setKills(0);
+            user.setPoints(1000);
+            user.setDeaths(0);
             insertPlayer(user);
         }
 

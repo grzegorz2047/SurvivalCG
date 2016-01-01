@@ -13,8 +13,8 @@ public class User {
     protected String username;
     protected Long firstJoinTime;
 
-    protected int money, kills, deaths, wins = 1000;//?
-    private int points;
+    protected int money, kills, deaths, wins = 0;//?
+    private int points = 1000;
     private Guild guild; //Used as pointer to guild
     private String lastKilledPlayer = "";
     private Cuboid currentCuboid;

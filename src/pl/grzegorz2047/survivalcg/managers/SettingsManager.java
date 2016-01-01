@@ -65,6 +65,7 @@ public class SettingsManager {
     private String sqlRelationTable;
     private String allyTagColor;
     private String enemyTagColor;
+    private List<ItemStack> cobblexItems;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -366,6 +367,7 @@ public class SettingsManager {
 
         this.allyTagColor = plugin.getConfig().getString("guild.ally-tag-color");
         this.enemyTagColor = plugin.getConfig().getString("guild.enemy-tag-color");
+        this.cobblexItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items"));
     }
 
     private List<ItemStack> parseItems(FileConfiguration config, List<String> reqItems) {
@@ -534,5 +536,13 @@ public class SettingsManager {
 
     public void setEnemyTagColor(String enemyTagColor) {
         this.enemyTagColor = enemyTagColor;
+    }
+
+    public List<ItemStack> getCobblexItems() {
+        return cobblexItems;
+    }
+
+    public void setCobblexItems(List<ItemStack> cobblexItems) {
+        this.cobblexItems = cobblexItems;
     }
 }

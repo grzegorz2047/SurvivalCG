@@ -6,12 +6,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import pl.grzegorz2047.survivalcg.SCG;
 
+import java.util.List;
+
 /**
  * Created by grzegorz2047 on 31.12.2015.
  */
 public class RecipeManager {
 
     private final SCG plugin;
+
+
 
     public RecipeManager(SCG plugin ){
         this.plugin = plugin;
@@ -30,11 +34,11 @@ public class RecipeManager {
         enderChestRecipe.setIngredient('P', Material.ENDER_PEARL);
         Bukkit.addRecipe(enderChestRecipe);
 
-        ItemStack obsidian = new ItemStack(Material.OBSIDIAN);
-        ShapedRecipe obsidianRecipe = new ShapedRecipe(obsidian);
-        obsidianRecipe.shape("***","***","***");
-        obsidianRecipe.setIngredient('*', Material.COBBLESTONE);
-        Bukkit.addRecipe(obsidianRecipe);
+      //  ItemStack obsidian = new ItemStack(Material.OBSIDIAN);
+      //  ShapedRecipe obsidianRecipe = new ShapedRecipe(obsidian);
+       // obsidianRecipe.shape("***","***","***");
+       // obsidianRecipe.setIngredient('*', Material.COBBLESTONE);
+       // Bukkit.addRecipe(obsidianRecipe);
     }
 
 }

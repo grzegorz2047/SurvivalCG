@@ -7,6 +7,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcsg.double0negative.tabapi.TabAPI;
 import pl.grzegorz2047.survivalcg.commands.admin.AdminCommand;
+import pl.grzegorz2047.survivalcg.commands.cobblex.CobbleXCommand;
 import pl.grzegorz2047.survivalcg.commands.drop.DropCommand;
 import pl.grzegorz2047.survivalcg.commands.guild.GuildCommand;
 import pl.grzegorz2047.survivalcg.commands.help.HelpCommand;
@@ -24,8 +25,6 @@ public class SCG extends JavaPlugin {
 
     private Manager manager;
     private TabAPI tabAPI;
-    //TODO Daj gdzies ten random tp         plugin.getRandomTpManager().teleport(p,1500,500, false);
-
 
     @Override
     public void onEnable() {
@@ -40,6 +39,7 @@ public class SCG extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        manager.getStoneGeneratorManager().checkBlocks();
         manager.disposeManager();
         tabAPI.disable();
     }
@@ -63,7 +63,6 @@ public class SCG extends JavaPlugin {
         pm.registerEvents(new PlayerKickListener(this), this);
         pm.registerEvents(new PlayerBucketListeners(this), this);
         pm.registerEvents(new PlayerInteractListener(this), this);
-        pm.registerEvents(new PlayerEnchantsListener(this), this);
         pm.registerEvents(new SignListener(this), this);
     }
 
@@ -75,6 +74,7 @@ public class SCG extends JavaPlugin {
         this.getCommand("admin").setExecutor(new AdminCommand("admin", new String[]{"admin"}, this));
         this.getCommand("spawn").setExecutor(new SpawnCommand("spawn", this));
         this.getCommand("pomoc").setExecutor(new HelpCommand("pomoc", new String[]{"help", "pomoc", "commands"}, this));
+        this.getCommand("cobblex").setExecutor(new CobbleXCommand("cobblex", new String[]{"cobblex", "cx", "pandora"}, this));
     }
 
 }

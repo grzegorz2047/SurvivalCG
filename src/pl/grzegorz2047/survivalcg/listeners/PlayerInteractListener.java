@@ -43,7 +43,7 @@ public class PlayerInteractListener implements Listener {
                 }
             }
             Block iblock = e.getClickedBlock();
-            if (iblock.getType().equals(Material.ENDER_CHEST) || iblock.getType().equals(Material.COOKED_BEEF)) {
+            if (iblock.getType().equals(Material.ENDER_CHEST) || iblock.getType().equals(Material.COOKED_BEEF ) || iblock.getType().equals(Material.WORKBENCH)) {
                 return;
             }
 
@@ -78,8 +78,11 @@ public class PlayerInteractListener implements Listener {
                 //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
 
             } else {
+                if(e.getPlayer().isOp()){
+                    return;
+                }
                 if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
-                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawnplacecantbreak"));
+                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawninteractblock"));
                     e.setCancelled(true);
                 }
             }

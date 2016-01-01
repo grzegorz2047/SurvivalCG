@@ -30,12 +30,8 @@ public class PlayerBlockBreakListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        if (e.getBlock().getType().equals(Material.STONE)) {
-            Location loc = e.getBlock().getLocation();
-            Block b = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-            if (b.getType().equals(Material.ENDER_STONE)) {
-                e.getBlock().setType(Material.STONE);
-            }
+        if(e.getBlock().getType().equals(Material.ENDER_STONE)){
+            e.getBlock().setType(Material.AIR);
         }
         Player p = e.getPlayer();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
@@ -46,14 +42,40 @@ public class PlayerBlockBreakListener implements Listener {
                 if (!user.getGuild().equals(cuboid.getGuild())) {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                     e.setCancelled(true);
+                }else {//Jezeli stoniarka w dobrym miejscu dostepnym
+                    if (e.getBlock().getType().equals(Material.STONE)) {
+                        Location loc = e.getBlock().getLocation().subtract(0, 1, 0);
+                        Block b = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+                        if (b.getType().equals(Material.ENDER_STONE)) {
+                            plugin.getManager().getStoneGeneratorManager().getBlocks().add(e.getBlock().getState());
+                            return;
+                        }
+                    }
                 }
             } else {
+                if(e.getPlayer().isOp()){
+                    return;
+                }
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                 e.setCancelled(true);
             }
             //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
 
         } else {
+            if (e.getBlock().getType().equals(Material.STONE)) {
+                Location loc = e.getBlock().getLocation().subtract(0, 1, 0);
+                Block b = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+                if (b.getType().equals(Material.ENDER_STONE)) {
+                    //p.sendMessage("Pod toba jest ender stone");
+                    plugin.getManager().getStoneGeneratorManager().getBlocks().add(e.getBlock().getState());
+                    return;
+                }else {
+                   // p.sendMessage("Pod toba jest "+b.getType());
+                }
+            }
+            if(e.getPlayer().isOp()){
+                return;
+            }
             if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawnplacecantbreak"));
                 e.setCancelled(true);

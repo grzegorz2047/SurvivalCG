@@ -34,14 +34,14 @@ public class PlayerJoinListener implements Listener {
             }
             p.teleport(e.getPlayer().getWorld().getSpawnLocation());//Force to spawn World Spawn
         }
-        p.addAttachment(plugin, "essentials.essentials.kit", true);
-        p.addAttachment(plugin, "essentials.essentials.kits.gracz", true);
-        p.addAttachment(plugin, "essentials.essentials.tpa", true);
-        p.addAttachment(plugin, "essentials.essentials.tpa.accept", true);
-        p.addAttachment(plugin, "essentials.essentials.tpa.deny", true);
+        p.addAttachment(plugin, "essentials.kit", true);
+        p.addAttachment(plugin, "essentials.kits.gracz", true);
+        p.addAttachment(plugin, "essentials.tpa", true);
+        p.addAttachment(plugin, "essentials.tpaccept", true);
+        p.addAttachment(plugin, "essentials.tpdeny", true);
         if (p.hasPermission(Permission.PERMISSIONS_VIP)) {
             p.addAttachment(plugin, "essentials.repair", true);
-            p.addAttachment(plugin, "essentials.essentials.kits.vip", true);
+            p.addAttachment(plugin, "essentials.kits.vip", true);
         }
         /*Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
             public void run(){

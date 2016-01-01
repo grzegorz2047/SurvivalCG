@@ -25,3 +25,6 @@ commands:
     pomoc:
         description: Info nt. serwera
         aliases: [help, pomoc, commands]
+    cobblex:
+        description: Cobblex
+        aliases: [cx, pandora]

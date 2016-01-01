@@ -23,6 +23,7 @@ public class Manager {
     private ScoreboardTagsManager scoreboardTagsManager;
     private RecipeManager recipeManager;
     private RandomTpManager randomTpManager;
+    private StoneGeneratorManager stoneGeneratorManager;
 
     public Manager(SCG scg) {
         this.plugin = scg;
@@ -84,6 +85,7 @@ public class Manager {
         this.teleportManager = new TeleportManager(plugin);
         this.antiLogoutManager = new AntiLogoutManager(plugin);
         this.userManager = new UserManager(plugin);
+        this.stoneGeneratorManager = new StoneGeneratorManager(plugin);
         this.taskManager = new TaskManager(plugin);
         this.commandsManager = new CommandsManager(plugin);
         this.cuboidManager = new CuboidManager(plugin);
@@ -149,5 +151,9 @@ public class Manager {
 
     public void setRandomTpManager(RandomTpManager randomTpManager) {
         this.randomTpManager = randomTpManager;
+    }
+
+    public StoneGeneratorManager getStoneGeneratorManager() {
+        return stoneGeneratorManager;
     }
 }

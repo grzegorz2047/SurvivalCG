@@ -72,3 +72,11 @@ msg-drop-info:
   - "zelazo: 0%"
   - "zelazo: 0%"
   - "zelazo: 0%"
+cobblex-items:
+  - "DIAMOND:0:0:3"
+  - "GOLDEN_APPLE:0:0:1"
+  - "APPLE:0:0:2"
+  - "APPLE:0:0:3"
+  - "WOOD:0:0:4"
+  - "STONE:0:0:6"
+  - "DIRT:0:0:5"

@@ -26,10 +26,11 @@ public class PlayerPlaceListener implements Listener {
 
     @EventHandler
     void onPlayerPlace(BlockPlaceEvent e) {
-        if (e.getBlock().getType().equals(Material.ENDER_STONE)){
-            e.getPlayer().sendMessage("Jeszcze nie aktywne!");
-            e.setCancelled(true);
-        }
+       // if (e.getBlock().getType().equals(Material.ENDER_STONE)){
+       //     e.getPlayer().sendMessage("Jeszcze nie aktywne!");
+       //     e.setCancelled(true);
+       //     return;
+       // }
 
 
         Location loc = e.getBlock().getLocation();
@@ -46,6 +47,9 @@ public class PlayerPlaceListener implements Listener {
                 return;
             }
             bup.setType(Material.STONE);
+        }
+        if(e.getPlayer().isOp()){
+            return;
         }
         Player p = e.getPlayer();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
@@ -64,6 +68,7 @@ public class PlayerPlaceListener implements Listener {
             //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
 
         } else {
+
             if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawnplacecantbreak"));
                 e.setCancelled(true);

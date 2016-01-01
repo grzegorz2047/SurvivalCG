@@ -21,9 +21,10 @@ public class GenHelpArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        p.sendMessage(MsgManager.noprefmsg("Dostepne komendy: "));
-        p.sendMessage(MsgManager.noprefmsg("/g - Pokazuje komendy zwiazane z gildiami "));
-        p.sendMessage(MsgManager.noprefmsg("/drop - Pokazuje drop na serwerze "));
-        p.sendMessage(MsgManager.noprefmsg("/vip Pokazuje mozliwosci dla rangi vip "));
+        p.sendMessage(MsgManager.noprefmsg("&7Dostepne komendy: "));
+        p.sendMessage(MsgManager.noprefmsg("&a/g - &7Pokazuje komendy zwiazane z gildiami "));
+        p.sendMessage(MsgManager.noprefmsg("&a/drop - &7Pokazuje drop na serwerze "));
+        p.sendMessage(MsgManager.noprefmsg("&a/vip &7Pokazuje mozliwosci dla rangi vip "));
+        p.sendMessage(MsgManager.noprefmsg("&a/cx &7Zamienia stacki cobblestone na losowy przedmiot"));
     }
 }

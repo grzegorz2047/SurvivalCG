@@ -33,7 +33,6 @@ public class PlayerQuitListener implements Listener {
                 Player attacker = Bukkit.getPlayer(f.getAttacker());
                 if (attacker != null) {
                     attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("playerlogoutduringfight").replace("{PLAYER}",p.getName()));
-                    attacker.damage(30);
                 }
             }
         }

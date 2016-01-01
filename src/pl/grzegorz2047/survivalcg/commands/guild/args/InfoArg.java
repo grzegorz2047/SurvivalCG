@@ -1,6 +1,5 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -30,7 +29,7 @@ public class InfoArg extends Arg {
                 sender.sendMessage(ColoringUtil.colorText("&7============="));
                 sender.sendMessage(ColoringUtil.colorText(" "));
 
-                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfotit").replace("{GUILD}", g.getGuildName()));
+                sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfotit").replace("{GUILD}", g.getGuildTag()));
                 //sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfodesc").replace("{DESCRIPTION}", g.getDescription()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfoleader").replace("{LEADER}", g.getLeader()));
                 sender.sendMessage(plugin.getManager().getMsgManager().getNoPrefMsg("ginfomemlist").replace("{SIZE}", String.valueOf(g.getMembers().size())).replace("{MEMBERS}", getMembers(g)));

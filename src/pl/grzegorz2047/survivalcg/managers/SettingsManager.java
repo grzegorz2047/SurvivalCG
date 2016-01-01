@@ -66,6 +66,9 @@ public class SettingsManager {
     private String allyTagColor;
     private String enemyTagColor;
     private List<ItemStack> cobblexItems;
+    private int stoneGeneratorDelayTime;
+    private List<ItemStack> cobblexItemsRare;
+    private List<String> vipCommandInfo;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -363,11 +366,15 @@ public class SettingsManager {
         this.blockedWorlds = plugin.getConfig().getStringList("blocked-worlds");
         this.startItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("start-items"));
         this.msgDropInfo = plugin.getConfig().getStringList("msg-drop-info");
+        this.vipCommandInfo = plugin.getConfig().getStringList("vip-command");
         Permission.PERMISSIONS_VIP = plugin.getConfig().getString("permissions.vip-permission");
 
         this.allyTagColor = plugin.getConfig().getString("guild.ally-tag-color");
         this.enemyTagColor = plugin.getConfig().getString("guild.enemy-tag-color");
         this.cobblexItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items"));
+        this.cobblexItemsRare = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items-rare"));
+        this.stoneGeneratorDelayTime = plugin.getConfig().getInt("stone-regenerator-delay");
+
     }
 
     private List<ItemStack> parseItems(FileConfiguration config, List<String> reqItems) {
@@ -544,5 +551,29 @@ public class SettingsManager {
 
     public void setCobblexItems(List<ItemStack> cobblexItems) {
         this.cobblexItems = cobblexItems;
+    }
+
+    public int getStoneGeneratorDelayTime() {
+        return stoneGeneratorDelayTime;
+    }
+
+    public void setStoneGeneratorDelayTime(int stoneGeneratorDelayTime) {
+        this.stoneGeneratorDelayTime = stoneGeneratorDelayTime;
+    }
+
+    public List<ItemStack> getCobblexItemsRare() {
+        return cobblexItemsRare;
+    }
+
+    public void setCobblexItemsRare(List<ItemStack> cobblexItemsRare) {
+        this.cobblexItemsRare = cobblexItemsRare;
+    }
+
+    public List<String> getVipCommandInfo() {
+        return vipCommandInfo;
+    }
+
+    public void setVipCommandInfo(List<String> vipCommandInfo) {
+        this.vipCommandInfo = vipCommandInfo;
     }
 }

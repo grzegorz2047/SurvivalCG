@@ -40,7 +40,6 @@ public class PlayerJoinListener implements Listener {
         p.addAttachment(plugin, "essentials.tpaccept", true);
         p.addAttachment(plugin, "essentials.tpdeny", true);
         if (p.hasPermission(Permission.PERMISSIONS_VIP)) {
-            p.addAttachment(plugin, "essentials.repair", true);
             p.addAttachment(plugin, "essentials.kits.vip", true);
         }
         /*Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){

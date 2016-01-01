@@ -39,7 +39,7 @@ public class PlayerInteractListener implements Listener {
             if (e.getClickedBlock().getState() instanceof Sign) {
                 Sign s = (Sign) e.getClickedBlock().getState();
                 if (s.getLine(0).equalsIgnoreCase("[tp]")) {
-                    plugin.getManager().getRandomTpManager().teleport(e.getPlayer(), 1000, 500, true);
+                    plugin.getManager().getRandomTpManager().teleport(e.getPlayer(), 1300, 500, true);
                 }
             }
             Block iblock = e.getClickedBlock();
@@ -75,7 +75,7 @@ public class PlayerInteractListener implements Listener {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                     e.setCancelled(true);
                 }
-                //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
+                //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildTag());
 
             } else {
                 if(e.getPlayer().isOp()){

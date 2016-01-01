@@ -1,7 +1,4 @@
-Home dla vipa
 
-randomtp przy first join + info
-stoniarki?
 Oddzielić sideboard od below name oraz above name jezeli sie da
 
 Statystyki gildi (łączna liczba zabić, śmierci, KDR)
@@ -19,4 +16,8 @@ sprawdzaj czy klikany blok i gracz sa w odleglosci wiekszej niz 7 kratek
 Zablokowac Strength  II enchant
 za spawnem z 50 kratek no build ale pvp
 
+gdy tnt wybucha nie mozna stawiac blokow na cuboidow
 
+dodaj lighting przy smierci (pobierz mozliwosc wlaczenia lub wylaczenia)
+
+dodaj rare items przy cobblex

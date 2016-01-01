@@ -19,17 +19,19 @@ public class SpawnArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-
-        //if (sender.hasPermission("scg.tp.spawn")) { //Bukkit version will support this permissions probably xd
+        int time = 0;
+        if (!sender.hasPermission("scg.tp.spawn.delay")) { //Bukkit version will support this permissions probably xd
+            time = plugin.getManager().getSettingsManager().getCooldownTpTime();
+        }
             TeleportRequest request = new TeleportRequest
                     (p.getName(),
                             p.getLocation(),
                             p.getWorld().getSpawnLocation(),
                             System.currentTimeMillis(),
-                            plugin.getManager().getSettingsManager().getCooldownTpTime());
+                            time);
             plugin.getManager().getTeleportManager().getRequests().add(request);
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("waitfortp").
-                    replace("{TIME}", plugin.getManager().getSettingsManager().getCooldownTpTime() + ""));
+                    replace("{TIME}", time + ""));
 
         //}
     }

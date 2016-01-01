@@ -20,9 +20,8 @@ public class VIPArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        p.sendMessage(ColoringUtil.colorText("&7Funkcje dla VIPa:"));
-        p.sendMessage(ColoringUtil.colorText("&3 -&7 Brak bana przy smierci"));
-        p.sendMessage(ColoringUtil.colorText("&3 -&7 komenda /repair"));
-        p.sendMessage(ColoringUtil.colorText("&3 -&7 komenda /kit vip"));
+        for (String msg : plugin.getManager().getSettingsManager().getVipCommandInfo()){
+            p.sendMessage(ColoringUtil.colorText(msg));
+        }
     }
 }

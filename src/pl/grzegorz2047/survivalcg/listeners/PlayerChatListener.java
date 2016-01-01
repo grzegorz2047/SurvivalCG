@@ -2,7 +2,6 @@ package pl.grzegorz2047.survivalcg.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import pl.grzegorz2047.api.user.User;
@@ -32,7 +31,7 @@ public class PlayerChatListener implements Listener {
         String tag = "";
         String points = "";
         if(g != null){
-            tag = user.getGuild().getGuildName();
+            tag = user.getGuild().getGuildTag();
         }
         points = String.valueOf(user.getPoints());
 

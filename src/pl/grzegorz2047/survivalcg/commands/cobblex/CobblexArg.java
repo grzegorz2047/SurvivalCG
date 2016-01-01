@@ -40,8 +40,16 @@ public class CobblexArg extends Arg {
         }
         if (MiscUtils.hasEnoughItemsForGuild(recipe, p.getInventory())){
             MiscUtils.removeRequiredItemsForGuild(recipe, p.getInventory());
-            List<ItemStack> ity = plugin.getManager().getSettingsManager().getCobblexItems();
+            int randrare = RandomUtil.get().nextInt(100);
+            List<ItemStack> ity;
+            if(randrare>80){
+                ity = plugin.getManager().getSettingsManager().getCobblexItemsRare();
+            }else{
+                ity = plugin.getManager().getSettingsManager().getCobblexItems();
+
+            }
             int rand = RandomUtil.get().nextInt(ity.size()-2);
+
             rand+=1;
             ItemStack cItem = ity.get(rand);
             p.getInventory().addItem(cItem.clone());

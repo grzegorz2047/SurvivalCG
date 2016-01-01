@@ -61,15 +61,15 @@ public class EnemyArg extends Arg {
                     return;
                 }
                 for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-                    if (r.getWithWho().equals(requestingGuild.getGuildName())) {
+                    if (r.getWithWho().equals(requestingGuild.getGuildTag())) {
 
                         r.setExpired(true);
                         plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
-                        guild.getAlly().remove(requestingGuild.getGuildName());
-                        requestingGuild.getAlly().remove(guild.getGuildName());
+                        guild.getAlly().remove(requestingGuild.getGuildTag());
+                        requestingGuild.getAlly().remove(guild.getGuildTag());
                         Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-enemy")
-                                .replace("{GUILD1}", requestingGuild.getGuildName())
-                                .replace("{GUILD2}", guild.getGuildName()));
+                                .replace("{GUILD1}", requestingGuild.getGuildTag())
+                                .replace("{GUILD2}", guild.getGuildTag()));
                         plugin.getManager().getScoreboardTagsManager().setRelationTag(guild,requestingGuild);
                         return;
                     }

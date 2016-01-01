@@ -35,7 +35,7 @@ public class UserArg extends Arg {
             p.sendMessage(ChatColor.GRAY + "Liczba zabojstw: " + ChatColor.GREEN + killuser.getKills());
             p.sendMessage(ChatColor.GRAY + "Liczba smierci: " + ChatColor.GREEN + killuser.getDeaths());
             if (killuser.getGuild() != null) {
-                p.sendMessage(ChatColor.GRAY + "Aktualnie jest w druzynie " + ChatColor.GREEN + killuser.getGuild().getGuildName());
+                p.sendMessage(ChatColor.GRAY + "Aktualnie jest w druzynie " + ChatColor.GREEN + killuser.getGuild().getGuildTag());
             } else {
                 p.sendMessage(ChatColor.GRAY + "Nie jestes w zadnej druzynie!");
 

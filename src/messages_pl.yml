@@ -157,8 +157,11 @@ spawnplacecantbreak: '&7Na terenie spawnu nie mozna nic niszczyc!'
 guildremovedbyadmin: '&7Gildia {GUILD} zostala usunieta przez Administratora'
 playerenterspawnnotify: '&7Wkroczyles na teren spawnu! Do strefy NO-PVP!'
 playerleavespawnnotify: '&7Opusciles na teren spawnu! Strefa PVP!'
-killerkilledvictim: '{VICTIM} ({VICTIMLOSE}) zostal zabity przez {KILLER} ({KILLEREARN}) '
+killerkilledvictim: '&c{VICTIM} &a({VICTIMLOSE}) &7zostal zabity przez &c{KILLER} &a({KILLEREARN}) '
 spawninteractblock: 'Nie mozesz wchodzic z tym w interakcje na spawnie!'
 clearinventoryfirst: 'Oczysc najpierw swoj ekwipunek zanim bedziesz mogl uzyc komendy!'
 cobblexitemreceived: 'Otrzymales przedmiot {ITEM} w ilosci {SIZE} szt.!'
 notenoughitemforcobblex: 'Nie wystaczajaca liczba cobblestona!'
+bypasshcban: "Twoja ranga pozwala ominac bana za smierc!"
+cuboidtoocloseplayer: "Nie mozesz stworzyc gildii kolo innego gracza!"
+toolongguildname: 'Nazwa gildii jest za dluga!'

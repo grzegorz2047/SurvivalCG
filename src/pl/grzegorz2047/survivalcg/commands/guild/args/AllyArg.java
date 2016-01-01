@@ -56,22 +56,22 @@ public class AllyArg extends Arg {
                 return;
             }
             for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-                if (r.getWithWho().equals(requestingGuild.getGuildName())) {
+                if (r.getWithWho().equals(requestingGuild.getGuildTag())) {
 
 
                     r.setExpired(true);
                     plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
-                    guild.getAlly().add(requestingGuild.getGuildName());
-                    requestingGuild.getAlly().add(guild.getGuildName());
+                    guild.getAlly().add(requestingGuild.getGuildTag());
+                    requestingGuild.getAlly().add(guild.getGuildTag());
                     Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-ally")
-                            .replace("{GUILD1}", guild.getGuildName())
-                            .replace("{GUILD2}", requestingGuild.getGuildName()));
+                            .replace("{GUILD1}", guild.getGuildTag())
+                            .replace("{GUILD2}", requestingGuild.getGuildTag()));
                     plugin.getManager().getScoreboardTagsManager().setRelationTag(guild,requestingGuild);
                     return;
                 }
             }
             leader.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequest"));
-            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("toacceptallymsg").replace("{GUILD}", requestingGuild.getGuildName()));
+            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("toacceptallymsg").replace("{GUILD}", requestingGuild.getGuildTag()));
             plugin.getManager().getGuildManager().requestAlly(requestingGuild, guild);
         } else {
             sender.sendMessage("/g ally <guild>");

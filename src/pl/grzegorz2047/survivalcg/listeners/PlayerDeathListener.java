@@ -29,14 +29,17 @@ public class PlayerDeathListener implements Listener {
     void onPlayerDeath(PlayerDeathEvent e) {
         e.setDeathMessage("");
         Player victim = e.getEntity();
+
         String victimname = victim.getName();
         User victimuser = plugin.getManager().getUserManager().getUsers().get(victimname);
+
         int points = plugin.getManager().getSettingsManager().getPoints();
         victimuser.setDeaths(victimuser.getDeaths() + 1);
+
         boolean canGivePoints = false;
+
         if (victim.getKiller() == null) {
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
-            return;
         } else {
             User killeruser = plugin.getManager().getUserManager().getUsers().get(victim.getKiller().getName());
             killeruser.setKills(killeruser.getKills() + 1);
@@ -57,18 +60,20 @@ public class PlayerDeathListener implements Listener {
                     getMsg("killerkilledvictim").
                     replace("{VICTIM}", victimname).
                     replace("{KILLER}", killeruser.getUsername()).
-                    replace("{VICTIMLOSE}", points + "-").
-                    replace("{KILLEREARN}", points+"+"));
+                    replace("{VICTIMLOSE}", "-" + points).
+                    replace("{KILLEREARN}", "+" + points));
 
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
             plugin.getManager().getRankingManager().checkPoints(killeruser.getUsername(), killeruser);
         }
         if (victim.hasPermission("scg.hardcore.bypass")) {
+            e.getEntity().sendMessage(plugin.getManager().getMsgManager().getMsg("bypasshcban"));
             return;
         } else {
             victimuser.setToBan(true);
         }
+        victim.getWorld().strikeLightningEffect(victim.getLocation());
 
 
     }

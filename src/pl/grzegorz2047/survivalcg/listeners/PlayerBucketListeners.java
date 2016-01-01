@@ -42,7 +42,7 @@ public class PlayerBucketListeners implements Listener {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                 e.setCancelled(true);
             }
-            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
+            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildTag());
 
         } else {
             if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
@@ -69,7 +69,7 @@ public class PlayerBucketListeners implements Listener {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                 e.setCancelled(true);
             }
-            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
+            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildTag());
 
         } else {
             if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {

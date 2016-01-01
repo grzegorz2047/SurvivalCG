@@ -54,9 +54,9 @@ public class InviteArg extends Arg {
                 return ;
             } else {
                 g.getWaitingMembers().add(friend);
-                fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getGuildName() + "!");
-                fp.sendMessage(prefix + ChatColor.GRAY + "Aby zaakceptowac wpisz /g akceptuj " + g.getGuildName());
-                fp.sendMessage(prefix + ChatColor.GRAY + "Aby odmowic wpisz /dg odrzuc " + g.getGuildName());
+                fp.sendMessage(prefix + ChatColor.GRAY + "Gracz " + g.getLeader() + " wyslal ci zaproszenie do druzyny " + g.getGuildTag() + "!");
+                fp.sendMessage(prefix + ChatColor.GRAY + "Aby zaakceptowac wpisz /g akceptuj " + g.getGuildTag());
+                fp.sendMessage(prefix + ChatColor.GRAY + "Aby odmowic wpisz /dg odrzuc " + g.getGuildTag());
                 p.sendMessage(prefix + "Zaproszenie zostalo wyslane do gracza o nicku " + friend);
                 return ;
             }

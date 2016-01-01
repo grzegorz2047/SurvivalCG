@@ -35,6 +35,10 @@ public class GeneralTask implements Runnable {
                 plugin.getManager().getTabManager().updateTab(p);
             }
         }
+        if(seconds % plugin.getManager().getSettingsManager().getStoneGeneratorDelayTime() == 0){
+            plugin.getManager().getStoneGeneratorManager().checkBlocks();
+        }
+
 
     }
 }

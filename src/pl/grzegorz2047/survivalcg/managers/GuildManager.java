@@ -41,7 +41,7 @@ public class GuildManager {
         return pendingRelations;
     }
 
-    public boolean createGuild(Player p, String tag) {
+    public boolean createGuild(Player p, String tag, String guildname) {
         MsgManager msgManager = plugin.getManager().getMsgManager();
         SettingsManager settingsManager = plugin.getManager().getSettingsManager();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
@@ -63,8 +63,14 @@ public class GuildManager {
             p.sendMessage(msgManager.getMsg("illegaltag"));
             return false;
         }
-
-
+        if (!guildname.matches("[0-9a-zA-Z]*")) {
+            p.sendMessage(msgManager.getMsg("illegaltag"));
+            return false;
+        }
+        if (guildname.length() > 18) {
+            p.sendMessage(msgManager.getMsg("toolongguildname"));
+            return false;
+        }
         boolean exists = plugin.getManager().getGuildManager().getGuilds().get(tag) != null;
         if (exists) {
             p.sendMessage(msgManager.getMsg("guildexists"));
@@ -79,8 +85,17 @@ public class GuildManager {
         }
         for (Map.Entry<String, Cuboid> entry : plugin.getManager().getCuboidManager().getCuboids().entrySet()) {
             if (p.getLocation().distance(entry.getValue().getCenter()) <= (entry.getValue().getRadius() * 2) + 3) {
-                p.sendMessage(plugin.getManager().getMsgManager().getMsg("cuboidtoocloseothers").replace("{GUILD}", entry.getValue().getGuild().getGuildName()));
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("cuboidtoocloseothers").replace("{GUILD}", entry.getValue().getGuild().getGuildTag()));
 
+                return false;
+            }
+        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (p.getLocation().distance(player.getLocation()) <= (plugin.getManager().getSettingsManager().getCuboidRadius() * 2) + 3) {
+                if (p.getName().equals(player.getName())) {
+                    continue;
+                }
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("cuboidtoocloseplayer"));
                 return false;
             }
         }
@@ -94,11 +109,11 @@ public class GuildManager {
         }
 
 
-        Guild guild = new Guild(tag, p.getName(), p.getLocation(), System.currentTimeMillis());
+        Guild guild = new Guild(tag, guildname, p.getName(), p.getLocation(), System.currentTimeMillis());
         p.setScoreboard(guild.getGuildScoreboard());
         plugin.getManager().getScoreboardTagsManager().addOrUpdateTag(guild);
         Cuboid cuboid = new Cuboid(guild, plugin.getManager().getSettingsManager().getCuboidRadius());
-        plugin.getManager().getCuboidManager().getCuboids().put(guild.getGuildName(), cuboid);
+        plugin.getManager().getCuboidManager().getCuboids().put(guild.getGuildTag(), cuboid);
         plugin.getManager().getGuildManager().getGuilds().put(tag, guild);
         plugin.getManager().getMysqlManager().getGuildQuery().insertGuild(guild);
         // #TODO COS Z SCOREBOARDEM
@@ -134,7 +149,7 @@ public class GuildManager {
             Guild allied = plugin.getManager().getGuildManager().getGuilds().get(ally);
             if (allied != null) {
                 removeRelation(g, allied);
-                allied.getAlly().remove(g.getGuildName());
+                allied.getAlly().remove(g.getGuildTag());
             }
 
         }
@@ -143,9 +158,9 @@ public class GuildManager {
         sponge.setType(Material.AIR);
         plugin.getManager().getScoreboardTagsManager().removeTag(g);
         p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
-        plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildName());
-        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
+        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildTag());
+        plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildTag());
+        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildTag());
 
         return true;
     }
@@ -168,16 +183,16 @@ public class GuildManager {
             Guild allied = plugin.getManager().getGuildManager().getGuilds().get(ally);
             if (allied != null) {
                 removeRelation(g, allied);
-                allied.getAlly().remove(g.getGuildName());
+                allied.getAlly().remove(g.getGuildTag());
             }
 
         }
         if (force) {
-            Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("guildremovedbyadmin").replace("{GUILD}", g.getGuildName()));
+            Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("guildremovedbyadmin").replace("{GUILD}", g.getGuildTag()));
         }
-        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildName());
-        plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildName());
-        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildName());
+        plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildTag());
+        plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildTag());
+        plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildTag());
 
         return true;
     }
@@ -202,7 +217,7 @@ public class GuildManager {
         plugin.getManager().getScoreboardTagsManager().addOrUpdateTag(g);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
         g.getWaitingMembers().remove(p.getName());
-        String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}", p.getName()).replace("{TAG}", g.getGuildName());
+        String msg = plugin.getManager().getMsgManager().getMsg("broadcast-join").replace("{PLAYER}", p.getName()).replace("{TAG}", g.getGuildTag());
         for (Player pl : Bukkit.getOnlinePlayers()) {
             pl.sendMessage(msg);
         }
@@ -265,7 +280,7 @@ public class GuildManager {
         }
         if (!isSomebody) {
             // #TODO COS Z SCOREBOARDEM
-            plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildName());
+            plugin.getManager().getGuildManager().getGuilds().remove(user.getGuild().getGuildTag());
         }
         user.setGuild(null);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
@@ -302,35 +317,36 @@ public class GuildManager {
     public void requestAlly(Guild requester, Guild withWho) {
 
         for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-            if (r.getWho().equals(requester.getGuildName()) && r.getWithWho().equals(withWho.getGuildName())) {
+            if (r.getWho().equals(requester.getGuildTag()) && r.getWithWho().equals(withWho.getGuildTag())) {
                 Player req = Bukkit.getPlayer(requester.getLeader());
                 req.sendMessage(plugin.getManager().getMsgManager().getMsg("allyrequestpendingalready"));
                 return;
             }
         }
-        Relation r = new Relation(requester.getGuildName(), withWho.getGuildName(), Relation.Status.ALLY);
+        Relation r = new Relation(requester.getGuildTag(), withWho.getGuildTag(), Relation.Status.ALLY);
         this.pendingRelations.add(r);
         Player p = Bukkit.getPlayer(withWho.getLeader());
-        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildName()));
+        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentallyrequestfrom").replace("{GUILD}", requester.getGuildTag()));
     }
+
     public void requestEnemy(Guild requester, Guild withWho) {
 
         for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-            if (r.getWho().equals(requester.getGuildName()) && r.getWithWho().equals(withWho.getGuildName())) {
+            if (r.getWho().equals(requester.getGuildTag()) && r.getWithWho().equals(withWho.getGuildTag())) {
                 Player req = Bukkit.getPlayer(requester.getLeader());
                 req.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyrequestpendingalready"));
                 return;
             }
         }
-        Relation r = new Relation(requester.getGuildName(), withWho.getGuildName(), Relation.Status.ENEMY);
+        Relation r = new Relation(requester.getGuildTag(), withWho.getGuildTag(), Relation.Status.ENEMY);
         this.pendingRelations.add(r);
         Player p = Bukkit.getPlayer(withWho.getLeader());
-        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentenemyrequestfrom").replace("{GUILD}", requester.getGuildName()));
+        p.sendMessage(plugin.getManager().getMsgManager().getMsg("sentenemyrequestfrom").replace("{GUILD}", requester.getGuildTag()));
     }
 
     public void removeRelation(Guild requester, Guild withWho) {
         Player p = Bukkit.getPlayer(withWho.getLeader());
-        plugin.getManager().getMysqlManager().getRelationQuery().removeRelation(requester.getGuildName(), withWho.getGuildName());
+        plugin.getManager().getMysqlManager().getRelationQuery().removeRelation(requester.getGuildTag(), withWho.getGuildTag());
     }
 
     public void checkPendingRelationList() {
@@ -345,8 +361,8 @@ public class GuildManager {
         }
     }
 
-    public void loadGuildTags(){
-        for(Map.Entry<String, Guild> entry : this.guilds.entrySet()){
+    public void loadGuildTags() {
+        for (Map.Entry<String, Guild> entry : this.guilds.entrySet()) {
             plugin.getManager().getScoreboardTagsManager().generateTags(entry.getValue());
         }
     }

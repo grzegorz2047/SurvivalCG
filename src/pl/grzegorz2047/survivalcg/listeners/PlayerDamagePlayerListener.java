@@ -208,7 +208,7 @@ public class PlayerDamagePlayerListener implements Listener {
         if(victimuser.getGuild() == null || attackeruser.getGuild() == null){
             return false;
         }else {
-            return  attackeruser.getGuild().getAlly().contains(victimuser.getGuild().getGuildName());
+            return  attackeruser.getGuild().getAlly().contains(victimuser.getGuild().getGuildTag());
         }
     }
 

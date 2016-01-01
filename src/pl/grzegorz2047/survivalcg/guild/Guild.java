@@ -26,9 +26,11 @@ public class Guild {
     private String leader;
     private long createTime;
     private String description;
+    private String guildName;
 
-    public Guild(String tag, String leader, Location home, long createtime) {
+    public Guild(String tag, String guildName, String leader, Location home, long createtime) {
         this.tag = tag;
+        this.guildName = guildName;
         this.leader = leader;
         this.home = home;
         this.createTime = createtime;
@@ -50,7 +52,7 @@ public class Guild {
         return waitingMembers;
     }
 
-    public String getGuildName() {
+    public String getGuildTag() {
         return tag;
     }
 
@@ -78,12 +80,12 @@ public class Guild {
         return ChatColor.GOLD + tag + ChatColor.GRAY + " ";
     }
 
-    public void setTag(String tag) {
+    public void setGuildTag(String tag) {
         this.tag = tag;
     }
 
     public boolean equals(Guild guild) {
-        return this.getGuildName().equals(guild.getGuildName());
+        return this.getGuildTag().equals(guild.getGuildTag());
     }
 
     public void setCreateTime(long createTime) {
@@ -117,5 +119,13 @@ public class Guild {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGuildName() {
+        return guildName;
+    }
+
+    public void setGuildName(String guildName) {
+        this.guildName = guildName;
     }
 }

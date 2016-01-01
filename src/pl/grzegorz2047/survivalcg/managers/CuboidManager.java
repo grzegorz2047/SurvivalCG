@@ -44,13 +44,17 @@ public class CuboidManager {
                 if(entered){
                     if(user.getCurrentCuboid() == null){
                         if(plugin.getManager().getSettingsManager().isCuboidEntryNotify()){
+                            if(plugin.getManager().getSettingsManager().isCuboidEntrySound()) {
+                                p.playSound(p.getLocation(), plugin.getManager().getSettingsManager().getCuboidEntrySoundType(), 1, 1);
+                                for (Player member : Bukkit.getOnlinePlayers()) {
+                                    if (entry.getValue().getGuild().getMembers().contains(member)) {
+                                        if (user.getGuild() != null) {
+                                            member.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmems").replace("{GUILD}", user.getGuild().getGuildTag()).replace("{PLAYER}", user.getUsername()));
 
-                            for(Player member : Bukkit.getOnlinePlayers()){
-                                if(entry.getValue().getGuild().getMembers().contains(member)){
-                                    if(user.getGuild() != null){
-                                        p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmems").replace("{GUILD}",user.getGuild().getGuildName()).replace("{PLAYER}",user.getUsername()));
-                                    }else{
-                                        p.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmemsnoguild").replace("{PLAYER}", user.getUsername()));
+                                        } else {
+                                            member.sendMessage(plugin.getManager().getMsgManager().getMsg("entercubmemsnoguild").replace("{PLAYER}", user.getUsername()));
+                                        }
+                                        member.playSound(p.getLocation(),plugin.getManager().getSettingsManager().getCuboidEntrySoundType(),1,1);
                                     }
                                 }
                             }
@@ -67,7 +71,7 @@ public class CuboidManager {
             }
             if(!inany){
                 if(user.getCurrentCuboid() != null){
-                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("leavecubpl").replace("{GUILD}",user.getCurrentCuboid().getGuild().getGuildName()));
+                    p.sendMessage(plugin.getManager().getMsgManager().getMsg("leavecubpl").replace("{GUILD}",user.getCurrentCuboid().getGuild().getGuildTag()));
                 }
                 user.setCurrentCuboid(null);
             }

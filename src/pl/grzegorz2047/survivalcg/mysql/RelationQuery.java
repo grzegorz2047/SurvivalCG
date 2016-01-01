@@ -32,8 +32,8 @@ public class RelationQuery extends Query {
             statement = connection.prepareStatement("INSERT INTO " + mysql.getRelationTable() + "("
                     + "id, inviter, withwho, relation, createdate ) VALUES (?, ?, ?, ?, ?)");
             statement.setInt(1, 0);
-            statement.setString(2, requester.getGuildName());
-            statement.setString(3, withWho.getGuildName());
+            statement.setString(2, requester.getGuildTag());
+            statement.setString(3, withWho.getGuildTag());
             statement.setString(4, String.valueOf(Relation.Status.ALLY));
             statement.setLong(5, System.currentTimeMillis());
             statement.executeUpdate();

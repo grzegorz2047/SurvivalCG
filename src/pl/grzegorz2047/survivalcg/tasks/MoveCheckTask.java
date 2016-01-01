@@ -17,6 +17,5 @@ public class MoveCheckTask implements Runnable {
     @Override
     public void run() {
         plugin.getManager().getCuboidManager().checkPlayers();
-        plugin.getManager().getStoneGeneratorManager().checkBlocks();
     }
 }

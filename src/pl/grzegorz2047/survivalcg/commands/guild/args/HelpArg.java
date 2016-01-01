@@ -1,6 +1,7 @@
 package pl.grzegorz2047.survivalcg.commands.guild.args;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -24,7 +25,7 @@ public class HelpArg extends Arg {
             Player p = (Player) sender;
             p.sendMessage(" ");
             p.sendMessage(ChatColor.GRAY+"Lista dostepnych komend:");
-            p.sendMessage(ChatColor.GREEN+"/g zaloz <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
+            p.sendMessage(ChatColor.GREEN+"/g zaloz <TagGildii> <NazwaGildii> "+ChatColor.GRAY+"- Tworzy nowa gildie");
             p.sendMessage(ChatColor.GREEN+"/g usun "+ChatColor.GRAY+"- Usuwa gildie");
             p.sendMessage(ChatColor.GREEN+"/g wyrzuc <nick> "+ChatColor.GRAY+"- Wyrzuca gracza z gildii");
             p.sendMessage(ChatColor.GREEN+"/g zapros <nick> "+ChatColor.GRAY+"- Zaprasza gracza do gildii");

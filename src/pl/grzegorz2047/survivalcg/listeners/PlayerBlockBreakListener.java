@@ -59,7 +59,7 @@ public class PlayerBlockBreakListener implements Listener {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                 e.setCancelled(true);
             }
-            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildName());
+            //Bukkit.broadcastMessage("Gracz "+p.getName()+" robi cos na cuboidzie "+cuboid.getGuild().getGuildTag());
 
         } else {
             if (e.getBlock().getType().equals(Material.STONE)) {

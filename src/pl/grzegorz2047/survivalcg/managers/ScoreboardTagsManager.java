@@ -47,11 +47,11 @@ public class ScoreboardTagsManager {
                 continue;
             }
             Scoreboard sb = entry.getValue().getGuildScoreboard();
-            Team t = sb.getTeam(newGuild.getGuildName());
+            Team t = sb.getTeam(newGuild.getGuildTag());
             if( t == null){
-                t = sb.registerNewTeam(newGuild.getGuildName());
+                t = sb.registerNewTeam(newGuild.getGuildTag());
             }
-            if (entry.getValue().getAlly().contains(newGuild.getGuildName())) {
+            if (entry.getValue().getAlly().contains(newGuild.getGuildTag())) {
                 String allyColor = plugin.getManager().getSettingsManager().getAllyTagColor();
                 String displayName = ColoringUtil.colorText(allyColor + t.getName() + "&7 ");
                 t.setPrefix(displayName);
@@ -92,7 +92,7 @@ public class ScoreboardTagsManager {
                 continue;
             }
             Scoreboard sb = entry.getValue().getGuildScoreboard();
-            Team t = sb.getTeam(g.getGuildName());
+            Team t = sb.getTeam(g.getGuildTag());
             t.unregister();
         }
     }
@@ -100,8 +100,8 @@ public class ScoreboardTagsManager {
     public void setRelationTag(Guild guild, Guild requestingGuild){
         Scoreboard sb = guild.getGuildScoreboard();
 
-        Team t = sb.getTeam(requestingGuild.getGuildName());
-        if (guild.getAlly().contains(requestingGuild.getGuildName())) {
+        Team t = sb.getTeam(requestingGuild.getGuildTag());
+        if (guild.getAlly().contains(requestingGuild.getGuildTag())) {
             String allyColor = plugin.getManager().getSettingsManager().getAllyTagColor();
             String displayName = ColoringUtil.colorText(allyColor + t.getName() + "&7 ");
             t.setPrefix(displayName);
@@ -115,8 +115,8 @@ public class ScoreboardTagsManager {
         }
 
         sb = requestingGuild.getGuildScoreboard();
-        t = sb.getTeam(guild.getGuildName());
-        if (requestingGuild.getAlly().contains(guild.getGuildName())) {
+        t = sb.getTeam(guild.getGuildTag());
+        if (requestingGuild.getAlly().contains(guild.getGuildTag())) {
             String allyColor = plugin.getManager().getSettingsManager().getAllyTagColor();
             String displayName = ColoringUtil.colorText(allyColor + t.getName() + "&7 ");
             t.setPrefix(displayName);

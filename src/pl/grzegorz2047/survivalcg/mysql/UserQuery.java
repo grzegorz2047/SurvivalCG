@@ -116,7 +116,7 @@ public class UserQuery extends Query {
             Guild g = user.getGuild();
             String guildname = "";
             if(g != null){
-                guildname = g.getGuildName();
+                guildname = g.getGuildTag();
             }
             statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET points='" +
                     user.getPoints() +
@@ -153,7 +153,7 @@ public class UserQuery extends Query {
         Guild g = user.getGuild();
         String guildname = "";
         if(g != null){
-            guildname = g.getGuildName();
+            guildname = g.getGuildTag();
         }
         try {
             connection = mysql.getHikari().getConnection();

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
@@ -25,6 +26,19 @@ public class PlayerBlockBreakListener implements Listener {
     public PlayerBlockBreakListener(SCG plugin) {
         this.plugin = plugin;
     }
+
+    @EventHandler
+    public void onBlockPiStonExtend(BlockPistonExtendEvent e) {
+        for(Block block : e.getBlocks()) {
+            if(block.getType() == Material.SPONGE) {
+                e.setCancelled(true);
+            }
+            if(block.getType() == Material.ENDER_STONE) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
 
     @EventHandler
     void onPlayerBreak(BlockBreakEvent e) {

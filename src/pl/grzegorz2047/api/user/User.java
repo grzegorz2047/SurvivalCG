@@ -20,6 +20,9 @@ public class User {
     private Cuboid currentCuboid;
     private boolean toBan = false;
     private boolean onSpawn = false;
+    private float kFactor;
+    private int constant = 10;
+
     private User() {
     }
 
@@ -120,5 +123,21 @@ public class User {
 
     public void setOnSpawn(boolean onSpawn) {
         this.onSpawn = onSpawn;
+    }
+
+    public float getkFactor() {
+        return kFactor;
+    }
+
+    public void setkFactor(float kFactor) {
+        this.kFactor = kFactor;
+    }
+
+    public int getConstant() {
+        return constant;
+    }
+
+    public void setConstant(int constant) {
+        this.constant = constant;
     }
 }

@@ -20,10 +20,10 @@ public class PlayerTeleportListener implements Listener {
 
     @EventHandler
     void onTeleport(PlayerTeleportEvent e) {
-        if(e.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)){
-            Player p = e.getPlayer();
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("teleport-warning"));
-        }
+       // if(e.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)){
+       //     Player p = e.getPlayer();
+       //
+       // }
     }
 
 }

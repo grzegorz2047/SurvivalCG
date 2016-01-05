@@ -1,15 +1,14 @@
 package pl.grzegorz2047.survivalcg.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by grzeg on 20.12.2015.
@@ -116,6 +115,35 @@ public class RankingManager {
         guildPoints = guildPoints / guildSize;
         guild.setGuildPoints(guildPoints);
         plugin.getManager().getMysqlManager().getGuildQuery().updateGuild(guild);
+    }
+
+    public void recountEloFight(User winner, User lost){
+        int wOldPoints = winner.getPoints();
+        float wkd = (winner.getDeaths()/winner.getKills());
+        if(wkd != 0){
+           wkd = (winner.getDeaths()/winner.getKills());
+        }else {
+            wkd = 1;
+        }
+        float wNewPoints = wOldPoints + (winner.getConstant() * wkd );
+
+        int lOldPoints = lost.getPoints();
+        float lkd = (lost.getDeaths()/lost.getKills());
+        if(lkd != 0){
+            lkd = (lost.getKills()/lost.getDeaths());
+        }else {
+            lkd = 1;
+        }
+        float lNewPoints = lOldPoints - (lost.getConstant() * lkd );
+
+        winner.setPoints((int) wNewPoints);
+        lost.setPoints((int) lNewPoints);
+        Bukkit.broadcastMessage(plugin.getManager().getMsgManager().
+                getMsg("killerkilledvictim").
+                replace("{VICTIM}", winner.getUsername()).
+                replace("{KILLER}", lost.getUsername()).
+                replace("{VICTIMLOSE}", "-" + (lost.getConstant() * lkd )).
+                replace("{KILLEREARN}", "+" + (winner.getConstant() * wkd)));
     }
 
     public LinkedHashMap<String, Integer> getUserRank() {

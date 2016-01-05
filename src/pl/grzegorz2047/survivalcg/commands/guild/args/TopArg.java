@@ -20,6 +20,6 @@ public class TopArg extends Arg {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        plugin.getManager().getRankingManager().printRanking(p);
+        plugin.getManager().getRankingManager().printUserRanking(p);
     }
 }

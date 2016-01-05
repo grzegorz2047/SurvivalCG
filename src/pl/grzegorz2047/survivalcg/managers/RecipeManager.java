@@ -16,7 +16,6 @@ public class RecipeManager {
     private final SCG plugin;
 
 
-
     public RecipeManager(SCG plugin ){
         this.plugin = plugin;
         ItemStack ender = new ItemStack(Material.ENDER_STONE);
@@ -28,7 +27,7 @@ public class RecipeManager {
         Bukkit.addRecipe(enderRecipe);
 
         ItemStack enderChest = new ItemStack(Material.ENDER_CHEST);
-        ShapedRecipe enderChestRecipe = new ShapedRecipe(ender);
+        ShapedRecipe enderChestRecipe = new ShapedRecipe(enderChest);
         enderChestRecipe.shape("***","*P*","***");
         enderChestRecipe.setIngredient('*', Material.OBSIDIAN);
         enderChestRecipe.setIngredient('P', Material.ENDER_PEARL);

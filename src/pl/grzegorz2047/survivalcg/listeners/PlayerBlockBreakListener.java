@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
@@ -30,9 +32,7 @@ public class PlayerBlockBreakListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        if(e.getBlock().getType().equals(Material.ENDER_STONE)){
-            e.getBlock().setType(Material.AIR);
-        }
+
         Player p = e.getPlayer();
         User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
         Guild guild = user.getGuild();
@@ -42,7 +42,7 @@ public class PlayerBlockBreakListener implements Listener {
                 if (!user.getGuild().equals(cuboid.getGuild())) {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
                     e.setCancelled(true);
-                }else {//Jezeli stoniarka w dobrym miejscu dostepnym
+                } else {//Jezeli stoniarka w dobrym miejscu dostepnym
                     if (e.getBlock().getType().equals(Material.STONE)) {
                         Location loc = e.getBlock().getLocation().subtract(0, 1, 0);
                         Block b = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
@@ -53,7 +53,7 @@ public class PlayerBlockBreakListener implements Listener {
                     }
                 }
             } else {
-                if(e.getPlayer().isOp()){
+                if (e.getPlayer().isOp()) {
                     return;
                 }
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("enemyguildblockplace"));
@@ -69,17 +69,32 @@ public class PlayerBlockBreakListener implements Listener {
                     //p.sendMessage("Pod toba jest ender stone");
                     plugin.getManager().getStoneGeneratorManager().getBlocks().add(e.getBlock().getState());
                     return;
-                }else {
-                   // p.sendMessage("Pod toba jest "+b.getType());
+                } else {
+                    // p.sendMessage("Pod toba jest "+b.getType());
                 }
             }
-            if(e.getPlayer().isOp()){
+            if (e.getPlayer().isOp()) {
                 return;
             }
             if (p.getLocation().distance(p.getWorld().getSpawnLocation()) <= plugin.getManager().getSettingsManager().getProtectedSpawnRadius()) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("spawnplacecantbreak"));
                 e.setCancelled(true);
             }
+        }
+        //Stuff about destroing stone generator using golden pickaxe with silk touch enchantment
+        if (e.getBlock().getType().equals(Material.ENDER_STONE)) {
+            ItemStack handitem = e.getPlayer().getItemInHand();
+            if (handitem != null) {
+                if (handitem.getType().equals(Material.GOLD_PICKAXE)) {
+                    if (handitem.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                        return;
+                    }
+                } else {
+                    e.getBlock().setType(Material.AIR);
+                }
+
+            }
+
         }
     }
 }

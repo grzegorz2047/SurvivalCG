@@ -39,7 +39,7 @@ public class PlayerInteractListener implements Listener {
             if (e.getClickedBlock().getState() instanceof Sign) {
                 Sign s = (Sign) e.getClickedBlock().getState();
                 if (s.getLine(0).equalsIgnoreCase("[tp]")) {
-                    plugin.getManager().getRandomTpManager().teleport(e.getPlayer(), 1300, 500, true);
+                    plugin.getManager().getRandomTpManager().teleport(e.getPlayer(), 1500, 800, true);
                 }
             }
             Block iblock = e.getClickedBlock();

@@ -1,8 +1,10 @@
 package pl.grzegorz2047.survivalcg.managers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
@@ -14,11 +16,17 @@ import java.util.Map;
  */
 public class ScoreboardTagsManager {
     private final SCG plugin;
-
+    private Scoreboard mainScoreBoard;
     public ScoreboardTagsManager(SCG plugin) {
         this.plugin = plugin;
+        this.mainScoreBoard = Bukkit.getScoreboardManager().getNewScoreboard();
     }
 
+    public void setPlayerTag(Player p, User user){
+        if(user.getGuild() == null){
+            p.setScoreboard(mainScoreBoard);
+        }
+    }
 
     public void generateTags(Guild g) {
         Scoreboard mainsb = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -69,7 +77,10 @@ public class ScoreboardTagsManager {
             }
 
             Scoreboard sbnew = newGuild.getGuildScoreboard();
-            Team tn = sbnew.registerNewTeam(entry.getKey());
+            Team tn = sbnew.getTeam(entry.getKey());
+            if(tn == null){
+                tn = sbnew.registerNewTeam(entry.getKey());
+            }
             String color = plugin.getManager().getSettingsManager().getEnemyTagColor();
             String displayName = ColoringUtil.colorText(color + tn.getName() + "&7 ");
             tn.setPrefix(displayName);
@@ -130,4 +141,11 @@ public class ScoreboardTagsManager {
         }
     }
 
+    public Scoreboard getMainScoreBoard() {
+        return mainScoreBoard;
+    }
+
+    public void setMainScoreBoard(Scoreboard mainScoreBoard) {
+        this.mainScoreBoard = mainScoreBoard;
+    }
 }

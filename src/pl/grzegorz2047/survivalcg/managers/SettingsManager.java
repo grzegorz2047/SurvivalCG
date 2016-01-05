@@ -324,6 +324,7 @@ public class SettingsManager {
     }
 
     public void loadSettings() {
+        this.plugin.reloadConfig();
         this.lang = plugin.getConfig().getString("lang");
         this.sqlhost = plugin.getConfig().getString("mysql.host");
         this.sqlport = plugin.getConfig().getInt("mysql.port");

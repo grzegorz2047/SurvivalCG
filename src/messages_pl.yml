@@ -165,3 +165,6 @@ notenoughitemforcobblex: 'Nie wystaczajaca liczba cobblestona!'
 bypasshcban: "Twoja ranga pozwala ominac bana za smierc!"
 cuboidtoocloseplayer: "Nie mozesz stworzyc gildii kolo innego gracza!"
 toolongguildname: 'Nazwa gildii jest za dluga!'
+checkghelpmsg: 'Taki argument nie istnieje badz jest niepoprawny! Wpisz /g'
+pluginreloaded: 'Config pluginu zostal ponownie zaladowany'
+allynotfound: 'Ta gildia nie jest z toba w sojuszu'

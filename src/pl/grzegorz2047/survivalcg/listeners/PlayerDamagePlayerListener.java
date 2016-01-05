@@ -205,6 +205,9 @@ public class PlayerDamagePlayerListener implements Listener {
     public boolean checkIfAllies(Player attacker, Player attacked){
         User victimuser = plugin.getManager().getUserManager().getUsers().get(attacked.getName());
         User attackeruser = plugin.getManager().getUserManager().getUsers().get(attacker.getName());
+        if(attacker.getName().equals(attacked.getName())){
+            return false;
+        }
         if(victimuser.getGuild() == null || attackeruser.getGuild() == null){
             return false;
         }else {

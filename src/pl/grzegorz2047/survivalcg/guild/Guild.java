@@ -20,7 +20,7 @@ public class Guild {
     private List<String> members = new ArrayList<String>();
     private List<String> waitingMembers = new ArrayList<String>();
     private List<String> ally = new ArrayList<String>();
-
+    private int guildPoints = 1000;
     private Scoreboard guildScoreboard;
 
     private String leader;
@@ -127,5 +127,13 @@ public class Guild {
 
     public void setGuildName(String guildName) {
         this.guildName = guildName;
+    }
+
+    public int getGuildPoints() {
+        return guildPoints;
+    }
+
+    public void setGuildPoints(int guildPoints) {
+        this.guildPoints = guildPoints;
     }
 }

@@ -27,7 +27,7 @@ public class CreateArg extends Arg {
                 Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-create").replace("{TAG}", args[1].toUpperCase()).replace("{PLAYER}", p.getName()));
             }
         }else{
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("wrongcmdargument"));
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("checkghelpmsg"));
         }
 
     }

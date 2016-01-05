@@ -6,8 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import pl.grzegorz2047.api.user.User;
+import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.Fight;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by grzeg on 26.12.2015.
@@ -36,7 +41,16 @@ public class PlayerQuitListener implements Listener {
                 }
             }
         }
-
+        User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
+        if(user.isToBan()){
+            user.setToBan(false);
+            plugin.getManager().getDeathManager().banPlayer(p.getName(), plugin.getManager().getSettingsManager().getHcBanTime());
+            long bantime = plugin.getManager().getSettingsManager().getHcBanTime() + System.currentTimeMillis();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            Date date = new Date(bantime);
+            String msg =  plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date));
+            p.kickPlayer(ColoringUtil.colorText(msg));
+        }
         plugin.getManager().getUserManager().removeUser(p.getName());
         plugin.getManager().getTabManager().removePlayer(p);
 

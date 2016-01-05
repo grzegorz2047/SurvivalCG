@@ -21,3 +21,5 @@ gdy tnt wybucha nie mozna stawiac blokow na cuboidow
 dodaj lighting przy smierci (pobierz mozliwosc wlaczenia lub wylaczenia)
 
 dodaj rare items przy cobblex
+
+zloty kilof + silk touch dropi endstone

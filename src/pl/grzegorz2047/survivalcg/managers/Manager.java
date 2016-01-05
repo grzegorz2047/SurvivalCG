@@ -89,7 +89,7 @@ public class Manager {
         this.taskManager = new TaskManager(plugin);
         this.commandsManager = new CommandsManager(plugin);
         this.cuboidManager = new CuboidManager(plugin);
-        this.rankingManager = new RankingManager();
+        this.rankingManager = new RankingManager(plugin);
         this.scoreboardTagsManager = new ScoreboardTagsManager(plugin);
 
 
@@ -103,7 +103,9 @@ public class Manager {
         String banTable = this.settingsManager.getSQLBanTable();
         String relationTable = this.settingsManager.getSQLRelationTable();
         this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, banTable, relationTable, plugin);
-        this.mysqlManager.getRankingQuery().getRanking(rankingManager);
+        this.mysqlManager.getRankingQuery().getRankingUser(rankingManager);
+        this.mysqlManager.getRankingQuery().getRankingGuilds(rankingManager);
+
         this.guildManager = new GuildManager(plugin);
         this.deathManager = new DeathManager(plugin);
         this.tabManager = new TabManager(plugin);

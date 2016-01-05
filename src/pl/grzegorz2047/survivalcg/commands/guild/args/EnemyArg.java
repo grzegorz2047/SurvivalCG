@@ -3,6 +3,7 @@ package pl.grzegorz2047.survivalcg.commands.guild.args;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -16,19 +17,20 @@ public class EnemyArg extends Arg {
 
     private final SCG plugin;
 
-    public EnemyArg(SCG plugin) {
-        this.plugin = plugin;
+    public EnemyArg(Plugin plugin) {
+        this.plugin = (SCG) plugin;
     }
 
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length >= 2) {
-            Player p = (Player) sender;
+
             if (!(sender instanceof Player)) {
                 sender.sendMessage(plugin.getManager().getMsgManager().getMsg("cmdonlyforplayer"));
                 return;
             }
+            Player p = (Player) sender;
             if (args.length >= 2) {
                 String guildToCheck = args[1].toUpperCase();
                 Guild guild = plugin.getManager().getGuildManager().getGuilds().get(guildToCheck);
@@ -36,8 +38,10 @@ public class EnemyArg extends Arg {
                     sender.sendMessage(plugin.getManager().getMsgManager().getMsg("guilddoesntexists"));
                     return;
                 }
+
                 User user = plugin.getManager().getUserManager().getUsers().get(p.getName());
                 Guild requestingGuild = user.getGuild();
+
                 if (requestingGuild == null) {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("notinguild"));
                     return;
@@ -60,24 +64,10 @@ public class EnemyArg extends Arg {
                     p.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotonline"));
                     return;
                 }
-                for (Relation r : plugin.getManager().getGuildManager().getPendingRelations()) {
-                    if (r.getWithWho().equals(requestingGuild.getGuildTag())) {
 
-                        r.setExpired(true);
-                        plugin.getManager().getMysqlManager().getRelationQuery().addRelation(requestingGuild, guild);
-                        guild.getAlly().remove(requestingGuild.getGuildTag());
-                        requestingGuild.getAlly().remove(guild.getGuildTag());
-                        Bukkit.broadcastMessage(plugin.getManager().getMsgManager().getMsg("broadcast-enemy")
-                                .replace("{GUILD1}", requestingGuild.getGuildTag())
-                                .replace("{GUILD2}", guild.getGuildTag()));
-                        plugin.getManager().getScoreboardTagsManager().setRelationTag(guild,requestingGuild);
-                        return;
-                    }
-                }
                 plugin.getManager().getGuildManager().removeRelation(requestingGuild, guild);
-                plugin.getManager().getGuildManager().requestEnemy(requestingGuild, guild);
             } else {
-                sender.sendMessage("/g ally <guild>");
+                sender.sendMessage(plugin.getManager().getMsgManager().getMsg("checkghelpmsg"));
             }
         }
 

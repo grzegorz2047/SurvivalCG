@@ -5,13 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
-import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by grzeg on 26.12.2015.
@@ -33,7 +28,10 @@ public class PlayerDeathListener implements Listener {
         String victimname = victim.getName();
         User victimuser = plugin.getManager().getUserManager().getUsers().get(victimname);
 
-        int points = plugin.getManager().getSettingsManager().getPoints();
+        int points = 0;
+        points = victimuser.getPoints()/100;
+
+
         victimuser.setDeaths(victimuser.getDeaths() + 1);
 
         boolean canGivePoints = false;
@@ -55,6 +53,8 @@ public class PlayerDeathListener implements Listener {
             if (canGivePoints) {
                 victimuser.setPoints(victimuser.getPoints() - points);
                 killeruser.setPoints(killeruser.getPoints() + points);
+                plugin.getManager().getRankingManager().checkUserpoints(killeruser.getUsername(), killeruser);
+                plugin.getManager().getRankingManager().checkUserpoints(victimuser.getUsername(), victimuser);
             }
             Bukkit.broadcastMessage(plugin.getManager().getMsgManager().
                     getMsg("killerkilledvictim").
@@ -65,7 +65,7 @@ public class PlayerDeathListener implements Listener {
 
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
-            plugin.getManager().getRankingManager().checkPoints(killeruser.getUsername(), killeruser);
+
         }
         if (victim.hasPermission("scg.hardcore.bypass")) {
             e.getEntity().sendMessage(plugin.getManager().getMsgManager().getMsg("bypasshcban"));

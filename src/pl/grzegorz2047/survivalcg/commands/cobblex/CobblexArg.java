@@ -23,40 +23,38 @@ public class CobblexArg extends Arg {
 
     public CobblexArg(SCG plugin) {
         this.plugin = plugin;
-        ItemStack it = new ItemStack(Material.COBBLESTONE, 64);
-        for (int i = 0; i < 9; i++) {
-            recipe.add(it.clone());
-        }
+        ItemStack it = new ItemStack(Material.COBBLESTONE, 1);
+        it.setAmount(9*64);
+        recipe.add(it);
     }
-
 
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        if(p.getInventory().firstEmpty()>p.getInventory().getSize()){
+        if (p.getInventory().firstEmpty() > p.getInventory().getSize()) {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("clearinventoryfirst"));
             return;
         }
-        if (MiscUtils.hasEnoughItemsForGuild(recipe, p.getInventory())){
+        if (MiscUtils.hasEnoughItemsForGuild(recipe, p.getInventory())) {
             MiscUtils.removeRequiredItemsForGuild(recipe, p.getInventory());
             int randrare = RandomUtil.get().nextInt(100);
             List<ItemStack> ity;
-            if(randrare>80){
+            if (randrare > 80) {
                 ity = plugin.getManager().getSettingsManager().getCobblexItemsRare();
-            }else{
+            } else {
                 ity = plugin.getManager().getSettingsManager().getCobblexItems();
 
             }
-            int rand = RandomUtil.get().nextInt(ity.size()-2);
+            int rand = RandomUtil.get().nextInt(ity.size() - 2);
 
-            rand+=1;
+            rand += 1;
             ItemStack cItem = ity.get(rand);
             p.getInventory().addItem(cItem.clone());
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("cobblexitemreceived").
-                    replace("{ITEM}",cItem.getType().toString()).
-                    replace("{SIZE}", cItem.getAmount()+""));
-        }else{
+                    replace("{ITEM}", cItem.getType().toString()).
+                    replace("{SIZE}", cItem.getAmount() + ""));
+        } else {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("notenoughitemforcobblex"));
         }
 

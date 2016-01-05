@@ -50,7 +50,7 @@ public class PlayerJoinListener implements Listener {
         if(user.getGuild() != null){
             p.setScoreboard(user.getGuild().getGuildScoreboard());
         }else {
-            p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            plugin.getManager().getScoreboardTagsManager().setPlayerTag(p, user);
         }
     }
 

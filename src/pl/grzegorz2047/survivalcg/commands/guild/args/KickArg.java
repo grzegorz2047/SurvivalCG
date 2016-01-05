@@ -19,11 +19,17 @@ public class KickArg extends Arg {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+
         Player p = (Player) sender;
-        String whoKick = args[1];
-        boolean kicked = plugin.getManager().getGuildManager().removeFromGuild(p, whoKick);
-        if(kicked){
-            p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerkicksuccess"));
+        if(args.length>=2){
+            String whoKick = args[1];
+            boolean kicked = plugin.getManager().getGuildManager().removeFromGuild(p, whoKick);
+            if(kicked){
+                p.sendMessage(plugin.getManager().getMsgManager().getMsg("playerkicksuccess"));
+            }
+        }else{
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("checkghelpmsg"));
         }
+
     }
 }

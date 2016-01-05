@@ -23,7 +23,7 @@ public class InfoArg extends Arg {
     public void execute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
         if (args.length >= 2) {
-            String guild = args[1];
+            String guild = args[1].toUpperCase();
             Guild g = plugin.getManager().getGuildManager().getGuilds().get(guild);
             if (g != null) {
                 sender.sendMessage(ColoringUtil.colorText("&7============="));

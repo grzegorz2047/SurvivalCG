@@ -14,8 +14,16 @@ public class MoveCheckTask implements Runnable {
 
     }
 
+    float halfSeconds = 0;
     @Override
     public void run() {
         plugin.getManager().getCuboidManager().checkPlayers();
+        halfSeconds+= 0.5;
+        if(halfSeconds % plugin.getManager().getSettingsManager().getStoneGeneratorDelayTime() == 0){
+            plugin.getManager().getStoneGeneratorManager().checkBlocks();
+        }
+        if(halfSeconds >=5){
+            halfSeconds = 0;
+        }
     }
 }

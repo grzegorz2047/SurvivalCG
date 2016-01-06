@@ -7,7 +7,7 @@ public class Fight {
     private String victim;
     private String attacker;
     private Long lastHitTime;
-    private int cooldown = 10;//ile trzeba poczekac przed logoutem w sek
+    private int cooldown = 30;//ile trzeba poczekac przed logoutem w sek
 
     public Fight(String attacker, String victim, Long lastHitTime) {
         this.victim = victim;

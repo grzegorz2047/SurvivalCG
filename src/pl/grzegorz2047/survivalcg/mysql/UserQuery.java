@@ -63,7 +63,6 @@ public class UserQuery extends Query {
         }
         if (insert) {
             user.setKills(0);
-            user.setPoints(1000);
             user.setDeaths(0);
             insertPlayer(user);
         }
@@ -79,7 +78,7 @@ public class UserQuery extends Query {
             statement = connection.prepareStatement("INSERT INTO " + mysql.getUsertable() + "("
                     + "username, points, kills, deaths, guild) VALUES (?, ?, ?, ?, ?)");
             statement.setString(1, user.getUsername());
-            statement.setInt(2, 1000);
+            statement.setInt(2, user.getPoints());
             statement.setInt(3, 0);
             statement.setInt(4, 0);
             statement.setString(5, "");

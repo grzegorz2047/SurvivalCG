@@ -27,11 +27,11 @@ public class RankingQuery extends Query {
             connection = mysql.getHikari().getConnection();
             statement = connection.prepareStatement("SELECT username, points FROM " + mysql.getUsertable() + " ORDER by points DESC LIMIT 0,15");
             ResultSet set = statement.executeQuery();
-            rank.getGuildRank().clear();
+            rank.getUserRank().clear();
             while (set.next()) {
                 String username = set.getString("username");
                 int points = set.getInt("points");
-                System.out.println("Wczytuje "+username+" "+points);
+                //System.out.println("Wczytuje "+username+" "+points);
                 rank.addUserPoints(username, points);
 
             }

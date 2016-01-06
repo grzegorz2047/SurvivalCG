@@ -88,21 +88,6 @@ public class PlayerDamagePlayerListener implements Listener {
             return;
         }
     }
-    @EventHandler
-    void onPlayerHunger(FoodLevelChangeEvent event){
-        if (event.isCancelled()) {
-            return;
-        }
-        if(!(event.getEntity() instanceof Player)){
-            return;
-        }
-        Player p = (Player) event.getEntity();
-        int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
-        if(p.getLocation().distance(p.getWorld().getSpawnLocation()) <= protspawnrad){
-            event.setCancelled(true);
-            return;
-        }
-    }
 
     @EventHandler
     void onEntityDamageEntity(EntityDamageByEntityEvent event) {

@@ -34,13 +34,8 @@ public class RankingManager {
     private LinkedHashMap<String, Integer> guildRank = new LinkedHashMap<String, Integer>();
 
 
-    public void checkUserpoints(String username, User user) {
-        if (userRank.get(username) != null) {
-            userRank.put(username, user.getPoints());
-        } else {
-            plugin.getManager().getMysqlManager().getRankingQuery().getRankingUser(plugin.getManager().getRankingManager());
-        }
-
+    public void checkUserpoints() {
+        plugin.getManager().getMysqlManager().getRankingQuery().getRankingUser(plugin.getManager().getRankingManager());
     }
 
     public void checkGuildpoints(String guildTag, Guild guild) {
@@ -145,11 +140,11 @@ public class RankingManager {
 
     public int getKFactor(int wOldPoints) {
         int wKFactor = 30;
-        if(wOldPoints < 2000){
+        if (wOldPoints < 2000) {
             wKFactor = 30;
-        }else if(wOldPoints >= 2000 && wOldPoints <= 2400){
-            wKFactor = 130 - ((wOldPoints)/20);
-        }else if (wOldPoints > 2400) {
+        } else if (wOldPoints >= 2000 && wOldPoints <= 2400) {
+            wKFactor = 130 - ((wOldPoints) / 20);
+        } else if (wOldPoints > 2400) {
             wKFactor = 10;
         }
         return wKFactor;

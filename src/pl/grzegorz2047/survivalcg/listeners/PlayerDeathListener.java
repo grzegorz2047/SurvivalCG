@@ -47,12 +47,11 @@ public class PlayerDeathListener implements Listener {
 
             plugin.getManager().getRankingManager().recountEloFight(killeruser, victimuser);
 
-            plugin.getManager().getRankingManager().checkUserpoints(killeruser.getUsername(), killeruser);
-            plugin.getManager().getRankingManager().checkUserpoints(victimuser.getUsername(), victimuser);
-
 
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(victimuser);
             plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(killeruser);
+
+            plugin.getManager().getRankingManager().checkUserpoints();
 
         }
         if (victim.hasPermission("scg.hardcore.bypass")) {

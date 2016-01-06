@@ -66,7 +66,7 @@ public class SettingsManager {
     private String allyTagColor;
     private String enemyTagColor;
     private List<ItemStack> cobblexItems;
-    private int stoneGeneratorDelayTime;
+    private float stoneGeneratorDelayTime;
     private List<ItemStack> cobblexItemsRare;
     private List<String> vipCommandInfo;
 
@@ -374,7 +374,7 @@ public class SettingsManager {
         this.enemyTagColor = plugin.getConfig().getString("guild.enemy-tag-color");
         this.cobblexItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items"));
         this.cobblexItemsRare = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items-rare"));
-        this.stoneGeneratorDelayTime = plugin.getConfig().getInt("stone-regenerator-delay");
+        this.stoneGeneratorDelayTime = (float) plugin.getConfig().getDouble("stone-regenerator-delay");
 
     }
 
@@ -554,7 +554,7 @@ public class SettingsManager {
         this.cobblexItems = cobblexItems;
     }
 
-    public int getStoneGeneratorDelayTime() {
+    public float getStoneGeneratorDelayTime() {
         return stoneGeneratorDelayTime;
     }
 

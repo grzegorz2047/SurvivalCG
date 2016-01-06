@@ -14,23 +14,18 @@ public class User {
     protected Long firstJoinTime;
 
     protected int money, kills, deaths, wins = 0;//?
-    private int points = 1000;
+    private int points = 2000;
     private Guild guild; //Used as pointer to guild
     private String lastKilledPlayer = "";
     private Cuboid currentCuboid;
     private boolean toBan = false;
     private boolean onSpawn = false;
-    private float kFactor;
-    private int constant = 10;
 
     private User() {
     }
 
     public User(String username) {
         Validate.notNull(username);
-        if (username == null) {
-            Bukkit.getLogger().log(Level.WARNING, "Username null");
-        }
         this.username = username;
     }
 
@@ -125,19 +120,4 @@ public class User {
         this.onSpawn = onSpawn;
     }
 
-    public float getkFactor() {
-        return kFactor;
-    }
-
-    public void setkFactor(float kFactor) {
-        this.kFactor = kFactor;
-    }
-
-    public int getConstant() {
-        return constant;
-    }
-
-    public void setConstant(int constant) {
-        this.constant = constant;
-    }
 }

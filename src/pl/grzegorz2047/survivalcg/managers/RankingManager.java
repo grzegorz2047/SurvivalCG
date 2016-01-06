@@ -7,6 +7,7 @@ import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.guild.Guild;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,29 +38,9 @@ public class RankingManager {
         if (userRank.get(username) != null) {
             userRank.put(username, user.getPoints());
         } else {
-            if (userRank.size() < 15) {
-                userRank.put(username, user.getPoints());
-            } else {
-                int minVal = 0;
-                String minusername = "";
-                for (Map.Entry<String, Integer> entry : userRank.entrySet()) {
-                    if (minusername.isEmpty()) {
-                        minusername = entry.getKey();
-                        minVal = entry.getValue();
-                    } else {
-                        if (minVal > entry.getValue()) {
-                            minusername = entry.getKey();
-                        }
-                    }
-                }
-                if (!minusername.isEmpty()) {
-                    if (user.getPoints() > minVal) {
-                        userRank.remove(minusername);
-                        userRank.put(username, user.getPoints());
-                    }
-                }
-            }
+            plugin.getManager().getMysqlManager().getRankingQuery().getRankingUser(plugin.getManager().getRankingManager());
         }
+
     }
 
     public void checkGuildpoints(String guildTag, Guild guild) {
@@ -82,6 +63,7 @@ public class RankingManager {
                     guildRank.put(guildTag, guild.getGuildPoints());
                 }
             }
+
         }
     }
 
@@ -117,34 +99,62 @@ public class RankingManager {
         plugin.getManager().getMysqlManager().getGuildQuery().updateGuild(guild);
     }
 
-    public void recountEloFight(User winner, User lost){
+    /*
+    https://metinmediamath.wordpress.com/2013/11/27/how-to-calculate-the-elo-rating-including-example/
+
+
+
+     */
+    public void recountEloFight(User winner, User lost) {
         int wOldPoints = winner.getPoints();
-        float wkd = (winner.getDeaths()/winner.getKills());
-        if(wkd != 0){
-           wkd = (winner.getDeaths()/winner.getKills());
-        }else {
-            wkd = 1;
-        }
-        float wNewPoints = wOldPoints + (winner.getConstant() * wkd );
+        int wKFactor = getKFactor(wOldPoints);
 
         int lOldPoints = lost.getPoints();
-        float lkd = (lost.getDeaths()/lost.getKills());
-        if(lkd != 0){
-            lkd = (lost.getKills()/lost.getDeaths());
-        }else {
-            lkd = 1;
-        }
-        float lNewPoints = lOldPoints - (lost.getConstant() * lkd );
+        int lKFactor = getKFactor(lOldPoints);
+
+
+        double w = Math.pow(10, wOldPoints / 400);//R(1)
+        double l = Math.pow(10, lOldPoints / 400);//R(2)
+
+        double ew = w / (w + l);//E(1)
+        double el = l / (w + l);//E(2)
+
+        int ws = 1;//S(1)
+        int ls = 0;//S(2)
+
+        double wNewPoints = wOldPoints + wKFactor * (ws - ew);
+        double lNewPoints = lOldPoints + wKFactor * (ls - el);
+
+        //Bukkit.broadcastMessage("Nowe punkty z " + wOldPoints + " na " + wNewPoints);
+        //Bukkit.broadcastMessage("Nowe punkty z " + lOldPoints + " na " + lNewPoints);
 
         winner.setPoints((int) wNewPoints);
         lost.setPoints((int) lNewPoints);
+
+        int wDiff = (int) (wOldPoints - wNewPoints);
+        int lDiff = (int) (lOldPoints - lNewPoints);
+
         Bukkit.broadcastMessage(plugin.getManager().getMsgManager().
                 getMsg("killerkilledvictim").
-                replace("{VICTIM}", winner.getUsername()).
-                replace("{KILLER}", lost.getUsername()).
-                replace("{VICTIMLOSE}", "-" + (lost.getConstant() * lkd )).
-                replace("{KILLEREARN}", "+" + (winner.getConstant() * wkd)));
+                replace("{VICTIM}", lost.getUsername()).
+                replace("{KILLER}", winner.getUsername()).
+                replace("{VICTIMLOSE}", -lDiff + "").
+                replace("{KILLEREARN}", -wDiff + ""));
     }
+
+
+    public int getKFactor(int wOldPoints) {
+        int wKFactor = 30;
+        if(wOldPoints < 2000){
+            wKFactor = 30;
+        }else if(wOldPoints >= 2000 && wOldPoints <= 2400){
+            wKFactor = 130 - ((wOldPoints)/20);
+        }else if (wOldPoints > 2400) {
+            wKFactor = 10;
+        }
+        return wKFactor;
+    }
+
 
     public LinkedHashMap<String, Integer> getUserRank() {
         return userRank;

@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import pl.grzegorz2047.api.command.Arg;
 import pl.grzegorz2047.api.util.MiscUtils;
 import pl.grzegorz2047.api.util.RandomUtil;
@@ -36,8 +35,8 @@ public class CobblexArg extends Arg {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("clearinventoryfirst"));
             return;
         }
-        if (MiscUtils.hasEnoughItemsForGuild(recipe, p.getInventory())) {
-            MiscUtils.removeRequiredItemsForGuild(recipe, p.getInventory());
+        if (MiscUtils.hasEnoughItems(recipe, p.getInventory())) {
+            MiscUtils.removeRequiredItems(recipe, p.getInventory());
             int randrare = RandomUtil.get().nextInt(100);
             List<ItemStack> ity;
             if (randrare > 80) {

@@ -2,6 +2,7 @@ package pl.grzegorz2047.survivalcg.listeners;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
@@ -165,6 +166,34 @@ public class PlayerDamagePlayerListener implements Listener {
             if (event.getEntity() instanceof Player) {
                 Player attacked = (Player) event.getEntity();
                 ProjectileSource attackerEntity = ((Snowball) event.getDamager()).getShooter();
+
+                if (attackerEntity instanceof Player) {
+                    Player attacker = (Player) attackerEntity;
+
+                    if (checkIfGuildMembers(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
+                        attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
+                        event.setCancelled(true);
+                        return;
+                    }
+                    if (checkIfAllies(attacker,attacked)) {//jedno sprawdzenie powinno wystarczyc
+                        attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvpguildmember"));
+                        event.setCancelled(true);
+                        return;
+                    }
+                    int protspawnrad = plugin.getManager().getSettingsManager().getProtectedSpawnRadius();
+                    if(event.getDamager().getLocation().distance(attacker.getWorld().getSpawnLocation()) <= protspawnrad){
+                        attacker.sendMessage(plugin.getManager().getMsgManager().getMsg("pvp-protection"));
+                        event.setCancelled(true);
+                        return;
+                    }
+                    checkFight(attacker, attacked);
+
+                }
+            }
+        }else if (event.getDamager() instanceof Egg) {
+            if (event.getEntity() instanceof Player) {
+                Player attacked = (Player) event.getEntity();
+                ProjectileSource attackerEntity = ((Egg) event.getDamager()).getShooter();
 
                 if (attackerEntity instanceof Player) {
                     Player attacker = (Player) attackerEntity;

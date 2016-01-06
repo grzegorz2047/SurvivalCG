@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.MiscUtils;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -100,11 +101,11 @@ public class GuildManager {
             }
         }
         if (!p.hasPermission("scg.create.bypass")) {
-            if (!MiscUtils.hasEnoughItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory())) {
+            if (!MiscUtils.hasEnoughItems(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory())) {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("notenoughitems"));
                 return false;
             }
-            MiscUtils.removeRequiredItemsForGuild(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory());
+            MiscUtils.removeRequiredItems(plugin.getManager().getSettingsManager().getReqItems(), p.getInventory());
 
         }
 
@@ -219,6 +220,20 @@ public class GuildManager {
             p.sendMessage(plugin.getManager().getMsgManager().getMsg("playernotoninvitedlist"));
             return false;
         }
+        Player leader = Bukkit.getPlayer(g.getLeader());
+        if(leader == null){
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotonline"));
+            return false;
+        }
+        ItemStack it = new ItemStack(Material.DIAMOND,1);
+        it.setAmount(g.getMembers().size()* 10);
+        if(!MiscUtils.hasEnoughItems(it, leader.getInventory())){
+            leader.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotenoughitems").replace("{MATERIAL}", it.getType().toString()).replace("{AMOUNT}", it.getAmount()+""));
+            p.sendMessage(plugin.getManager().getMsgManager().getMsg("leadernotenoughitems").replace("{MATERIAL}", it.getType().toString()).replace("{AMOUNT}", it.getAmount()+""));
+
+            return false;
+        }
+        MiscUtils.removeRequiredItems(it, leader.getInventory());
         g.getMembers().add(p.getName());
         user.setGuild(g);
         plugin.getManager().getScoreboardTagsManager().addOrUpdateTag(g);

@@ -56,7 +56,7 @@ public class MiscUtils {
         }
     }
 
-    public static boolean hasEnoughItemsForGuild(List<ItemStack> reqitems, Inventory inv) {
+    public static boolean hasEnoughItems(List<ItemStack> reqitems, Inventory inv) {
         for (ItemStack item : reqitems) {
             if (!inv.containsAtLeast(item, item.getAmount())) {
                 return false;
@@ -65,13 +65,17 @@ public class MiscUtils {
 
         return true;
     }
-
-    public static void removeRequiredItemsForGuild(List<ItemStack> reqitems, Inventory inv) {
+    public static boolean hasEnoughItems(ItemStack reqitem, Inventory inv) {
+        return inv.containsAtLeast(reqitem, reqitem.getAmount());
+    }
+    public static void removeRequiredItems(List<ItemStack> reqitems, Inventory inv) {
         for (ItemStack item : reqitems) {
             removeFromInv(inv, item.getType(), item.getDurability(), item.getAmount(), item.getData().getData());
         }
     }
-
+    public static void removeRequiredItems(ItemStack reqitem, Inventory inv) {
+        removeFromInv(inv, reqitem.getType(), reqitem.getDurability(), reqitem.getAmount(), reqitem.getData().getData());
+    }
     public static String argsToString(String args[], int minindex, int maxindex) {
         StringBuilder sb = new StringBuilder();
         for (int i = minindex; i < maxindex; i++) {

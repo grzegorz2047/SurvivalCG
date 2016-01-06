@@ -5,12 +5,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -38,7 +40,19 @@ public class PlayerBlockBreakListener implements Listener {
             }
         }
     }
-
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent e) {
+        if(e.getEntityType() == EntityType.PRIMED_TNT) {
+            for(Block block : e.blockList()) {
+                if(block.getType() == Material.SPONGE) {
+                    e.blockList().remove(block);
+                }
+                if(block.getType() == Material.ENDER_STONE) {
+                    e.blockList().remove(block);
+                }
+            }
+        }
+    }
 
     @EventHandler
     void onPlayerBreak(BlockBreakEvent e) {

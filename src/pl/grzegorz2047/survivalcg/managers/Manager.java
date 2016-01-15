@@ -102,7 +102,8 @@ public class Manager {
         String guildTable = this.settingsManager.getSqlguildTable();
         String banTable = this.settingsManager.getSQLBanTable();
         String relationTable = this.settingsManager.getSQLRelationTable();
-        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, banTable, relationTable, plugin);
+        String databaseType = this.settingsManager.getDatabasetype();
+        this.mysqlManager = new MysqlManager(host, port, user, password, db, rankingTable, guildTable, banTable, relationTable, databaseType, plugin);
         this.mysqlManager.getRankingQuery().getRankingUser(rankingManager);
         this.mysqlManager.getRankingQuery().getRankingGuilds(rankingManager);
 

@@ -21,26 +21,26 @@ public class UserQuery extends Query {
         super(mysql);
         this.plugin = plugin;
     }
-    public void checkIfTableExists(){
+
+    public void checkIfTableExists() {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getUsertable() + "( " +
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + mysql.getUsertable() + "( " +
                     "  `username` varchar(16) NOT NULL,  " +
                     "  `points` int(11) NOT NULL,  " +
                     "  `kills` int(11) NOT NULL,  " +
                     "  `deaths` int(11) NOT NULL,  " +
                     "  `guild` varchar(6) NOT NULL,  " +
-                    "  PRIMARY KEY (`username`),  " +
-                    "  KEY `username` (`username`)");
+                    "  PRIMARY KEY (`username`))");
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getUsertable() + " Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Create table: " + mysql.getUsertable() + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getUsertable() + " Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -63,24 +63,32 @@ public class UserQuery extends Query {
         boolean insert = false;
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE username = ?");
+            statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE username = ? LIMIT 1");
             statement.setString(1, user.getUsername());
             ResultSet set = statement.executeQuery();
-            if (set.first() && set.isLast()) {
-                user.setPoints(set.getInt("points"));
-                user.setKills(set.getInt("kills"));
-                user.setDeaths(set.getInt("deaths"));
-                user.setGuild(plugin.getManager().getGuildManager().getGuilds().get(set.getString("guild")));//Return null if not exists
+            int recordNumber = 0;
+            while (set.next()) {
+                if (recordNumber > 0) {
+                    Bukkit.getLogger().warning("INCONSISTENCE IN SQL DB for player: " + user.getUsername());
+                    break;
+                } else {
+                    user.setPoints(set.getInt("points"));
+                    user.setKills(set.getInt("kills"));
+                    user.setDeaths(set.getInt("deaths"));
+                    user.setGuild(plugin.getManager().getGuildManager().getGuilds().get(set.getString("guild")));//Return null if not exists
+                    recordNumber++;
+                }
 
-            } else {
+            }
+            if (recordNumber == 0) {
                 insert = true;
             }
 
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("GET Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("GET Player: " + user.getUsername() + " Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Player: " + user.getUsername() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Player: " + user.getUsername() + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Player: " + user.getUsername() + " Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -148,7 +156,7 @@ public class UserQuery extends Query {
             connection = mysql.getHikari().getConnection();
             Guild g = user.getGuild();
             String guildname = "";
-            if(g != null){
+            if (g != null) {
                 guildname = g.getGuildTag();
             }
             statement = connection.prepareStatement("UPDATE " + mysql.getUsertable() + " SET points='" +
@@ -185,7 +193,7 @@ public class UserQuery extends Query {
         PreparedStatement statement = null;
         Guild g = user.getGuild();
         String guildname = "";
-        if(g != null){
+        if (g != null) {
             guildname = g.getGuildTag();
         }
         try {

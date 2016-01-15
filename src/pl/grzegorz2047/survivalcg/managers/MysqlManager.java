@@ -4,9 +4,13 @@ import com.zaxxer.hikari.HikariDataSource;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.mysql.*;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 /**
  * Created by Grzegorz2047. 06.12.2015.
@@ -24,8 +28,9 @@ public class MysqlManager {
     UserQuery userQuery;
     private RelationQuery relationQuery;
     private String relationTable;
+    private String databaseType;
 
-    public MysqlManager(String host, int port, String user, String password, String db, String usertable, String guildTable, String bantable, String relationTable, SCG plugin) {
+    public MysqlManager(String host, int port, String user, String password, String db, String usertable, String guildTable, String bantable, String relationTable, String databaseType, SCG plugin) {
         SettingsManager settings = plugin.getManager().getSettingsManager();
         String prefix = settings.getSqlprefix();
         this.host = host;
@@ -38,6 +43,7 @@ public class MysqlManager {
         this.bantable = prefix + bantable;
         this.relationTable = prefix + relationTable;
         this.plugin = plugin;
+        this.databaseType = databaseType;
         connectToDB();
         initiateQueries();
     }
@@ -70,24 +76,26 @@ public class MysqlManager {
             hikari.addDataSourceProperty("prepStmtCacheSize", 250);
             hikari.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
         } else {
-            hikari.setDataSourceClassName("org.sqlite.javax.SQLiteConnectionPoolDataSource");
-            hikari.setJdbcUrl("jdbc:sqlite:" + plugin.getName() + ".db");
+           /* File dataFolder = new File(plugin.getDataFolder(), db + ".db");
+            if (!dataFolder.exists()) {
+                try {
+                    dataFolder.createNewFile();
+                } catch (IOException e) {
+                    plugin.getLogger().log(Level.SEVERE, "File write error: " + db + ".db");
+                }
+            }*/
+
+             hikari.setDriverClassName("org.sqlite.JDBC");
+            //hikari.setDataSourceClassName("org.sqlite.SQLiteDataSource");
+            hikari.setPoolName("GuildSQLitePool");
+            hikari.setJdbcUrl("jdbc:sqlite:" + plugin.getDataFolder() + File.separator + db + ".db");
+            System.out.println("path ========== " + plugin.getDataFolder() + File.separator + db + ".db");
             hikari.setConnectionTestQuery("SELECT 1");
             hikari.setMaxLifetime(60000); // 60 Sec
             hikari.setIdleTimeout(45000); // 45 Sec
             hikari.setMaximumPoolSize(50);
-            try {
-                Class.forName("org.sqlite.javax.SQLiteConnectionPoolDataSource");
-                Connection conn = DriverManager.getConnection("jdbc:sqlite:" + plugin.getName() + ".db");
-                System.out.println(conn.getCatalog());
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
 
+        }
 
 
     }
@@ -163,5 +171,9 @@ public class MysqlManager {
 
     public void setRelationTable(String relationTable) {
         this.relationTable = relationTable;
+    }
+
+    public String getDatabaseType() {
+        return databaseType;
     }
 }

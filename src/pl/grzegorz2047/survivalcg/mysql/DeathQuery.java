@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pl.grzegorz2047.survivalcg.managers.MysqlManager;
 
+import javax.annotation.processing.FilerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,8 +63,16 @@ public class DeathQuery extends Query {
 
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getBantable() + " WHERE username='" + username + "'");
             ResultSet set = statement.executeQuery();
-            if (set.first() && set.isLast()) {
-                answer = set.getString("bantime");
+            int recordNumber = 0;
+            while (set.next()) {
+                if (recordNumber > 0) {
+                    Bukkit.getLogger().warning("INCONSISTENCE IN SQL DB for death player: " + username);
+                    break;
+                } else {
+                    answer = set.getString("bantime");
+                    recordNumber++;
+                }
+
             }
             statement.close();
             return answer;
@@ -118,22 +127,24 @@ public class DeathQuery extends Query {
             }
         }
     }
-    public void checkIfTableExists(){
+
+    public void checkIfTableExists() {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getBantable() + " (" +
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + mysql.getBantable() + " (" +
                     "  `username` varchar(16) NOT NULL, " +
                     "  `bantime` bigint(20) NOT NULL, " +
-                    "  PRIMARY KEY (`username`) ");
-            statement.executeUpdate();
+                    "  PRIMARY KEY (`username`))");
+            statement.execute();
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getBantable() + " Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Create table: " + mysql.getBantable() + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getBantable() + " Error #1 MySQL ->" + ex.getMessage());
+            //ex.printStackTrace();
         } finally {
             try {
                 if (connection != null) {

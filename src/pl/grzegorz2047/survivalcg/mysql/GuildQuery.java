@@ -25,26 +25,29 @@ public class GuildQuery extends Query {
         this.plugin = plugin;
     }
 
-    public void checkIfTableExists(){
+    public void checkIfTableExists() {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getGuildTable() + "(" +
-                    "  `username` varchar(16) NOT NULL," +
-                    "  `points` int(11) NOT NULL, " +
-                    "  `kills` int(11) NOT NULL, " +
-                    "  `deaths` int(11) NOT NULL, " +
-                    "  `guild` varchar(6) NOT NULL, " +
-                    "  PRIMARY KEY (`username`), " +
-                    "  KEY `username` (`username`)");
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + mysql.getGuildTable() + "(" +
+                    "  `tag` varchar(6) NOT NULL," +
+                    "  `guildname` varchar(18) NOT NULL," +
+                    "  `createdate` bigint(20) NOT NULL," +
+                    "  `leader` varchar(16) NOT NULL," +
+                    "  `world` varchar(30) NOT NULL," +
+                    "  `posx` double NOT NULL," +
+                    "  `posy` double NOT NULL," +
+                    "  `posz` double NOT NULL," +
+                    "  `guildpoints` int(11) NOT NULL," +
+                    "  PRIMARY KEY (`tag`))");
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getGuildTable() + " Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Create table: " + mysql.getGuildTable() + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " + mysql.getGuildTable() + " Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -60,6 +63,7 @@ public class GuildQuery extends Query {
             }
         }
     }
+
     public boolean existsGuild(String tag) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -69,16 +73,16 @@ public class GuildQuery extends Query {
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getGuildTable() + " WHERE tag='" + tag + "'");
             ResultSet set = statement.executeQuery();
             boolean exists = false;
-            if (set.first() && set.isLast()) {
+            while (set.next()) {
                 exists = true;
             }
             statement.close();
             return exists;
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("GET Ranking: " + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("GET GUILD: " + "  #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Player: " + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Player: " + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Player: " + " Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
@@ -104,13 +108,22 @@ public class GuildQuery extends Query {
 
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getGuildTable() + " WHERE tag='" + guild.getGuildTag() + "'");
             ResultSet set = statement.executeQuery();
-            if (set.first() && set.isLast()) {
-                guild.setLeader(set.getString("leader"));
-                guild.setHome(new Location(Bukkit.getWorld(set.getString("world")), set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
-                guild.setGuildPoints(set.getInt("guildpoints"));
-                guild.setGuildName(set.getString("guildnames"));
-            } else {
-                System.out.print("Nie znaleziono gildii " + guild.getGuildTag() + " w tabeli!");
+            int recordNumber = 0;
+            while (set.next()) {
+                if (recordNumber > 0) {
+                    Bukkit.getLogger().warning("INCONSISTENCE IN SQL DB for guild: " + guild.getGuildTag());
+                    break;
+                } else {
+                    guild.setLeader(set.getString("leader"));
+                    guild.setHome(new Location(Bukkit.getWorld(set.getString("world")), set.getFloat("posx"), set.getFloat("posy"), set.getFloat("posz")));
+                    guild.setGuildPoints(set.getInt("guildpoints"));
+                    guild.setGuildName(set.getString("guildnames"));
+                    recordNumber++;
+                }
+
+            }
+            if (recordNumber == 0) {
+                Bukkit.getLogger().warning("GUILD not found " + guild.getGuildTag() + " in table!");
             }
             statement.close();
             statement = connection.prepareStatement("SELECT * FROM " + mysql.getUsertable() + " WHERE guild='" + guild.getGuildTag() + "'");
@@ -187,7 +200,7 @@ public class GuildQuery extends Query {
 
         try {
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("UPDATE " + mysql.getGuildTable() + " SET leader='" + guild.getLeader() + "', world='" + guild.getHome().getWorld().getName() + "', posx='" + guild.getHome().getX() + "', posy='" + guild.getHome().getY() + "', posz='" + guild.getHome().getZ() + ", guildpoints='"+guild.getGuildPoints()+"' WHERE tag='" + guild.getGuildTag() + "'");
+            statement = connection.prepareStatement("UPDATE " + mysql.getGuildTable() + " SET leader='" + guild.getLeader() + "', world='" + guild.getHome().getWorld().getName() + "', posx='" + guild.getHome().getX() + "', posy='" + guild.getHome().getY() + "', posz='" + guild.getHome().getZ() + ", guildpoints='" + guild.getGuildPoints() + "' WHERE tag='" + guild.getGuildTag() + "'");
             statement.executeUpdate();
         } catch (SQLException ex) {
             Bukkit.getLogger().warning("UPDATE Guild: " + guild.getGuildTag() + "Error #1 MySQL ->" + ex.getSQLState());

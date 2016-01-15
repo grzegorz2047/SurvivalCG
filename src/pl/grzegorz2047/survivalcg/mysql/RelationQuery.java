@@ -25,24 +25,25 @@ public class RelationQuery extends Query {
     public void checkIfTableExists(){
         Connection connection = null;
         PreparedStatement statement = null;
-
+        String autoIncrementKeyword = "AUTO_INCREMENT";
         try {
+            if(mysql.getDatabaseType().equals("sqlite")){
+                autoIncrementKeyword = "";
+            }
             connection = mysql.getHikari().getConnection();
-            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getRelationTable() + "(" +
-                    "  `id` int(11) NOT NULL AUTO_INCREMENT, " +
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + mysql.getRelationTable() + "(" +
+                    "  `id` int(11) "+autoIncrementKeyword+", " +
                     "  `inviter` varchar(16) NOT NULL, " +
                     "  `withwho` varchar(16) NOT NULL, " +
                     "  `relation` varchar(11) NOT NULL, " +
                     "  `createdate` bigint(20) NOT NULL, " +
-                    "  PRIMARY KEY (`id`), " +
-                    "  KEY `inviter` (`inviter`), " +
-                    "  KEY `ally` (`relation`)");
+                    "  PRIMARY KEY (`id`))");
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " +  mysql.getRelationTable() + " Error #1 MySQL ->" + ex.getSQLState());
 
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
-            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+            Bukkit.getLogger().warning("Create table: " +  mysql.getRelationTable() + " Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " +  mysql.getRelationTable() + " Error #1 MySQL ->" + ex.getMessage());
         } finally {
             try {
                 if (connection != null) {

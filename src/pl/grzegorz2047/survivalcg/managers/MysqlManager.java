@@ -4,6 +4,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.mysql.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * Created by Grzegorz2047. 06.12.2015.
  */
@@ -53,22 +57,39 @@ public class MysqlManager {
 
     private void connectToDB() {
         hikari = new HikariDataSource();
-
+        hikari.setMaximumPoolSize(3);
         if (plugin.getManager().getSettingsManager().getDatabasetype().equalsIgnoreCase("mysql")) {
             hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            hikari.addDataSourceProperty("serverName", host);
+
+            hikari.addDataSourceProperty("databaseName", db);
+            hikari.addDataSourceProperty("port", port);
+            hikari.addDataSourceProperty("user", user);
+            hikari.addDataSourceProperty("password", password);
+            hikari.addDataSourceProperty("cachePrepStmts", true);
+            hikari.addDataSourceProperty("prepStmtCacheSize", 250);
+            hikari.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
         } else {
-            hikari.setDataSourceClassName("org.sqlite.JDBC");
-            hikari.setJdbcUrl("jdbc:sqlite:plugins/" + plugin.getName() + "/" + plugin.getName() + ".db");
+            hikari.setDataSourceClassName("org.sqlite.javax.SQLiteConnectionPoolDataSource");
+            hikari.setJdbcUrl("jdbc:sqlite:" + plugin.getName() + ".db");
+            hikari.setConnectionTestQuery("SELECT 1");
+            hikari.setMaxLifetime(60000); // 60 Sec
+            hikari.setIdleTimeout(45000); // 45 Sec
+            hikari.setMaximumPoolSize(50);
+            try {
+                Class.forName("org.sqlite.javax.SQLiteConnectionPoolDataSource");
+                Connection conn = DriverManager.getConnection("jdbc:sqlite:" + plugin.getName() + ".db");
+                System.out.println(conn.getCatalog());
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-        hikari.setMaximumPoolSize(3);
-        hikari.addDataSourceProperty("serverName", host);
-        hikari.addDataSourceProperty("port", port);
-        hikari.addDataSourceProperty("databaseName", db);
-        hikari.addDataSourceProperty("user", user);
-        hikari.addDataSourceProperty("password", password);
-        hikari.addDataSourceProperty("cachePrepStmts", true);
-        hikari.addDataSourceProperty("prepStmtCacheSize", 250);
-        hikari.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+
+
+
     }
 
     public String getHost() {

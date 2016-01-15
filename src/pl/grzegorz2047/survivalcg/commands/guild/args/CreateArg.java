@@ -11,7 +11,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class CreateArg extends Arg {
+public class CreateArg implements Arg {
     private final SCG plugin;
 
     public CreateArg(Plugin plugin) {

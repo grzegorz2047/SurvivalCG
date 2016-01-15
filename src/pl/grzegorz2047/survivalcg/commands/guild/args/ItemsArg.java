@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by grzegorz2047 on 29.12.2015.
  */
-public class ItemsArg extends Arg {
+public class ItemsArg implements Arg {
     private final SCG plugin;
 
     public ItemsArg(Plugin plugin) {

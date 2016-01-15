@@ -9,7 +9,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class LeaveArg extends Arg {
+public class LeaveArg implements Arg {
     private final SCG plugin;
 
     public LeaveArg(Plugin plugin) {

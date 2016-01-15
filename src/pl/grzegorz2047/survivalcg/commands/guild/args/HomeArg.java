@@ -9,7 +9,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class HomeArg extends Arg {
+public class HomeArg implements Arg {
     private final SCG plugin;
 
     public HomeArg(Plugin plugin) {

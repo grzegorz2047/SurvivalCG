@@ -11,7 +11,7 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 /**
  * Created by grzegorz2047 on 30.12.2015.
  */
-public class InfoArg extends Arg {
+public class InfoArg implements Arg {
 
     private final SCG plugin;
 

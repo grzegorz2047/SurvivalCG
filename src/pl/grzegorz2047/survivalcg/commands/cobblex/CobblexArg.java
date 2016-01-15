@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by grzegorz2047 on 01.01.2016.
  */
-public class CobblexArg extends Arg {
+public class CobblexArg implements Arg {
     private final SCG plugin;
     private List<ItemStack> recipe = new ArrayList<ItemStack>();
 

@@ -13,7 +13,7 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class InviteArg extends Arg {
+public class InviteArg implements Arg {
     private final SCG plugin;
 
     public InviteArg(Plugin plugin) {

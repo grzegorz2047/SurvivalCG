@@ -13,7 +13,7 @@ import pl.grzegorz2047.survivalcg.guild.relation.Relation;
 /**
  * Created by grzegorz2047 on 30.12.2015.
  */
-public class EnemyArg extends Arg {
+public class EnemyArg implements Arg {
 
     private final SCG plugin;
 

@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class KickArg extends Arg {
+public class KickArg implements Arg {
     private final SCG plugin;
 
     public KickArg(Plugin plugin) {

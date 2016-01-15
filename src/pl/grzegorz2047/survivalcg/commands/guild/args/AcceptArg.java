@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class AcceptArg extends Arg {
+public class AcceptArg implements Arg {
     private final SCG plugin;
 
     public AcceptArg(Plugin plugin) {

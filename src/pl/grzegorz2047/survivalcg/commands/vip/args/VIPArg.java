@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class VIPArg extends Arg {
+public class VIPArg implements Arg {
     private final SCG plugin;
 
     public VIPArg(Plugin plugin) {

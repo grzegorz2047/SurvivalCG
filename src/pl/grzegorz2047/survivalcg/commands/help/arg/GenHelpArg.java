@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.managers.MsgManager;
 /**
  * Created by grzegorz2047 on 30.12.2015.
  */
-public class GenHelpArg extends Arg {
+public class GenHelpArg implements Arg {
 
     SCG plugin;
 

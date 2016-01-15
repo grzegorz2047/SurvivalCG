@@ -9,7 +9,7 @@ import pl.grzegorz2047.survivalcg.teleport.TeleportRequest;
 /**
  * Created by grzegorz2047 on 30.12.2015.
  */
-public class SpawnArg extends Arg {
+public class SpawnArg implements Arg {
     private final SCG plugin;
 
     public SpawnArg(SCG plugin) {

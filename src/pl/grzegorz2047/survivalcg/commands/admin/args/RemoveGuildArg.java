@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.guild.Guild;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class RemoveGuildArg extends Arg {
+public class RemoveGuildArg implements Arg {
 
     private final SCG plugin;
 

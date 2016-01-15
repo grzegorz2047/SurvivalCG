@@ -10,7 +10,7 @@ import pl.grzegorz2047.survivalcg.managers.MsgManager;
 /**
  * Created by grzegorz2047 on 27.12.2015.
  */
-public class HcUnbanArg extends Arg {
+public class HcUnbanArg implements Arg {
 
     private final SCG plugin;
 

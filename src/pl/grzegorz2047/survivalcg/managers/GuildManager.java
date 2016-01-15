@@ -120,6 +120,7 @@ public class GuildManager {
         // #TODO COS Z SCOREBOARDEM
         user.setGuild(guild);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
+        plugin.getManager().getMysqlManager().getRankingQuery().getRankingGuilds(plugin.getManager().getRankingManager());
         return true;
     }
 
@@ -164,7 +165,7 @@ public class GuildManager {
         plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildTag());
         plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildTag());
         plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildTag());
-
+        plugin.getManager().getMysqlManager().getRankingQuery().getRankingGuilds(plugin.getManager().getRankingManager());
         return true;
     }
 

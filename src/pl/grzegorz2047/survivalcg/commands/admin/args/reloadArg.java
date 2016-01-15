@@ -24,6 +24,7 @@ public class ReloadArg extends Arg {
             if(sender.isOp() || sender.hasPermission("scg.hardocre.reload")){
                 plugin.getManager().getSettingsManager().loadSettings();
                 plugin.getManager().getMysqlManager().getRankingQuery().getRankingGuilds(plugin.getManager().getRankingManager());
+                plugin.getManager().getMysqlManager().getRankingQuery().getRankingUser(plugin.getManager().getRankingManager());
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("pluginreloaded"));
             }else {
                 p.sendMessage(plugin.getManager().getMsgManager().getMsg("nopermission"));

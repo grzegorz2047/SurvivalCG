@@ -111,13 +111,13 @@ public class RankingManager {
         double w = Math.pow(10, wOldPoints / 400);//R(1)
         double l = Math.pow(10, lOldPoints / 400);//R(2)
 
-        double ew = w / (w + l);//E(1)
-        double el = l / (w + l);//E(2)
+        double ew = w / (w + l);//E(1) Oblicz oczekiwany wynik
+        double el = l / (w + l);//E(2) Suma ew i el = 1
 
-        int ws = 1;//S(1)
-        int ls = 0;//S(2)
+        int ws = 1;//S(1) Ustaw kto wygral
+        int ls = 0;//S(2) a kto przegral
 
-        double wNewPoints = wOldPoints + wKFactor * (ws - ew);
+        double wNewPoints = wOldPoints + wKFactor * (ws - ew); //Oblicz nowe puntky
         double lNewPoints = lOldPoints + wKFactor * (ls - el);
 
         //Bukkit.broadcastMessage("Nowe punkty z " + wOldPoints + " na " + wNewPoints);

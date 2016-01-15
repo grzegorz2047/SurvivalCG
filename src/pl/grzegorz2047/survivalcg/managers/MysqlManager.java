@@ -57,6 +57,7 @@ public class MysqlManager {
     }
 
     private void connectToDB() {
+        //if mysql
         hikari = new HikariDataSource();
         hikari.setMaximumPoolSize(3);
         hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
@@ -68,6 +69,7 @@ public class MysqlManager {
         hikari.addDataSourceProperty("cachePrepStmts", true);
         hikari.addDataSourceProperty("prepStmtCacheSize", 250);
         hikari.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        //else sqlite
     }
 
     public String getHost() {

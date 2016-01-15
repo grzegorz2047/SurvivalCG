@@ -22,7 +22,42 @@ public class RelationQuery extends Query {
         super(mysql);
         this.plugin = plugin;
     }
+    public void checkIfTableExists(){
+        Connection connection = null;
+        PreparedStatement statement = null;
 
+        try {
+            connection = mysql.getHikari().getConnection();
+            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getRelationTable() + "(" +
+                    "  `id` int(11) NOT NULL AUTO_INCREMENT, " +
+                    "  `inviter` varchar(16) NOT NULL, " +
+                    "  `withwho` varchar(16) NOT NULL, " +
+                    "  `relation` varchar(11) NOT NULL, " +
+                    "  `createdate` bigint(20) NOT NULL, " +
+                    "  PRIMARY KEY (`id`), " +
+                    "  KEY `inviter` (`inviter`), " +
+                    "  KEY `ally` (`relation`)");
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+            }
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+    }
     public void addRelation(Guild requester, Guild withWho){
         Connection connection = null;
         PreparedStatement statement = null;

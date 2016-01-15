@@ -1,8 +1,13 @@
 package pl.grzegorz2047.survivalcg.managers;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.Bukkit;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.mysql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Created by Grzegorz2047. 06.12.2015.
@@ -38,12 +43,17 @@ public class MysqlManager {
         initiateQueries();
     }
 
+
     private void initiateQueries() {
         this.deathQuery = new DeathQuery(this);
+        this.deathQuery.checkIfTableExists();
         this.guildQuery = new GuildQuery(this, plugin);
+        this.guildQuery.checkIfTableExists();
         this.rankingQuery = new RankingQuery(this);
         this.userQuery = new UserQuery(this, plugin);
+        this.userQuery.checkIfTableExists();
         this.relationQuery = new RelationQuery(this, plugin);
+        this.relationQuery.checkIfTableExists();
     }
 
     private void connectToDB() {

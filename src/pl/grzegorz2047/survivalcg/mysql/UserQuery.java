@@ -21,7 +21,41 @@ public class UserQuery extends Query {
         super(mysql);
         this.plugin = plugin;
     }
+    public void checkIfTableExists(){
+        Connection connection = null;
+        PreparedStatement statement = null;
 
+        try {
+            connection = mysql.getHikari().getConnection();
+            statement = connection.prepareStatement("CREATE IF NOT EXIST " + mysql.getUsertable() + "( " +
+                    "  `username` varchar(16) NOT NULL,  " +
+                    "  `points` int(11) NOT NULL,  " +
+                    "  `kills` int(11) NOT NULL,  " +
+                    "  `deaths` int(11) NOT NULL,  " +
+                    "  `guild` varchar(6) NOT NULL,  " +
+                    "  PRIMARY KEY (`username`),  " +
+                    "  KEY `username` (`username`)");
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getSQLState());
+            Bukkit.getLogger().warning("Create table: " +  mysql.getBantable() + "Error #1 MySQL ->" + ex.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+            }
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+    }
 
     public void getPlayer(User user) {
         Connection connection = null;

@@ -9,7 +9,7 @@ import pl.grzegorz2047.survivalcg.SCG;
 /**
  * Created by grzegorz2047 on 04.01.2016.
  */
-public class ReloadArg extends Arg {
+public class ReloadArg implements Arg {
 
     private final SCG plugin;
 

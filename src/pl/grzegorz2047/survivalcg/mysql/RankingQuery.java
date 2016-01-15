@@ -19,7 +19,6 @@ public class RankingQuery extends Query {
         super(mysql);
     }
 
-
     public void getRankingUser(RankingManager rank) {
         Connection connection = null;
         PreparedStatement statement = null;

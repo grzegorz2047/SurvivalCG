@@ -64,6 +64,7 @@ public class SettingsManager {
     private float stoneGeneratorDelayTime;
     private List<ItemStack> cobblexItemsRare;
     private List<String> vipCommandInfo;
+    private String databasetype;
 
     public SettingsManager(SCG plugin) {
         this.plugin = plugin;
@@ -325,6 +326,7 @@ public class SettingsManager {
         this.sqlport = plugin.getConfig().getInt("mysql.port");
         this.sqldb = plugin.getConfig().getString("mysql.db");
         this.sqluser = plugin.getConfig().getString("mysql.user");
+        this.databasetype = plugin.getConfig().getString("mysql.databasetype");
         this.sqlrankingtable = plugin.getConfig().getString("mysql.usertable");
         this.sqlguildTable = plugin.getConfig().getString("mysql.guildtable");
         this.sqlpassword = plugin.getConfig().getString("mysql.password");
@@ -370,6 +372,7 @@ public class SettingsManager {
         this.cobblexItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items"));
         this.cobblexItemsRare = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("cobblex-items-rare"));
         this.stoneGeneratorDelayTime = (float) plugin.getConfig().getDouble("stone-regenerator-delay");
+
 
     }
 
@@ -571,5 +574,13 @@ public class SettingsManager {
 
     public void setVipCommandInfo(List<String> vipCommandInfo) {
         this.vipCommandInfo = vipCommandInfo;
+    }
+
+    public String getDatabasetype() {
+        return databasetype;
+    }
+
+    public void setDatabasetype(String databasetype) {
+        this.databasetype = databasetype;
     }
 }

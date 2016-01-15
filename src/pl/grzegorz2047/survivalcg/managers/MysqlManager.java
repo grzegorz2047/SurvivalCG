@@ -1,13 +1,8 @@
 package pl.grzegorz2047.survivalcg.managers;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.bukkit.Bukkit;
 import pl.grzegorz2047.survivalcg.SCG;
 import pl.grzegorz2047.survivalcg.mysql.*;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  * Created by Grzegorz2047. 06.12.2015.
@@ -57,10 +52,15 @@ public class MysqlManager {
     }
 
     private void connectToDB() {
-        //if mysql
         hikari = new HikariDataSource();
+
+        if (plugin.getManager().getSettingsManager().getDatabasetype().equalsIgnoreCase("mysql")) {
+            hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        } else {
+            hikari.setDataSourceClassName("org.sqlite.JDBC");
+            hikari.setJdbcUrl("jdbc:sqlite:plugins/" + plugin.getName() + "/" + plugin.getName() + ".db");
+        }
         hikari.setMaximumPoolSize(3);
-        hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
         hikari.addDataSourceProperty("serverName", host);
         hikari.addDataSourceProperty("port", port);
         hikari.addDataSourceProperty("databaseName", db);
@@ -69,7 +69,6 @@ public class MysqlManager {
         hikari.addDataSourceProperty("cachePrepStmts", true);
         hikari.addDataSourceProperty("prepStmtCacheSize", 250);
         hikari.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
-        //else sqlite
     }
 
     public String getHost() {

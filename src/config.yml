@@ -1,5 +1,6 @@
 lang: pl
 mysql:
+  databasetype: mysql
   host: "localhost"
   port: 3306
   db: "SurvivalCG"
@@ -10,6 +11,7 @@ mysql:
   relationtable: "relations"
   tableprefix: "scg_"
   password: ""
+
 permissions:
     vip-permission: "lobby.svip"
 stats:

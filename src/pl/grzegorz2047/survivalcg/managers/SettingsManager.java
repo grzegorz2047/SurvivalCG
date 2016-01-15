@@ -1,19 +1,14 @@
 package pl.grzegorz2047.survivalcg.managers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import pl.grzegorz2047.api.permission.Permission;
 import pl.grzegorz2047.survivalcg.SCG;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -363,7 +358,7 @@ public class SettingsManager {
         this.hcKickMsg = plugin.getConfig().getString("hardcore.kickmsg");
         this.hcLightnings = plugin.getConfig().getBoolean("hardcore.lightnings");
         this.protectedSpawnRadius = plugin.getConfig().getInt("protection.spawn-radius");
-        this.prefix = plugin.getConfig().getString("chat.prefix").replace('&', '§');
+        this.prefix = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.prefix"));
         this.blockedWorlds = plugin.getConfig().getStringList("blocked-worlds");
         this.startItems = parseItems(plugin.getConfig(), plugin.getConfig().getStringList("start-items"));
         this.msgDropInfo = plugin.getConfig().getStringList("msg-drop-info");

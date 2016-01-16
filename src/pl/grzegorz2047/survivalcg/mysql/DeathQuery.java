@@ -2,6 +2,7 @@ package pl.grzegorz2047.survivalcg.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.survivalcg.managers.MysqlManager;
 
 import javax.annotation.processing.FilerException;

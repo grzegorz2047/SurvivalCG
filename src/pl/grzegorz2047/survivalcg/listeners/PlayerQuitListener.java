@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scoreboard.Team;
 import pl.grzegorz2047.api.user.User;
 import pl.grzegorz2047.api.util.ColoringUtil;
 import pl.grzegorz2047.survivalcg.SCG;
@@ -51,6 +52,8 @@ public class PlayerQuitListener implements Listener {
             String msg =  plugin.getManager().getSettingsManager().getHcKickMsg().replace("{TIME}", dateFormat.format(date));
             p.kickPlayer(ColoringUtil.colorText(msg));
         }
+        Team noGuild = this.plugin.getManager().getScoreboardTagsManager().getMainScoreBoard().getTeam("noguild");
+        noGuild.removeEntry(p.getName());
         plugin.getManager().getUserManager().removeUser(p.getName());
         plugin.getManager().getTabManager().removePlayer(p);
 

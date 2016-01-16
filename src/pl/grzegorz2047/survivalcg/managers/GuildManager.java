@@ -161,7 +161,7 @@ public class GuildManager {
 
         plugin.getManager().getRankingManager().getGuildRank().remove(g.getGuildTag());
         plugin.getManager().getScoreboardTagsManager().removeTag(g);
-        p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        plugin.getManager().getScoreboardTagsManager().setPlayerTag(p, user);
         plugin.getManager().getCuboidManager().getCuboids().remove(g.getGuildTag());
         plugin.getManager().getMysqlManager().getGuildQuery().deleteGuild(g.getGuildTag());
         plugin.getManager().getGuildManager().getGuilds().remove(g.getGuildTag());
@@ -307,6 +307,7 @@ public class GuildManager {
         }
         user.setGuild(null);
         plugin.getManager().getMysqlManager().getUserQuery().updatePlayer(user);
+        plugin.getManager().getScoreboardTagsManager().setPlayerTag(p, user);
         return true;
     }
 

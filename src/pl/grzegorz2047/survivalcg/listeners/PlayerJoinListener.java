@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 import org.mcsg.double0negative.tabapi.TabAPI;
 import pl.grzegorz2047.api.permission.Permission;
 import pl.grzegorz2047.api.user.User;
@@ -47,9 +48,11 @@ public class PlayerJoinListener implements Listener {
             }
         }, 3);*/
         plugin.getManager().getTabManager().addPlayer(p);
-        if(user.getGuild() != null){
+        if (user.getGuild() != null) {
             p.setScoreboard(user.getGuild().getGuildScoreboard());
-        }else {
+        } else {
+            Team noGuild = this.plugin.getManager().getScoreboardTagsManager().getMainScoreBoard().getTeam("noguild");
+            noGuild.addEntry(p.getName());
             plugin.getManager().getScoreboardTagsManager().setPlayerTag(p, user);
         }
     }

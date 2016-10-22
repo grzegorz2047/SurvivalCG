@@ -1,4 +1,4 @@
-# SurvivalCG
+# SurvivalCG![alt tag](https://travis-ci.org/grzegorz2047/SurvivalCG.svg?branch=master)
 
 Plugin pod serwery Minecraft używające silnik bukkit, spigot i inne forki bukkita kompilowany pod api spigota 1.8.
 Prosty system rankingowy + teamy itd. Plugin robiony dla serwerowni CraftGames.pl
